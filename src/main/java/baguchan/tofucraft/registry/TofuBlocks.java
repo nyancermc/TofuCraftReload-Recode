@@ -32,7 +32,7 @@ public class TofuBlocks {
 	public static final Block HELLTOFU = new Block(AbstractBlock.Properties.create(TofuMaterial.TOFU).harvestTool(ToolType.SHOVEL).hardnessAndResistance(0.35F, 0.5F).sound(SoundType.SNOW));
 	public static final Block SOULTOFU = new Block(AbstractBlock.Properties.create(TofuMaterial.TOFU).harvestTool(ToolType.SHOVEL).hardnessAndResistance(0.35F, 0.5F).sound(SoundType.SNOW));
 
-	public static final Block SALTPAN = new Block(AbstractBlock.Properties.create(Material.WOOD).harvestTool(ToolType.AXE).hardnessAndResistance(2.0F, 3.0F).sound(SoundType.WOOD));
+	public static final Block SALTPAN = new SaltPanBlock(AbstractBlock.Properties.create(Material.WOOD).harvestTool(ToolType.AXE).hardnessAndResistance(2.0F, 3.0F).sound(SoundType.WOOD));
 
 	@SubscribeEvent
 	public static void registerBlocks(RegistryEvent.Register<Block> registry) {
@@ -52,7 +52,7 @@ public class TofuBlocks {
 		registry.getRegistry().register(HELLTOFU.setRegistryName("blocktofuhell"));
 		registry.getRegistry().register(SOULTOFU.setRegistryName("blocktofusoul"));
 
-		registry.getRegistry().register(SALTPAN.setRegistryName("saltpan"));
+		registry.getRegistry().register(SALTPAN.setRegistryName("blocksaltpan"));
 	}
 
 	@SubscribeEvent

@@ -2,13 +2,13 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "tag": "forge:crops/soybean"
+      "item": "tofucraft:seeds_soybeans_soul"
     },
     {
       "item": "minecraft:bucket"
     }
   ],
   "result": {
-    "item": "tofucraft:bucketsoymilk"
+    "item": "tofucraft:bucket_soymilk_soul"
   }
 }
