@@ -101,7 +101,7 @@ public class SaltPanBlock extends Block implements IWaterLoggable {
 	@Override
 	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
 		if (worldIn.isRemote) {
-			return ActionResultType.CONSUME;
+			return ActionResultType.SUCCESS;
 		} else {
 			ItemStack itemHeld = player.getHeldItem(handIn);
 			Stat stat = this.getStat(state);
@@ -163,7 +163,7 @@ public class SaltPanBlock extends Block implements IWaterLoggable {
 					return ActionResultType.SUCCESS;
 				}
 			}
-			return ActionResultType.FAIL;
+			return ActionResultType.PASS;
 		}
 	}
 
