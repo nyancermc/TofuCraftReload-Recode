@@ -16,6 +16,7 @@ import net.minecraft.state.StateContainer;
 import net.minecraft.tags.FluidTags;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
@@ -96,8 +97,9 @@ public abstract class SoyMilkFluid extends WaterFluid {
 	@Override
 	protected net.minecraftforge.fluids.FluidAttributes createAttributes() {
 		return net.minecraftforge.fluids.FluidAttributes.builder(
-				new net.minecraft.util.ResourceLocation(TofuCraftReload.MODID, "blocks/soymilk"),
-				new net.minecraft.util.ResourceLocation(TofuCraftReload.MODID, "blocks/soymilk_flow")).build(this);
+				new net.minecraft.util.ResourceLocation(TofuCraftReload.MODID, "block/soymilk"),
+				new net.minecraft.util.ResourceLocation(TofuCraftReload.MODID, "block/soymilk_flow"))
+				.overlay(new ResourceLocation(TofuCraftReload.MODID, "block/soymilk_overlay")).build(this);
 	}
 
 	public static class Flowing extends SoyMilkFluid {

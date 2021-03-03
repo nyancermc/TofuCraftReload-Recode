@@ -2,6 +2,10 @@
   "replace": false,
   "values": [
     "tofucraft:soymilk",
-    "tofucraft:soymilk_flow"
+    "tofucraft:soymilk_flow",
+    "tofucraft:soymilk_hell",
+    "tofucraft:soymilk_hell_flow",
+    "tofucraft:soymilk_soul",
+    "tofucraft:soymilk_soul_flow"
   ]
 }

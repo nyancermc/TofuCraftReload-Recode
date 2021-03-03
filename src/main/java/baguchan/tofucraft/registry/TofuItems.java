@@ -1,6 +1,7 @@
 package baguchan.tofucraft.registry;
 
 import baguchan.tofucraft.TofuCraftReload;
+import baguchan.tofucraft.item.BitternItem;
 import net.minecraft.item.*;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.event.RegistryEvent;
@@ -13,14 +14,21 @@ public class TofuItems {
 	public static final Item TOFUMOMEN = new Item((new Item.Properties()).group(TofuItemGroup.TOFUCRAFT));
 	public static final Item TOFUISHI = new Item((new Item.Properties()).group(TofuItemGroup.TOFUCRAFT));
 	public static final Item TOFUMETAL = new Item((new Item.Properties()).group(TofuItemGroup.TOFUCRAFT));
+	public static final Item TOFUDIAMOND = new Item((new Item.Properties()).group(TofuItemGroup.TOFUCRAFT));
+	public static final Item TOFUHELL = new Item((new Item.Properties()).group(TofuItemGroup.TOFUCRAFT));
+	public static final Item TOFUSOUL = new Item((new Item.Properties()).group(TofuItemGroup.TOFUCRAFT));
 
-	public static final Item SEEDS_SOYBEANS = new BlockNamedItem(TofuBlocks.SOYBEAN,new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
-	public static final Item SEEDS_SOYBEANS_NETHER = new BlockNamedItem(TofuBlocks.SOYBEAN_NETHER,new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
-	public static final Item SEEDS_SOYBEANS_SOUL = new BlockNamedItem(TofuBlocks.SOYBEAN_SOUL,new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
+
+	public static final Item BITTERN = new BitternItem((new Item.Properties()).group(TofuItemGroup.TOFUCRAFT));
+
+
+	public static final Item SEEDS_SOYBEANS = new BlockNamedItem(TofuBlocks.SOYBEAN, new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
+	public static final Item SEEDS_SOYBEANS_NETHER = new BlockNamedItem(TofuBlocks.SOYBEAN_NETHER, new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
+	public static final Item SEEDS_SOYBEANS_SOUL = new BlockNamedItem(TofuBlocks.SOYBEAN_SOUL, new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
 
 	public static final Item BUCKET_SOYMILK = new BucketItem(() -> TofuFluids.SOYMILK, (new Item.Properties()).containerItem(Items.BUCKET).maxStackSize(1).group(TofuItemGroup.TOFUCRAFT));
-	public static final Item BUCKET_SOYMILK_NETHER = new BucketItem(() -> TofuFluids.SOYMILK, (new Item.Properties()).containerItem(Items.BUCKET).maxStackSize(1).group(TofuItemGroup.TOFUCRAFT));
-	public static final Item BUCKET_SOYMILK_SOUL = new BucketItem(() -> TofuFluids.SOYMILK, (new Item.Properties()).containerItem(Items.BUCKET).maxStackSize(1).group(TofuItemGroup.TOFUCRAFT));
+	public static final Item BUCKET_SOYMILK_NETHER = new BucketItem(() -> TofuFluids.SOYMILK_HELL, (new Item.Properties()).containerItem(Items.BUCKET).maxStackSize(1).group(TofuItemGroup.TOFUCRAFT));
+	public static final Item BUCKET_SOYMILK_SOUL = new BucketItem(() -> TofuFluids.SOYMILK_SOUL, (new Item.Properties()).containerItem(Items.BUCKET).maxStackSize(1).group(TofuItemGroup.TOFUCRAFT));
 
 
 	public static void register(RegistryEvent.Register<Item> registry, Item item, String id) {
@@ -51,7 +59,11 @@ public class TofuItems {
 		register(registry, TOFUMOMEN, "tofumomen");
 		register(registry, TOFUISHI, "tofuishi");
 		register(registry, TOFUMETAL, "tofumetal");
-		register(registry, TOFUMETAL, "tofudiamond");
+		register(registry, TOFUDIAMOND, "tofudiamond");
+		register(registry, TOFUHELL, "tofuhell");
+		register(registry, TOFUSOUL, "tofusoul");
+
+		register(registry, BITTERN, "bittern_bottle");
 
 		register(registry, SEEDS_SOYBEANS, "seeds_soybeans");
 		register(registry, SEEDS_SOYBEANS_NETHER, "seeds_soybeans_nether");
