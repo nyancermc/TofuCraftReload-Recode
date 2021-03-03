@@ -32,6 +32,8 @@ public class TofuBlocks {
 	public static final Block HELLTOFU = new Block(AbstractBlock.Properties.create(TofuMaterial.TOFU).harvestTool(ToolType.SHOVEL).hardnessAndResistance(0.35F, 0.5F).sound(SoundType.SNOW));
 	public static final Block SOULTOFU = new Block(AbstractBlock.Properties.create(TofuMaterial.TOFU).harvestTool(ToolType.SHOVEL).hardnessAndResistance(0.35F, 0.5F).sound(SoundType.SNOW));
 
+	public static final Block SALTPAN = new Block(AbstractBlock.Properties.create(Material.WOOD).harvestTool(ToolType.AXE).hardnessAndResistance(2.0F, 3.0F).sound(SoundType.WOOD));
+
 	@SubscribeEvent
 	public static void registerBlocks(RegistryEvent.Register<Block> registry) {
 		registry.getRegistry().register(SOYMILK.setRegistryName("soymilk"));
@@ -49,6 +51,8 @@ public class TofuBlocks {
 		registry.getRegistry().register(DIAMONDTOFU.setRegistryName("blocktofudiamond"));
 		registry.getRegistry().register(HELLTOFU.setRegistryName("blocktofuhell"));
 		registry.getRegistry().register(SOULTOFU.setRegistryName("blocktofusoul"));
+
+		registry.getRegistry().register(SALTPAN.setRegistryName("saltpan"));
 	}
 
 	@SubscribeEvent
@@ -60,5 +64,7 @@ public class TofuBlocks {
 		TofuItems.register(registry, new BlockItem(DIAMONDTOFU, new Item.Properties().group(TofuItemGroup.TOFUCRAFT)));
 		TofuItems.register(registry, new BlockItem(HELLTOFU, new Item.Properties().group(TofuItemGroup.TOFUCRAFT)));
 		TofuItems.register(registry, new BlockItem(SOULTOFU, new Item.Properties().group(TofuItemGroup.TOFUCRAFT)));
+
+		TofuItems.register(registry, new BlockItem(SALTPAN, new Item.Properties().group(TofuItemGroup.TOFUCRAFT)));
 	}
 }
