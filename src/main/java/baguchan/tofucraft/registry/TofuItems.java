@@ -12,12 +12,12 @@ import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = TofuCraftReload.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class TofuItems {
-	public static final Item TOFUKINU = new Item((new Item.Properties()).group(TofuItemGroup.TOFUCRAFT));
-	public static final Item TOFUMOMEN = new Item((new Item.Properties()).group(TofuItemGroup.TOFUCRAFT));
-	public static final Item TOFUISHI = new Item((new Item.Properties()).group(TofuItemGroup.TOFUCRAFT));
+	public static final Item TOFUKINU = new Item((new Item.Properties()).food(TofuFoods.TOFU).group(TofuItemGroup.TOFUCRAFT));
+	public static final Item TOFUMOMEN = new Item((new Item.Properties()).food(TofuFoods.TOFU).group(TofuItemGroup.TOFUCRAFT));
+	public static final Item TOFUISHI = new Item((new Item.Properties()).food(TofuFoods.ISHITOFU).group(TofuItemGroup.TOFUCRAFT));
 	public static final Item TOFUMETAL = new Item((new Item.Properties()).group(TofuItemGroup.TOFUCRAFT));
 	public static final Item TOFUDIAMOND = new Item((new Item.Properties()).group(TofuItemGroup.TOFUCRAFT));
-	public static final Item TOFUHELL = new Item((new Item.Properties()).group(TofuItemGroup.TOFUCRAFT));
+	public static final Item TOFUHELL = new Item((new Item.Properties()).food(TofuFoods.TOFUHELL).group(TofuItemGroup.TOFUCRAFT));
 	public static final Item TOFUSOUL = new Item((new Item.Properties()).group(TofuItemGroup.TOFUCRAFT));
 
 	public static final Item BITTERN = new BitternItem((new Item.Properties()).group(TofuItemGroup.TOFUCRAFT));
@@ -31,6 +31,31 @@ public class TofuItems {
 	public static final Item BUCKET_SOYMILK = new BucketItem(() -> TofuFluids.SOYMILK, (new Item.Properties()).containerItem(Items.BUCKET).maxStackSize(1).group(TofuItemGroup.TOFUCRAFT));
 	public static final Item BUCKET_SOYMILK_NETHER = new BucketItem(() -> TofuFluids.SOYMILK_HELL, (new Item.Properties()).containerItem(Items.BUCKET).maxStackSize(1).group(TofuItemGroup.TOFUCRAFT));
 	public static final Item BUCKET_SOYMILK_SOUL = new BucketItem(() -> TofuFluids.SOYMILK_SOUL, (new Item.Properties()).containerItem(Items.BUCKET).maxStackSize(1).group(TofuItemGroup.TOFUCRAFT));
+
+	public static final Item KINUSWORD = new SwordItem(TofuItemTier.KINU, 0, -2.2F, new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
+	public static final Item KINUAXE = new AxeItem(TofuItemTier.KINU, 0.0F, -2.25F, new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
+	public static final Item KINUPICKAXE = new PickaxeItem(TofuItemTier.KINU, 0, -2.2F, new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
+	public static final Item KINUSHOVEL = new ShovelItem(TofuItemTier.KINU, 0, -2.2F, new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
+
+	public static final Item MOMENSWORD = new SwordItem(TofuItemTier.MOMEN, 0, -2.2F, new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
+	public static final Item MOMENAXE = new AxeItem(TofuItemTier.MOMEN, 1.0F, -2.5F, new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
+	public static final Item MOMENPICKAXE = new PickaxeItem(TofuItemTier.MOMEN, 0, -2.25F, new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
+	public static final Item MOMENSHOVEL = new ShovelItem(TofuItemTier.MOMEN, 0, -2.25F, new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
+
+	public static final Item SOLIDSWORD = new SwordItem(TofuItemTier.SOLID, 3, -2.3F, new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
+	public static final Item SOLIDAXE = new AxeItem(TofuItemTier.SOLID, 7.0F, -2.9F, new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
+	public static final Item SOLIDPICKAXE = new PickaxeItem(TofuItemTier.SOLID, 1, -2.9F, new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
+	public static final Item SOLIDSHOVEL = new ShovelItem(TofuItemTier.SOLID, 1.5F, -2.9F, new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
+
+	public static final Item METALSWORD = new SwordItem(TofuItemTier.METAL, 3, -2.3F, new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
+	public static final Item METALAXE = new AxeItem(TofuItemTier.METAL, 6.0F, -3.0F, new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
+	public static final Item METALPICKAXE = new PickaxeItem(TofuItemTier.METAL, 1, -2.9F, new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
+	public static final Item METALSHOVEL = new ShovelItem(TofuItemTier.METAL, 1.5F, -2.9F, new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
+
+	public static final Item TOFUDIAMONDSWORD = new SwordItem(TofuItemTier.TOFUDIAMOND, 3, -2.3F, new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
+	public static final Item TOFUDIAMONDAXE = new AxeItem(TofuItemTier.TOFUDIAMOND, 6.0F, -3.0F, new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
+	public static final Item TOFUDIAMONDPICKAXE = new PickaxeItem(TofuItemTier.TOFUDIAMOND, 1, -2.9F, new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
+	public static final Item TOFUDIAMONDSHOVEL = new ShovelItem(TofuItemTier.TOFUDIAMOND, 1.5F, -2.9F, new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
 
 	public static final Item ARMOR_KINUHELMET = new ArmorItem(TofuArmorMaterial.KINU, EquipmentSlotType.HEAD, new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
 	public static final Item ARMOR_KINUCHESTPLATE = new ArmorItem(TofuArmorMaterial.KINU, EquipmentSlotType.CHEST, new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
@@ -101,6 +126,31 @@ public class TofuItems {
 		register(registry, BUCKET_SOYMILK, "bucket_soymilk");
 		register(registry, BUCKET_SOYMILK_NETHER, "bucket_soymilk_nether");
 		register(registry, BUCKET_SOYMILK_SOUL, "bucket_soymilk_soul");
+
+		register(registry, KINUSWORD, "swordkinu");
+		register(registry, KINUAXE, "toolkinuaxe");
+		register(registry, KINUPICKAXE, "toolkinupickaxe");
+		register(registry, KINUSHOVEL, "toolkinushovel");
+
+		register(registry, MOMENSWORD, "swordmomen");
+		register(registry, MOMENAXE, "toolmomenaxe");
+		register(registry, MOMENPICKAXE, "toolmomenpickaxe");
+		register(registry, MOMENSHOVEL, "toolmomenshovel");
+
+		register(registry, SOLIDSWORD, "swordsolid");
+		register(registry, SOLIDAXE, "toolsolidaxe");
+		register(registry, SOLIDPICKAXE, "toolsolidpickaxe");
+		register(registry, SOLIDSHOVEL, "toolsolidshovel");
+
+		register(registry, METALSWORD, "swordmetal");
+		register(registry, METALAXE, "toolmetalaxe");
+		register(registry, METALPICKAXE, "toolmetalpickaxe");
+		register(registry, METALSHOVEL, "toolmetalshovel");
+
+		register(registry, TOFUDIAMONDSWORD, "sworddiamond");
+		register(registry, TOFUDIAMONDAXE, "tooldiamondaxe");
+		register(registry, TOFUDIAMONDPICKAXE, "tooldiamondpickaxe");
+		register(registry, TOFUDIAMONDSHOVEL, "tooldiamondshovel");
 
 		register(registry, ARMOR_KINUHELMET, "armorkinuhelmet");
 		register(registry, ARMOR_KINUCHESTPLATE, "armorkinuchestplate");

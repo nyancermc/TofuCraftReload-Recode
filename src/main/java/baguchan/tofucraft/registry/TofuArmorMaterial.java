@@ -3,7 +3,6 @@ package baguchan.tofucraft.registry;
 import baguchan.tofucraft.TofuCraftReload;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.IArmorMaterial;
-import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.util.LazyValue;
 import net.minecraft.util.SoundEvent;
@@ -15,19 +14,19 @@ import java.util.function.Supplier;
 
 public enum TofuArmorMaterial implements IArmorMaterial {
 	KINU(TofuCraftReload.MODID + ":armor_kinu", 1, new int[]{0, 0, 0, 0}, 8, SoundEvents.ITEM_ARMOR_EQUIP_LEATHER, 0.0F, 0.0F, () -> {
-		return Ingredient.fromItems(Items.LEATHER);
+		return Ingredient.fromItems(TofuItems.TOFUKINU);
 	}),
 	MOMEN(TofuCraftReload.MODID + ":armor_momen", 1, new int[]{0, 1, 1, 0}, 10, SoundEvents.ITEM_ARMOR_EQUIP_CHAIN, 0.0F, 0.0F, () -> {
-		return Ingredient.fromItems(Items.IRON_INGOT);
+		return Ingredient.fromItems(TofuItems.TOFUMOMEN);
 	}),
 	SOLID(TofuCraftReload.MODID + ":armor_solid", 10, new int[]{1, 4, 5, 2}, 16, SoundEvents.ITEM_ARMOR_EQUIP_IRON, 0.0F, 0.0F, () -> {
-		return Ingredient.fromItems(Items.IRON_INGOT);
+		return Ingredient.fromItems(TofuItems.TOFUISHI);
 	}),
 	METAL(TofuCraftReload.MODID + ":armor_metal", 15, new int[]{2, 5, 6, 2}, 12, SoundEvents.ITEM_ARMOR_EQUIP_GOLD, 0.0F, 0.0F, () -> {
-		return Ingredient.fromItems(Items.GOLD_INGOT);
+		return Ingredient.fromItems(TofuItems.TOFUMETAL);
 	}),
 	DIAMOND(TofuCraftReload.MODID + ":armor_diamond", 40, new int[]{4, 7, 9, 4}, 10, SoundEvents.ITEM_ARMOR_EQUIP_DIAMOND, 2.5F, 0.0F, () -> {
-		return Ingredient.fromItems(Items.DIAMOND);
+		return Ingredient.fromItems(TofuItems.TOFUDIAMOND);
 	});
 
 	private static final int[] MAX_DAMAGE_ARRAY = new int[]{13, 15, 16, 11};
