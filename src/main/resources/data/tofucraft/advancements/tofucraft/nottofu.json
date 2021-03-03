@@ -1,0 +1,35 @@
+{
+  "parent": "tofucraft:tofucraft/tofuworld",
+  "display": {
+    "icon": {
+      "item": "tofucraft:tofustem"
+    },
+    "title": {
+      "translate": "advancements.tofucraft.nottofu.title"
+    },
+    "description": {
+      "translate": "advancements.tofucraft.nottofu.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "tofustem": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "tofucraft:tofustem"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "tofustem"
+    ]
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "parent": "tofucraft:tofucraft/tofugem",
+  "display": {
+    "icon": {
+      "item": "tofucraft:tfstorage"
+    },
+    "title": {
+      "translate": "advancements.tofucraft.tofu_industrial.title"
+    },
+    "description": {
+      "translate": "advancements.tofucraft.tofu_industrial.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true
+  },
+  "criteria": {
+    "tfstorage": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "tofucraft:tfstorage"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "tfstorage"
+    ]
+  ]
+}
