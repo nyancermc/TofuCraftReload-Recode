@@ -31,17 +31,9 @@ public class TofuPortalBlock extends BreakableBlock {
 	}
 
 	@Override
-	@Deprecated
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
 		return AABB;
 	}
-
-	@Override
-	@Deprecated
-	public VoxelShape getCollisionShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		return VoxelShapes.empty();
-	}
-
 
 	public boolean trySpawnPortal(World worldIn, BlockPos pos) {
 		Size size = new Size((IWorld) worldIn, pos);
@@ -59,19 +51,39 @@ public class TofuPortalBlock extends BreakableBlock {
 		return false;
 	}
 
+	@Override
+	@Deprecated
+	public void neighborChanged(BlockState state, World world, BlockPos pos, Block blockIn, BlockPos fromPos, boolean isMoving) {
+		boolean good = world.getBlockState(pos.down()).isSolid();
+
+		for (Direction facing : Direction.Plane.HORIZONTAL) {
+			if (!good) break;
+
+			BlockState neighboringState = world.getBlockState(pos.offset(facing));
+
+			good = neighboringState.getBlock() == TofuBlocks.GRILLEDTOFU || neighboringState == state;
+		}
+
+		if (!good) {
+			world.playEvent(2001, pos, Block.getStateId(state));
+			world.setBlockState(pos, TofuBlocks.SOYMILK.getDefaultState(), 0b11);
+		}
+	}
 
 	@Override
-	public void onEntityCollision(BlockState state, World worldIn, BlockPos pos, Entity entity) {
-		if (state == this.getDefaultState()) {
-			attemptSendPlayer(entity, false);
+	public void onEntityCollision(BlockState state, World worldIn, BlockPos pos, Entity entityIn) {
+		if (entityIn.func_242280_ah()) {
+			entityIn.func_242279_ag();
+		} else {
+			attemptSendPlayer(entityIn, false);
 		}
 	}
 
 	private static RegistryKey<World> getDestination(Entity entity) {
-		RegistryKey<World> tofu_world = RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation("tofu_world"));
+		RegistryKey<World> tofu_world = RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation("tofucraft:tofu_world"));
 
-		return !entity.getEntityWorld().getDimensionKey().getLocation().equals(tofu_world.getLocation())
-				? tofu_world : RegistryKey.getOrCreateKey(Registry.WORLD_KEY, new ResourceLocation("minecraft:over_world"));
+		return entity.getEntityWorld().getDimensionKey() != tofu_world
+				? tofu_world : World.OVERWORLD;
 	}
 
 	public static void attemptSendPlayer(Entity entity, boolean forcedEntry) {
@@ -83,21 +95,20 @@ public class TofuPortalBlock extends BreakableBlock {
 			return;
 		}
 
-		if (!forcedEntry && entity.getPortalCooldown() > 0) {
+		if (!forcedEntry && entity.func_242280_ah()) {
 			return;
 		}
-
-		// set a cooldown before this can run again
-		entity.func_242279_ag();
 
 		RegistryKey<World> destination = getDestination(entity);
 		ServerWorld serverWorld = entity.getEntityWorld().getServer().getWorld(destination);
 
 		if (serverWorld == null)
 			return;
-
+		entity.world.getProfiler().startSection("tofu_portal");
+		// set a cooldown before this can run again
+		entity.func_242279_ag();
 		entity.changeDimension(serverWorld, new TofuWorldTeleporter());
-
+		entity.world.getProfiler().endSection();
 	}
 
 	@Override

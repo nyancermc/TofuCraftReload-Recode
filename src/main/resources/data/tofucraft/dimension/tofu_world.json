@@ -33,7 +33,7 @@
             "temperature": 0.0,
             "humidity": 0.0
           },
-          "biome": "minecraft:nether_wastes"
+          "biome": "tofucraft:tofu_wastes"
         }
       ],
       "temperature_noise": {

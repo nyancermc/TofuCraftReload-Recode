@@ -91,7 +91,7 @@ public class TofuBlocks {
 	public static final Block TOFU_TERRAIN = new Block(AbstractBlock.Properties.create(TofuMaterial.TOFU).harvestTool(ToolType.SHOVEL).hardnessAndResistance(0.5F, 1.0F).sound(SoundType.SNOW));
 	//misc
 	public static final Block SALTPAN = new SaltPanBlock(AbstractBlock.Properties.create(Material.WOOD).harvestTool(ToolType.AXE).hardnessAndResistance(2.0F, 3.0F).notSolid().sound(SoundType.WOOD));
-	public static final Block TOFU_PORTAL = new TofuPortalBlock(Block.Properties.create(Material.PORTAL).doesNotBlockMovement().tickRandomly().hardnessAndResistance(-1.0F).sound(SoundType.GLASS).setLightLevel((state) -> {
+	public static final TofuPortalBlock TOFU_PORTAL = new TofuPortalBlock(Block.Properties.create(Material.PORTAL).doesNotBlockMovement().tickRandomly().hardnessAndResistance(-1.0F).sound(SoundType.GLASS).setLightLevel((state) -> {
 		return 11;
 	}).noDrops());
 
@@ -158,7 +158,7 @@ public class TofuBlocks {
 		registry.getRegistry().register(TOFU_TERRAIN.setRegistryName("tofu_terrain"));
 
 		registry.getRegistry().register(SALTPAN.setRegistryName("blocksaltpan"));
-		registry.getRegistry().register(TOFU_PORTAL.setRegistryName("tofuprotal"));
+		registry.getRegistry().register(TOFU_PORTAL.setRegistryName("tofuportal"));
 	}
 
 	@SubscribeEvent
@@ -170,6 +170,7 @@ public class TofuBlocks {
 		TofuItems.register(registry, new BlockItem(DIAMONDTOFU, new Item.Properties().group(TofuItemGroup.TOFUCRAFT)));
 		TofuItems.register(registry, new BlockItem(HELLTOFU, new Item.Properties().group(TofuItemGroup.TOFUCRAFT)));
 		TofuItems.register(registry, new BlockItem(SOULTOFU, new Item.Properties().group(TofuItemGroup.TOFUCRAFT)));
+		TofuItems.register(registry, new BlockItem(GRILLEDTOFU, new Item.Properties().group(TofuItemGroup.TOFUCRAFT)));
 
 		//Building
 		TofuItems.register(registry, new BlockItem(ISHITOFU_BRICK, (new Item.Properties()).group(TofuItemGroup.TOFUCRAFT)));

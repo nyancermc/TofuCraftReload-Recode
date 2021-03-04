@@ -42,6 +42,7 @@ public class ClientRegistrar {
 		setRenderLayer(TofuBlocks.TOFUTORCH_ISHI, RenderType.getCutout());
 		setRenderLayer(TofuBlocks.TOFUTORCH_METAL, RenderType.getCutout());
 
+		setRenderLayer(TofuBlocks.TOFU_PORTAL, RenderType.getTranslucent());
 		setRenderLayer(TofuBlocks.SALTPAN, RenderType.getCutout());
 	}
 

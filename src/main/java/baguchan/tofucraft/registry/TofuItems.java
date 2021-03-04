@@ -22,7 +22,8 @@ public class TofuItems {
 
 	public static final Item BITTERN = new BitternItem((new Item.Properties()).group(TofuItemGroup.TOFUCRAFT));
 	public static final Item SALT = new BitternItem((new Item.Properties()).group(TofuItemGroup.TOFUCRAFT));
-	public static final Item TOFUSCOOP = new TofuScoopItem((new Item.Properties()).group(TofuItemGroup.TOFUCRAFT));
+	public static final Item TOFUSCOOP = new TofuScoopItem((new Item.Properties()).maxStackSize(1).maxDamage(264).group(TofuItemGroup.TOFUCRAFT));
+	public static final Item TOFUSTICK = new TofuStickItem((new Item.Properties()).maxStackSize(1).maxDamage(64).group(TofuItemGroup.TOFUCRAFT));
 	public static final Item FUKUMAME = new FukumameItem(new Item.Properties().maxStackSize(1).maxDamage(64).group(TofuItemGroup.TOFUCRAFT));
 	public static final Item NETHER_FUKUMAME = new NetherFukumameItem(new Item.Properties().maxStackSize(1).maxDamage(64).group(TofuItemGroup.TOFUCRAFT), false);
 	public static final Item INFERNO_NETHER_FUKUMAME = new NetherFukumameItem(new Item.Properties().maxStackSize(1).maxDamage(64).group(TofuItemGroup.TOFUCRAFT), true);
@@ -125,6 +126,7 @@ public class TofuItems {
 		register(registry, BITTERN, "bittern_bottle");
 		register(registry, SALT, "salt");
 		register(registry, TOFUSCOOP, "tofuscoop");
+		register(registry, TOFUSTICK, "tofustick");
 		register(registry, FUKUMAME, "fukumame");
 		register(registry, NETHER_FUKUMAME, "nether_fukumame");
 		register(registry, INFERNO_NETHER_FUKUMAME, "inferno_nether_fukumame");
