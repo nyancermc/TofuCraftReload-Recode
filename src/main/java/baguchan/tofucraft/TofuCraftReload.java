@@ -2,6 +2,8 @@ package baguchan.tofucraft;
 
 import baguchan.tofucraft.client.ClientRegistrar;
 import baguchan.tofucraft.registry.TofuRecipes;
+import baguchan.tofucraft.world.TofuDefaultBiomeFeatures;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -14,15 +16,16 @@ import net.minecraftforge.fml.event.lifecycle.InterModProcessEvent;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
+import java.util.Locale;
+
 // The value here should match an entry in the META-INF/mods.toml file
 @Mod(TofuCraftReload.MODID)
-public class TofuCraftReload
-{
-    public static final String MODID = "tofucraft";
+public class TofuCraftReload {
+	public static final String MODID = "tofucraft";
 
-    public TofuCraftReload() {
-        // Register the setup method for modloading
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+	public TofuCraftReload() {
+		// Register the setup method for modloading
+		FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         // Register the enqueueIMC method for modloading
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::enqueueIMC);
         // Register the processIMC method for modloading
@@ -38,21 +41,24 @@ public class TofuCraftReload
 
     private void setup(final FMLCommonSetupEvent event)
     {
-        TofuRecipes.register();
+		TofuDefaultBiomeFeatures.init();
+		TofuRecipes.register();
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
     }
 
-    private void enqueueIMC(final InterModEnqueueEvent event)
-    {
-    }
+    private void enqueueIMC(final InterModEnqueueEvent event) {
+	}
 
-    private void processIMC(final InterModProcessEvent event)
-    {
-    }
+	private void processIMC(final InterModProcessEvent event) {
+	}
 
-    @SubscribeEvent
-    public void onServerStarting(FMLServerStartingEvent event) {
-    }
+	@SubscribeEvent
+	public void onServerStarting(FMLServerStartingEvent event) {
+	}
+
+	public static ResourceLocation prefix(String name) {
+		return new ResourceLocation(TofuCraftReload.MODID, name.toLowerCase(Locale.ROOT));
+	}
 }

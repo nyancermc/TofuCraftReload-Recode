@@ -1,8 +1,7 @@
 package baguchan.tofucraft.registry;
 
 import baguchan.tofucraft.TofuCraftReload;
-import baguchan.tofucraft.item.BitternItem;
-import baguchan.tofucraft.item.TofuScoopItem;
+import baguchan.tofucraft.item.*;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
 import net.minecraft.util.ResourceLocation;
@@ -23,10 +22,17 @@ public class TofuItems {
 	public static final Item BITTERN = new BitternItem((new Item.Properties()).group(TofuItemGroup.TOFUCRAFT));
 	public static final Item SALT = new BitternItem((new Item.Properties()).group(TofuItemGroup.TOFUCRAFT));
 	public static final Item TOFUSCOOP = new TofuScoopItem((new Item.Properties()).group(TofuItemGroup.TOFUCRAFT));
+	public static final Item FUKUMAME = new FukumameItem(new Item.Properties().maxStackSize(1).maxDamage(64).group(TofuItemGroup.TOFUCRAFT));
+	public static final Item NETHER_FUKUMAME = new NetherFukumameItem(new Item.Properties().maxStackSize(1).maxDamage(64).group(TofuItemGroup.TOFUCRAFT), false);
+	public static final Item INFERNO_NETHER_FUKUMAME = new NetherFukumameItem(new Item.Properties().maxStackSize(1).maxDamage(64).group(TofuItemGroup.TOFUCRAFT), true);
+	public static final Item SOUL_FUKUMAME = new SoulFukumameItem(new Item.Properties().maxStackSize(1).maxDamage(64).group(TofuItemGroup.TOFUCRAFT));
+
 
 	public static final Item SEEDS_SOYBEANS = new BlockNamedItem(TofuBlocks.SOYBEAN, new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
 	public static final Item SEEDS_SOYBEANS_NETHER = new BlockNamedItem(TofuBlocks.SOYBEAN_NETHER, new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
 	public static final Item SEEDS_SOYBEANS_SOUL = new BlockNamedItem(TofuBlocks.SOYBEAN_SOUL, new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
+	public static final Item SOYBEAN_PARCHED = new BlockNamedItem(TofuBlocks.SOYBEAN_SOUL, new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
+	public static final Item EDAMAME = new Item(new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
 
 	public static final Item BUCKET_SOYMILK = new BucketItem(() -> TofuFluids.SOYMILK, (new Item.Properties()).containerItem(Items.BUCKET).maxStackSize(1).group(TofuItemGroup.TOFUCRAFT));
 	public static final Item BUCKET_SOYMILK_NETHER = new BucketItem(() -> TofuFluids.SOYMILK_HELL, (new Item.Properties()).containerItem(Items.BUCKET).maxStackSize(1).group(TofuItemGroup.TOFUCRAFT));
@@ -118,10 +124,16 @@ public class TofuItems {
 		register(registry, BITTERN, "bittern_bottle");
 		register(registry, SALT, "salt");
 		register(registry, TOFUSCOOP, "tofuscoop");
+		register(registry, FUKUMAME, "fukumame");
+		register(registry, NETHER_FUKUMAME, "nether_fukumame");
+		register(registry, INFERNO_NETHER_FUKUMAME, "inferno_nether_fukumame");
+		register(registry, SOUL_FUKUMAME, "soul_fukumame");
 
 		register(registry, SEEDS_SOYBEANS, "seeds_soybeans");
 		register(registry, SEEDS_SOYBEANS_NETHER, "seeds_soybeans_nether");
 		register(registry, SEEDS_SOYBEANS_SOUL, "seeds_soybeans_soul");
+		register(registry, SOYBEAN_PARCHED, "soybeans_parched");
+		register(registry, EDAMAME, "edamame");
 
 		register(registry, BUCKET_SOYMILK, "bucket_soymilk");
 		register(registry, BUCKET_SOYMILK_NETHER, "bucket_soymilk_nether");
