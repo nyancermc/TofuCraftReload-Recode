@@ -25,12 +25,11 @@ public class TofuItems {
 	public static final Item FUKUMAME = new FukumameItem(new Item.Properties().maxStackSize(1).maxDamage(64).group(TofuItemGroup.TOFUCRAFT));
 	public static final Item NETHER_FUKUMAME = new NetherFukumameItem(new Item.Properties().maxStackSize(1).maxDamage(64).group(TofuItemGroup.TOFUCRAFT), false);
 	public static final Item INFERNO_NETHER_FUKUMAME = new NetherFukumameItem(new Item.Properties().maxStackSize(1).maxDamage(64).group(TofuItemGroup.TOFUCRAFT), true);
-	public static final Item SOUL_FUKUMAME = new SoulFukumameItem(new Item.Properties().maxStackSize(1).maxDamage(64).group(TofuItemGroup.TOFUCRAFT));
-
+	public static final Item SOUL_FUKUMAME = new SoulFukumameItem(new Item.Properties().maxStackSize(1).maxDamage(64).rarity(Rarity.UNCOMMON).group(TofuItemGroup.TOFUCRAFT));
 
 	public static final Item SEEDS_SOYBEANS = new BlockNamedItem(TofuBlocks.SOYBEAN, new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
 	public static final Item SEEDS_SOYBEANS_NETHER = new BlockNamedItem(TofuBlocks.SOYBEAN_NETHER, new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
-	public static final Item SEEDS_SOYBEANS_SOUL = new BlockNamedItem(TofuBlocks.SOYBEAN_SOUL, new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
+	public static final Item SEEDS_SOYBEANS_SOUL = new BlockNamedItem(TofuBlocks.SOYBEAN_SOUL, new Item.Properties().rarity(Rarity.UNCOMMON).group(TofuItemGroup.TOFUCRAFT));
 	public static final Item SOYBEAN_PARCHED = new BlockNamedItem(TofuBlocks.SOYBEAN_SOUL, new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
 	public static final Item EDAMAME = new Item(new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
 
