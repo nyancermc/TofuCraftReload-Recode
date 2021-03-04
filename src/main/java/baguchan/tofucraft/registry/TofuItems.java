@@ -33,7 +33,12 @@ public class TofuItems {
 	public static final Item SEEDS_SOYBEANS_NETHER = new BlockNamedItem(TofuBlocks.SOYBEAN_NETHER, new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
 	public static final Item SEEDS_SOYBEANS_SOUL = new BlockNamedItem(TofuBlocks.SOYBEAN_SOUL, new Item.Properties().rarity(Rarity.UNCOMMON).group(TofuItemGroup.TOFUCRAFT));
 	public static final Item SOYBEAN_PARCHED = new BlockNamedItem(TofuBlocks.SOYBEAN_SOUL, new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
+	public static final Item KINAKO = new Item(new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
 	public static final Item EDAMAME = new Item(new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
+	public static final Item BOILED_EDAMAME = new Item(new Item.Properties().food(TofuFoods.BOILED_EDAMAME).group(TofuItemGroup.TOFUCRAFT));
+	public static final Item ZUNDA = new Item(new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
+	public static final Item KINAKO_MANJU = new Item(new Item.Properties().food(TofuFoods.KINAKO_MANJU).group(TofuItemGroup.TOFUCRAFT));
+	public static final Item ZUNDA_MANJU = new Item(new Item.Properties().food(TofuFoods.ZUNDA_MANJU).group(TofuItemGroup.TOFUCRAFT));
 
 	public static final Item BUCKET_SOYMILK = new BucketItem(() -> TofuFluids.SOYMILK, (new Item.Properties()).containerItem(Items.BUCKET).maxStackSize(1).group(TofuItemGroup.TOFUCRAFT));
 	public static final Item BUCKET_SOYMILK_NETHER = new BucketItem(() -> TofuFluids.SOYMILK_HELL, (new Item.Properties()).containerItem(Items.BUCKET).maxStackSize(1).group(TofuItemGroup.TOFUCRAFT));
@@ -136,7 +141,12 @@ public class TofuItems {
 		register(registry, SEEDS_SOYBEANS_NETHER, "seeds_soybeans_nether");
 		register(registry, SEEDS_SOYBEANS_SOUL, "seeds_soybeans_soul");
 		register(registry, SOYBEAN_PARCHED, "soybeans_parched");
+		register(registry, KINAKO, "kinako");
 		register(registry, EDAMAME, "edamame");
+		register(registry, BOILED_EDAMAME, "edamame_boild");
+		register(registry, ZUNDA, "zunda");
+		register(registry, KINAKO_MANJU, "kinakomanju");
+		register(registry, ZUNDA_MANJU, "zundamanju");
 
 		register(registry, BUCKET_SOYMILK, "bucket_soymilk");
 		register(registry, BUCKET_SOYMILK_NETHER, "bucket_soymilk_nether");
