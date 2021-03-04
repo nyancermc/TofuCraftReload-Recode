@@ -31,6 +31,7 @@ public class TofuBlocks {
 	public static final Block DIAMONDTOFU = new Block(AbstractBlock.Properties.create(Material.IRON, MaterialColor.LIGHT_BLUE).harvestTool(ToolType.PICKAXE).setRequiresTool().harvestLevel(2).hardnessAndResistance(5.0F, 8.0F).sound(SoundType.METAL));
 	public static final Block HELLTOFU = new Block(AbstractBlock.Properties.create(TofuMaterial.TOFU).harvestTool(ToolType.SHOVEL).hardnessAndResistance(0.35F, 0.5F).sound(SoundType.SNOW));
 	public static final Block SOULTOFU = new Block(AbstractBlock.Properties.create(TofuMaterial.TOFU).harvestTool(ToolType.SHOVEL).hardnessAndResistance(0.35F, 0.5F).sound(SoundType.SNOW));
+	public static final Block GRILLEDTOFU = new Block(AbstractBlock.Properties.create(TofuMaterial.TOFU).harvestTool(ToolType.SHOVEL).hardnessAndResistance(0.35F, 0.5F).sound(SoundType.SNOW));
 	//Building
 	public static final Block ISHITOFU_BRICK = new Block(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).hardnessAndResistance(1.6F, 6.5F).sound(SoundType.STONE));
 	public static final Block ISHITOFU_SMOOTH_BRICK = new Block(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).hardnessAndResistance(1.6F, 6.5F).sound(SoundType.STONE));
@@ -86,9 +87,14 @@ public class TofuBlocks {
 	public static final Block WALLTOFUTORCH_METAL = new WallTorchBlock(Block.Properties.create(Material.MISCELLANEOUS).hardnessAndResistance(0.0F, 7.5F).setLightLevel((state) -> {
 		return 14;
 	}).doesNotBlockMovement().notSolid().sound(SoundType.METAL).lootFrom(TOFUTORCH_METAL), ParticleTypes.FLAME);
-
-
+	//terrain
+	public static final Block TOFU_TERRAIN = new Block(AbstractBlock.Properties.create(TofuMaterial.TOFU).harvestTool(ToolType.SHOVEL).hardnessAndResistance(0.5F, 1.0F).sound(SoundType.SNOW));
+	//misc
 	public static final Block SALTPAN = new SaltPanBlock(AbstractBlock.Properties.create(Material.WOOD).harvestTool(ToolType.AXE).hardnessAndResistance(2.0F, 3.0F).notSolid().sound(SoundType.WOOD));
+	public static final Block TOFU_PORTAL = new TofuPortalBlock(Block.Properties.create(Material.PORTAL).doesNotBlockMovement().tickRandomly().hardnessAndResistance(-1.0F).sound(SoundType.GLASS).setLightLevel((state) -> {
+		return 11;
+	}).noDrops());
+
 
 	@SubscribeEvent
 	public static void registerBlocks(RegistryEvent.Register<Block> registry) {
@@ -107,6 +113,7 @@ public class TofuBlocks {
 		registry.getRegistry().register(DIAMONDTOFU.setRegistryName("blocktofudiamond"));
 		registry.getRegistry().register(HELLTOFU.setRegistryName("blocktofuhell"));
 		registry.getRegistry().register(SOULTOFU.setRegistryName("blocktofusoul"));
+		registry.getRegistry().register(GRILLEDTOFU.setRegistryName("blocktofugrilled"));
 
 		//Building
 		registry.getRegistry().register(ISHITOFU_BRICK.setRegistryName("tofuishi_brick"));
@@ -148,7 +155,10 @@ public class TofuBlocks {
 		registry.getRegistry().register(WALLTOFUTORCH_ISHI.setRegistryName("walltofutorch_ishi"));
 		registry.getRegistry().register(WALLTOFUTORCH_METAL.setRegistryName("walltofutorch_metal"));
 
+		registry.getRegistry().register(TOFU_TERRAIN.setRegistryName("tofu_terrain"));
+
 		registry.getRegistry().register(SALTPAN.setRegistryName("blocksaltpan"));
+		registry.getRegistry().register(TOFU_PORTAL.setRegistryName("tofuprotal"));
 	}
 
 	@SubscribeEvent
@@ -201,6 +211,7 @@ public class TofuBlocks {
 		TofuItems.register(registry, new WallOrFloorItem(TOFUTORCH_ISHI, WALLTOFUTORCH_ISHI, (new Item.Properties()).group(TofuItemGroup.TOFUCRAFT)));
 		TofuItems.register(registry, new WallOrFloorItem(TOFUTORCH_METAL, WALLTOFUTORCH_METAL, (new Item.Properties()).group(TofuItemGroup.TOFUCRAFT)));
 
+		TofuItems.register(registry, new BlockItem(TOFU_TERRAIN, new Item.Properties().group(TofuItemGroup.TOFUCRAFT)));
 		TofuItems.register(registry, new BlockItem(SALTPAN, new Item.Properties().group(TofuItemGroup.TOFUCRAFT)));
 	}
 }
