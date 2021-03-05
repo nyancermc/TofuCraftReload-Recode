@@ -5,6 +5,11 @@
   "disable_mob_generation": false,
   "structures": {
     "structures": {
+      "tofucraft:tofu_village": {
+        "spacing": 32,
+        "separation": 8,
+        "salt": 10387312
+      }
     }
   },
   "noise": {

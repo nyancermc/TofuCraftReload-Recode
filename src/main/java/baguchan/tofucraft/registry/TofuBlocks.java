@@ -238,6 +238,18 @@ public class TofuBlocks {
 		TofuItems.register(registry, new WallOrFloorItem(TOFUTORCH_ISHI, WALLTOFUTORCH_ISHI, (new Item.Properties()).group(TofuItemGroup.TOFUCRAFT)));
 		TofuItems.register(registry, new WallOrFloorItem(TOFUTORCH_METAL, WALLTOFUTORCH_METAL, (new Item.Properties()).group(TofuItemGroup.TOFUCRAFT)));
 
+		TofuItems.register(registry, new BlockItem(TOFULADDER_KINU, (new Item.Properties()).group(TofuItemGroup.TOFUCRAFT)));
+		TofuItems.register(registry, new BlockItem(TOFULADDER_MOMEN, (new Item.Properties()).group(TofuItemGroup.TOFUCRAFT)));
+		TofuItems.register(registry, new BlockItem(TOFULADDER_ISHI, (new Item.Properties()).group(TofuItemGroup.TOFUCRAFT)));
+		TofuItems.register(registry, new BlockItem(TOFULADDER_ISHIBRICK, (new Item.Properties()).group(TofuItemGroup.TOFUCRAFT)));
+		TofuItems.register(registry, new BlockItem(TOFULADDER_METAL, (new Item.Properties()).group(TofuItemGroup.TOFUCRAFT)));
+
+		TofuItems.register(registry, new BlockItem(TOFUFENCE_KINU, (new Item.Properties()).group(TofuItemGroup.TOFUCRAFT)));
+		TofuItems.register(registry, new BlockItem(TOFUFENCE_MOMEN, (new Item.Properties()).group(TofuItemGroup.TOFUCRAFT)));
+		TofuItems.register(registry, new BlockItem(TOFUFENCE_ISHI, (new Item.Properties()).group(TofuItemGroup.TOFUCRAFT)));
+		TofuItems.register(registry, new BlockItem(TOFUFENCE_METAL, (new Item.Properties()).group(TofuItemGroup.TOFUCRAFT)));
+
+
 		TofuItems.register(registry, new BlockItem(TOFU_TERRAIN, new Item.Properties().group(TofuItemGroup.TOFUCRAFT)));
 		TofuItems.register(registry, new BlockItem(SALTPAN, new Item.Properties().group(TofuItemGroup.TOFUCRAFT)));
 	}

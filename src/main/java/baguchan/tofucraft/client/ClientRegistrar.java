@@ -3,6 +3,7 @@ package baguchan.tofucraft.client;
 import baguchan.tofucraft.client.render.FukumameRender;
 import baguchan.tofucraft.client.render.NetherFukumameRender;
 import baguchan.tofucraft.client.render.SoulFukumameRender;
+import baguchan.tofucraft.client.render.TofunianRender;
 import baguchan.tofucraft.registry.TofuBlocks;
 import baguchan.tofucraft.registry.TofuEntityTypes;
 import net.minecraft.block.Block;
@@ -18,6 +19,8 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 @OnlyIn(Dist.CLIENT)
 public class ClientRegistrar {
 	public static void renderEntity() {
+		RenderingRegistry.registerEntityRenderingHandler(TofuEntityTypes.TOFUNIAN, TofunianRender::new);
+
 		RenderingRegistry.registerEntityRenderingHandler(TofuEntityTypes.FUKUMAME, FukumameRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(TofuEntityTypes.NETHER_FUKUMAME, NetherFukumameRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(TofuEntityTypes.SOUL_FUKUMAME, SoulFukumameRender::new);
@@ -41,6 +44,11 @@ public class ClientRegistrar {
 		setRenderLayer(TofuBlocks.TOFUTORCH_MOMEN, RenderType.getCutout());
 		setRenderLayer(TofuBlocks.TOFUTORCH_ISHI, RenderType.getCutout());
 		setRenderLayer(TofuBlocks.TOFUTORCH_METAL, RenderType.getCutout());
+
+		setRenderLayer(TofuBlocks.WALLTOFUTORCH_KINU, RenderType.getCutout());
+		setRenderLayer(TofuBlocks.WALLTOFUTORCH_MOMEN, RenderType.getCutout());
+		setRenderLayer(TofuBlocks.WALLTOFUTORCH_ISHI, RenderType.getCutout());
+		setRenderLayer(TofuBlocks.WALLTOFUTORCH_METAL, RenderType.getCutout());
 
 		setRenderLayer(TofuBlocks.TOFU_PORTAL, RenderType.getTranslucent());
 		setRenderLayer(TofuBlocks.SALTPAN, RenderType.getCutout());
