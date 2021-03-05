@@ -105,6 +105,7 @@ public class TofuBlocks {
 	//terrain
 	public static final Block TOFU_TERRAIN = new Block(AbstractBlock.Properties.create(TofuMaterial.TOFU).harvestTool(ToolType.SHOVEL).hardnessAndResistance(0.5F, 1.0F).sound(SoundType.SNOW));
 	//misc
+	public static final Block TOFU_FARMLAND = new TofuFarmlandBlock(AbstractBlock.Properties.create(TofuMaterial.TOFU).harvestTool(ToolType.SHOVEL).hardnessAndResistance(0.5F, 1.0F).sound(SoundType.SNOW));
 	public static final Block SALTPAN = new SaltPanBlock(AbstractBlock.Properties.create(Material.WOOD).harvestTool(ToolType.AXE).hardnessAndResistance(2.0F, 3.0F).notSolid().sound(SoundType.WOOD));
 	public static final TofuPortalBlock TOFU_PORTAL = new TofuPortalBlock(Block.Properties.create(Material.PORTAL).doesNotBlockMovement().tickRandomly().hardnessAndResistance(-1.0F).sound(SoundType.GLASS).setLightLevel((state) -> {
 		return 11;
@@ -182,6 +183,7 @@ public class TofuBlocks {
 		registry.getRegistry().register(TOFUFENCE_METAL.setRegistryName("tofufence_metal"));
 
 		registry.getRegistry().register(TOFU_TERRAIN.setRegistryName("tofu_terrain"));
+		registry.getRegistry().register(TOFU_FARMLAND.setRegistryName("tofu_farmland"));
 
 		registry.getRegistry().register(SALTPAN.setRegistryName("blocksaltpan"));
 		registry.getRegistry().register(TOFU_PORTAL.setRegistryName("tofuportal"));

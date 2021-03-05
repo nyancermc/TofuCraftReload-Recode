@@ -11,10 +11,10 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.MerchantOffer;
-import net.minecraft.stats.Stats;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
@@ -42,22 +42,31 @@ public class TofunianEntity extends AbstractVillagerEntity {
 	public ActionResultType func_230254_b_(PlayerEntity p_230254_1_, Hand p_230254_2_) {
 		ItemStack itemstack = p_230254_1_.getHeldItem(p_230254_2_);
 		if (itemstack.getItem() != Items.VILLAGER_SPAWN_EGG && this.isAlive() && !this.hasCustomer() && !this.isChild()) {
-			if (p_230254_2_ == Hand.MAIN_HAND) {
-				p_230254_1_.addStat(Stats.TALKED_TO_VILLAGER);
-			}
 
 			if (this.getOffers().isEmpty()) {
-				this.setShakeHeadTicks(60);
+				this.shakeHead();
+			} else {
+				if (!this.world.isRemote) {
+					this.setCustomer(p_230254_1_);
+					this.openMerchantContainer(p_230254_1_, this.getDisplayName(), 1);
+				}
 			}
+
+
 			return ActionResultType.func_233537_a_(this.world.isRemote);
 		} else {
-			if (!this.world.isRemote) {
-				this.setCustomer(p_230254_1_);
-				this.openMerchantContainer(p_230254_1_, this.getDisplayName(), 1);
-			}
+
 
 			return ActionResultType.func_233537_a_(this.world.isRemote);
 		}
+	}
+
+	private void shakeHead() {
+		this.setShakeHeadTicks(40);
+		if (!this.world.isRemote()) {
+			this.playSound(SoundEvents.ENTITY_VILLAGER_NO, this.getSoundVolume(), this.getSoundPitch());
+		}
+
 	}
 
 
