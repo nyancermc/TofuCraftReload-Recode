@@ -41,7 +41,7 @@ public class SleepOnBedGoal extends MoveToBlockGoal {
 		BlockState blockstate = worldIn.getBlockState(pos);
 		Block block = blockstate.getBlock();
 
-		return blockstate.isIn(BlockTags.BEDS) && blockstate.get(BedBlock.PART) == BedPart.HEAD && blockstate.get(BedBlock.OCCUPIED);
+		return blockstate.isIn(BlockTags.BEDS) && blockstate.get(BedBlock.PART) == BedPart.HEAD && !blockstate.get(BedBlock.OCCUPIED);
 	}
 
 	protected boolean searchForDestination() {
