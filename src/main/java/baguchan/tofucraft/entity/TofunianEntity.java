@@ -1,9 +1,11 @@
 package baguchan.tofucraft.entity;
 
+import baguchan.tofucraft.entity.ai.DoSleepingGoal;
 import baguchan.tofucraft.entity.ai.SleepOnBedGoal;
 import baguchan.tofucraft.entity.ai.WakeUpGoal;
 import baguchan.tofucraft.registry.TofuSounds;
 import com.google.common.collect.ImmutableList;
+import com.mojang.serialization.Dynamic;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
@@ -47,14 +49,16 @@ public class TofunianEntity extends AbstractVillagerEntity {
 	@Override
 	protected void registerGoals() {
 		super.registerGoals();
+		this.goalSelector.addGoal(0, new WakeUpGoal(this));
+		this.goalSelector.addGoal(0, new DoSleepingGoal(this));
 		this.goalSelector.addGoal(0, new SwimGoal(this));
 		this.goalSelector.addGoal(1, new TradeWithPlayerGoal(this));
-		this.goalSelector.addGoal(1, new SleepOnBedGoal(this, 1.0F, 8));
-		this.goalSelector.addGoal(1, new WakeUpGoal(this));
 		this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, ZombieEntity.class, 8.0F, 1.2D, 1.2D));
 		this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, AbstractIllagerEntity.class, 12.0F, 1.2D, 1.2D));
 		this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, RavagerEntity.class, 12.0F, 1.2D, 1.2D));
 		this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, ZoglinEntity.class, 10.0F, 1.2D, 1.2D));
+		this.goalSelector.addGoal(2, new SleepOnBedGoal(this, 1.1F, 8));
+
 		this.goalSelector.addGoal(8, new WaterAvoidingRandomWalkingGoal(this, 1.0D));
 		this.goalSelector.addGoal(9, new LookAtWithoutMovingGoal(this, PlayerEntity.class, 3.0F, 1.0F));
 		this.goalSelector.addGoal(10, new LookAtGoal(this, MobEntity.class, 8.0F));
@@ -70,6 +74,10 @@ public class TofunianEntity extends AbstractVillagerEntity {
 
 	protected Brain.BrainCodec<TofunianEntity> getBrainCodec() {
 		return Brain.createCodec(MEMORY_TYPES, SENSOR_TYPES);
+	}
+
+	protected Brain<?> createBrain(Dynamic<?> dynamicIn) {
+		return this.getBrainCodec().deserialize(dynamicIn);
 	}
 
 	@Override
