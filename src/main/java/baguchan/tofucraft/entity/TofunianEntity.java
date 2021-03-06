@@ -4,44 +4,45 @@ import baguchan.tofucraft.entity.ai.SleepOnBedGoal;
 import baguchan.tofucraft.entity.ai.WakeUpGoal;
 import baguchan.tofucraft.registry.TofuSounds;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
+import net.minecraft.entity.ai.brain.Brain;
 import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.brain.sensor.Sensor;
 import net.minecraft.entity.ai.brain.sensor.SensorType;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.merchant.villager.AbstractVillagerEntity;
-import net.minecraft.entity.merchant.villager.VillagerEntity;
 import net.minecraft.entity.monster.*;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.item.MerchantOffer;
+import net.minecraft.pathfinding.GroundPathNavigator;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.GlobalPos;
-import net.minecraft.village.PointOfInterestType;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 
 import javax.annotation.Nullable;
-import java.util.Map;
-import java.util.function.BiPredicate;
 
 public class TofunianEntity extends AbstractVillagerEntity {
-	public static final Map<MemoryModuleType<GlobalPos>, BiPredicate<VillagerEntity, PointOfInterestType>> JOB_SITE_PREDICATE_MAP = ImmutableMap.of(MemoryModuleType.HOME, (villager, poiType) -> {
-		return poiType == PointOfInterestType.HOME;
-	});
-	protected static final ImmutableList<SensorType<? extends Sensor<? super TofunianEntity>>> field_234405_b_ = ImmutableList.of(SensorType.NEAREST_LIVING_ENTITIES, SensorType.NEAREST_PLAYERS, SensorType.NEAREST_ITEMS, SensorType.HURT_BY);
-	protected static final ImmutableList<MemoryModuleType<?>> field_234414_c_ = ImmutableList.of(MemoryModuleType.HOME, MemoryModuleType.LAST_SLEPT, MemoryModuleType.NEAREST_BED, MemoryModuleType.LOOK_TARGET, MemoryModuleType.OPENED_DOORS, MemoryModuleType.MOBS, MemoryModuleType.VISIBLE_MOBS, MemoryModuleType.NEAREST_VISIBLE_PLAYER, MemoryModuleType.HURT_BY, MemoryModuleType.HURT_BY_ENTITY, MemoryModuleType.WALK_TARGET, MemoryModuleType.CANT_REACH_WALK_TARGET_SINCE, MemoryModuleType.INTERACTION_TARGET, MemoryModuleType.PATH, MemoryModuleType.ANGRY_AT, MemoryModuleType.UNIVERSAL_ANGER, MemoryModuleType.AVOID_TARGET, MemoryModuleType.CELEBRATE_LOCATION, MemoryModuleType.DANCING);
-
+	private static final ImmutableList<MemoryModuleType<?>> MEMORY_TYPES = ImmutableList.of(MemoryModuleType.HOME);
+	private static final ImmutableList<SensorType<? extends Sensor<? super TofunianEntity>>> SENSOR_TYPES = ImmutableList.of(SensorType.NEAREST_BED);
+	@Nullable
+	private PlayerEntity previousCustomer;
+	@Nullable
+	private BlockPos tofunainHome;
+	@Nullable
+	private BlockPos tofunainJobBlock;
 
 	public TofunianEntity(EntityType<? extends TofunianEntity> type, World worldIn) {
 		super(type, worldIn);
+		((GroundPathNavigator) this.getNavigator()).setBreakDoors(true);
+		this.setCanPickUpLoot(true);
 	}
 
 	@Override
@@ -62,6 +63,22 @@ public class TofunianEntity extends AbstractVillagerEntity {
 
 	public static AttributeModifierMap.MutableAttribute registerAttributes() {
 		return MonsterEntity.func_234295_eP_().createMutableAttribute(Attributes.MOVEMENT_SPEED, (double) 0.23F).createMutableAttribute(Attributes.FOLLOW_RANGE, 20.0D);
+	}
+
+	public Brain<TofunianEntity> getBrain() {
+		return (Brain<TofunianEntity>) super.getBrain();
+	}
+
+	protected Brain.BrainCodec<TofunianEntity> getBrainCodec() {
+		return Brain.createCodec(MEMORY_TYPES, SENSOR_TYPES);
+	}
+
+	@Override
+	protected void updateAITasks() {
+		this.world.getProfiler().startSection("tofunianBrain");
+		this.getBrain().tick((ServerWorld) this.world, this);
+		this.world.getProfiler().endSection();
+		super.updateAITasks();
 	}
 
 	public ActionResultType func_230254_b_(PlayerEntity p_230254_1_, Hand p_230254_2_) {

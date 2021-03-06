@@ -3,9 +3,12 @@ package baguchan.tofucraft.entity.ai;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.CreatureEntity;
+import net.minecraft.entity.ai.brain.Brain;
+import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.goal.MoveToBlockGoal;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.GlobalPos;
 import net.minecraft.world.IWorldReader;
 
 public class SleepOnBedGoal extends MoveToBlockGoal {
@@ -22,10 +25,34 @@ public class SleepOnBedGoal extends MoveToBlockGoal {
 	}
 
 	@Override
+	public void tick() {
+		super.tick();
+
+		if (this.getIsAboveDestination()) {
+			this.creature.startSleeping(this.destinationBlock);
+		}
+	}
+
+	@Override
 	protected boolean shouldMoveTo(IWorldReader worldIn, BlockPos pos) {
 		BlockState blockstate = worldIn.getBlockState(pos);
 		Block block = blockstate.getBlock();
 
 		return blockstate.isIn(BlockTags.BEDS);
+	}
+
+	protected boolean searchForDestination() {
+		if (this.creature.getBrain().hasMemory(MemoryModuleType.HOME)) {
+			Brain<?> brain = this.creature.getBrain();
+			GlobalPos globalpos = brain.getMemory(MemoryModuleType.HOME).get();
+			if (this.creature.world.getDimensionKey() != globalpos.getDimension()) {
+				return false;
+			} else {
+				this.destinationBlock = globalpos.getPos();
+				return true;
+			}
+		} else {
+			return super.searchForDestination();
+		}
 	}
 }
