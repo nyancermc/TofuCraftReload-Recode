@@ -94,6 +94,8 @@ public class TofuItems {
 	public static final Item ARMOR_DIAMONDLEGGINS = new ArmorItem(TofuArmorMaterial.DIAMOND, EquipmentSlotType.LEGS, new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
 	public static final Item ARMOR_DIAMONDBOOTS = new ArmorItem(TofuArmorMaterial.DIAMOND, EquipmentSlotType.FEET, new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
 
+	public static final Item TOFUNIAN_SPAWNEGG = new SpawnEggItem(TofuEntityTypes.TOFUNIAN, 15460584, 13291425, new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
+	public static final Item TRAVELER_TOFUNIAN_SPAWNEGG = new SpawnEggItem(TofuEntityTypes.TRAVELER_TOFUNIAN, 15460584, 0x85BA52, new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
 
 	public static void register(RegistryEvent.Register<Item> registry, Item item, String id) {
 		if (item instanceof BlockItem) {
@@ -201,5 +203,8 @@ public class TofuItems {
 		register(registry, ARMOR_DIAMONDCHESTPLATE, "armordiamondchestplate");
 		register(registry, ARMOR_DIAMONDLEGGINS, "armordiamondleggins");
 		register(registry, ARMOR_DIAMONDBOOTS, "armordiamondboots");
+
+		register(registry, TOFUNIAN_SPAWNEGG, "tofunian_spawnegg");
+		register(registry, TRAVELER_TOFUNIAN_SPAWNEGG, "traveler_tofunian_spawnegg");
 	}
 }

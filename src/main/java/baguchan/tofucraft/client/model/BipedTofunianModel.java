@@ -1,22 +1,20 @@
 package baguchan.tofucraft.client.model;
 
-import baguchan.tofucraft.entity.TofunianEntity;
-import com.google.common.collect.ImmutableList;
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.vertex.IVertexBuilder;
+import baguchan.tofucraft.entity.AbstractTofunianEntity;
 import net.minecraft.client.renderer.entity.model.BipedModel;
 import net.minecraft.client.renderer.model.ModelRenderer;
+import net.minecraft.util.math.MathHelper;
 
-public class TofunianModel<T extends TofunianEntity> extends BipedModel<T> {
-	public TofunianModel() {
+public class BipedTofunianModel<T extends AbstractTofunianEntity> extends BipedModel<T> {
+	public BipedTofunianModel() {
 		this(0.0F, false);
 	}
 
-	protected TofunianModel(float modelSize, float yOffsetIn, int textureWidthIn, int textureHeightIn) {
+	protected BipedTofunianModel(float modelSize, float yOffsetIn, int textureWidthIn, int textureHeightIn) {
 		super(modelSize, yOffsetIn, textureWidthIn, textureHeightIn);
 	}
 
-	public TofunianModel(float modelSize, boolean par2) {
+	public BipedTofunianModel(float modelSize, boolean par2) {
 		super(modelSize, 0.0F, 64, par2 ? 32 : 64);
 		this.textureWidth = 64;
 		this.textureHeight = 64;
@@ -46,13 +44,6 @@ public class TofunianModel<T extends TofunianEntity> extends BipedModel<T> {
 		this.bipedLeftLeg.mirror = true;
 		this.bipedLeftLeg.setRotationPoint(1.4F, 18.0F, 0.0F);
 		this.bipedLeftLeg.addBox(-1.0F, 0.0F, -1.0F, 2.0F, 6.0F, 2.0F, modelSize);
-	}
-
-	@Override
-	public void render(MatrixStack matrixStackIn, IVertexBuilder bufferIn, int packedLightIn, int packedOverlayIn, float red, float green, float blue, float alpha) {
-		ImmutableList.of(this.bipedHeadwear, this.bipedHead, this.bipedRightArm, this.bipedBody, this.bipedLeftArm, this.bipedRightLeg, this.bipedLeftLeg).forEach((modelRenderer) -> {
-			modelRenderer.render(matrixStackIn, bufferIn, packedLightIn, packedOverlayIn, red, green, blue, alpha);
-		});
 	}
 
 	@Override
@@ -93,6 +84,21 @@ public class TofunianModel<T extends TofunianEntity> extends BipedModel<T> {
 			this.bipedBody.rotationPointY = 14.0F;
 			this.bipedLeftArm.rotationPointY = 15.0F;
 			this.bipedRightArm.rotationPointY = 15.0F;
+		}
+
+		boolean flag = entityIn.getShakeHeadTicks() > 0;
+
+		if (flag) {
+			this.bipedHead.rotateAngleZ = 0.3F * MathHelper.sin(0.45F * ageInTicks);
+			this.bipedHead.rotateAngleX = 0.4F;
+		} else {
+			this.bipedHead.rotateAngleZ = 0.0F;
+		}
+
+		if (this.isChild) {
+			this.bipedHead.rotationPointY = f6 + 1.0F;
+		} else {
+			this.bipedHead.rotationPointY = f6 + 2.0F;
 		}
 
 		this.bipedHeadwear.rotationPointX = this.bipedHead.rotationPointX;

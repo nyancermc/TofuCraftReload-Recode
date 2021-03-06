@@ -1,9 +1,6 @@
 package baguchan.tofucraft.client;
 
-import baguchan.tofucraft.client.render.FukumameRender;
-import baguchan.tofucraft.client.render.NetherFukumameRender;
-import baguchan.tofucraft.client.render.SoulFukumameRender;
-import baguchan.tofucraft.client.render.TofunianRender;
+import baguchan.tofucraft.client.render.*;
 import baguchan.tofucraft.registry.TofuBlocks;
 import baguchan.tofucraft.registry.TofuEntityTypes;
 import net.minecraft.block.Block;
@@ -20,6 +17,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 public class ClientRegistrar {
 	public static void renderEntity() {
 		RenderingRegistry.registerEntityRenderingHandler(TofuEntityTypes.TOFUNIAN, TofunianRender::new);
+		RenderingRegistry.registerEntityRenderingHandler(TofuEntityTypes.TRAVELER_TOFUNIAN, TravelerTofunianRender::new);
 
 		RenderingRegistry.registerEntityRenderingHandler(TofuEntityTypes.FUKUMAME, FukumameRender::new);
 		RenderingRegistry.registerEntityRenderingHandler(TofuEntityTypes.NETHER_FUKUMAME, NetherFukumameRender::new);
