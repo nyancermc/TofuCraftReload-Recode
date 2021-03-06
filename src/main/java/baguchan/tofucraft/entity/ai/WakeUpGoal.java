@@ -12,7 +12,7 @@ public class WakeUpGoal extends Goal {
 
 	@Override
 	public boolean shouldExecute() {
-		return this.creature.world.isDaytime() && this.creature.isSleeping() || this.creature.getBedPosition().isPresent() && creature.getPosY() > (double) this.creature.getBedPosition().get().getY() + 0.4D && this.creature.getBedPosition().get().withinDistance(creature.getPositionVec(), 1.14D) && this.creature.isSleeping();
+		return this.creature.world.isDaytime() && this.creature.isSleeping() || this.creature.getBedPosition().isPresent() && this.creature.getBedPosition().get().withinDistance(creature.getPositionVec(), 4.0D) && this.creature.isSleeping();
 	}
 
 	@Override

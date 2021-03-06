@@ -22,7 +22,6 @@ import net.minecraft.pathfinding.GroundPathNavigator;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
@@ -106,7 +105,7 @@ public class TofunianEntity extends AbstractVillagerEntity {
 	private void shakeHead() {
 		this.setShakeHeadTicks(40);
 		if (!this.world.isRemote()) {
-			this.playSound(SoundEvents.ENTITY_VILLAGER_NO, this.getSoundVolume(), this.getSoundPitch());
+			this.playSound(TofuSounds.TOFUNIAN_NO, this.getSoundVolume(), this.getSoundPitch());
 		}
 
 	}
