@@ -253,6 +253,8 @@ public class TofuBlocks {
 
 
 		TofuItems.register(registry, new BlockItem(TOFU_TERRAIN, new Item.Properties().group(TofuItemGroup.TOFUCRAFT)));
+		TofuItems.register(registry, new BlockItem(TOFU_FARMLAND, new Item.Properties().group(TofuItemGroup.TOFUCRAFT)));
+
 		TofuItems.register(registry, new BlockItem(SALTPAN, new Item.Properties().group(TofuItemGroup.TOFUCRAFT)));
 	}
 }

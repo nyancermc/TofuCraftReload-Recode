@@ -19,7 +19,7 @@ public class SoybeanCropsBlock extends CropsBlock {
 	}
 
 	protected boolean isValidGround(BlockState state, IBlockReader worldIn, BlockPos pos) {
-		return super.isValidGround(state, worldIn, pos);
+		return super.isValidGround(state, worldIn, pos) || state.isIn(TofuBlocks.TOFU_FARMLAND);
 	}
 
 	protected IItemProvider getSeedsItem() {
