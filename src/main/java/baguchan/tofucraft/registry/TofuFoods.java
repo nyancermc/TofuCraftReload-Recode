@@ -13,6 +13,10 @@ public class TofuFoods {
 
 	public static final Food BOILED_EDAMAME = (new Food.Builder()).hunger(1).saturation(0.1F).fastToEat().build();
 
+	public static final Food TOFU_HAMBURG = (new Food.Builder()).hunger(6).saturation(0.6F).build();
+	public static final Food RAW_TOFUFISH = (new Food.Builder()).hunger(1).saturation(0.1F).build();
+	public static final Food COOKED_TOFUFISH = (new Food.Builder()).hunger(5).saturation(0.6F).build();
+
 	public static final Food KINAKO_MANJU = (new Food.Builder()).hunger(2).saturation(0.24F).fastToEat().build();
 	public static final Food ZUNDA_MANJU = (new Food.Builder()).hunger(3).saturation(0.26F).fastToEat().build();
 }

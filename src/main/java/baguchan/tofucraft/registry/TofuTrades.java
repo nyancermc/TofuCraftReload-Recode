@@ -9,7 +9,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.merchant.villager.VillagerTrades;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
 import net.minecraft.item.MerchantOffer;
 import net.minecraft.util.IItemProvider;
 
@@ -40,37 +39,37 @@ public class TofuTrades {
 
 		public MerchantOffer getOffer(Entity trader, Random rand) {
 			ItemStack itemstack = new ItemStack(this.tradeItem, this.count);
-			return new MerchantOffer(itemstack, new ItemStack(Items.EMERALD), this.maxUses, this.xpValue, this.priceMultiplier);
+			return new MerchantOffer(itemstack, new ItemStack(TofuItems.ZUNDARUBY), this.maxUses, this.xpValue, this.priceMultiplier);
 		}
 	}
 
 	static class ItemsForZundaRubyTrade implements VillagerTrades.ITrade {
 		private final ItemStack sellingItem;
-		private final int emeraldCount;
+		private final int rubyCount;
 		private final int sellingItemCount;
 		private final int maxUses;
 		private final int xpValue;
 		private final float priceMultiplier;
 
-		public ItemsForZundaRubyTrade(Block sellingItem, int emeraldCount, int sellingItemCount, int maxUses, int xpValue) {
-			this(new ItemStack(sellingItem), emeraldCount, sellingItemCount, maxUses, xpValue);
+		public ItemsForZundaRubyTrade(Block sellingItem, int rubyCount, int sellingItemCount, int maxUses, int xpValue) {
+			this(new ItemStack(sellingItem), rubyCount, sellingItemCount, maxUses, xpValue);
 		}
 
-		public ItemsForZundaRubyTrade(Item sellingItem, int emeraldCount, int sellingItemCount, int xpValue) {
-			this(new ItemStack(sellingItem), emeraldCount, sellingItemCount, 12, xpValue);
+		public ItemsForZundaRubyTrade(Item sellingItem, int rubyCount, int sellingItemCount, int xpValue) {
+			this(new ItemStack(sellingItem), rubyCount, sellingItemCount, 12, xpValue);
 		}
 
-		public ItemsForZundaRubyTrade(Item sellingItem, int emeraldCount, int sellingItemCount, int maxUses, int xpValue) {
-			this(new ItemStack(sellingItem), emeraldCount, sellingItemCount, maxUses, xpValue);
+		public ItemsForZundaRubyTrade(Item sellingItem, int rubyCount, int sellingItemCount, int maxUses, int xpValue) {
+			this(new ItemStack(sellingItem), rubyCount, sellingItemCount, maxUses, xpValue);
 		}
 
-		public ItemsForZundaRubyTrade(ItemStack sellingItem, int emeraldCount, int sellingItemCount, int maxUses, int xpValue) {
-			this(sellingItem, emeraldCount, sellingItemCount, maxUses, xpValue, 0.05F);
+		public ItemsForZundaRubyTrade(ItemStack sellingItem, int rubyCount, int sellingItemCount, int maxUses, int xpValue) {
+			this(sellingItem, rubyCount, sellingItemCount, maxUses, xpValue, 0.05F);
 		}
 
-		public ItemsForZundaRubyTrade(ItemStack sellingItem, int emeraldCount, int sellingItemCount, int maxUses, int xpValue, float priceMultiplier) {
+		public ItemsForZundaRubyTrade(ItemStack sellingItem, int rubyCount, int sellingItemCount, int maxUses, int xpValue, float priceMultiplier) {
 			this.sellingItem = sellingItem;
-			this.emeraldCount = emeraldCount;
+			this.rubyCount = rubyCount;
 			this.sellingItemCount = sellingItemCount;
 			this.maxUses = maxUses;
 			this.xpValue = xpValue;
@@ -78,7 +77,7 @@ public class TofuTrades {
 		}
 
 		public MerchantOffer getOffer(Entity trader, Random rand) {
-			return new MerchantOffer(new ItemStack(Items.EMERALD, this.emeraldCount), new ItemStack(this.sellingItem.getItem(), this.sellingItemCount), this.maxUses, this.xpValue, this.priceMultiplier);
+			return new MerchantOffer(new ItemStack(TofuItems.ZUNDARUBY, this.rubyCount), new ItemStack(this.sellingItem.getItem(), this.sellingItemCount), this.maxUses, this.xpValue, this.priceMultiplier);
 		}
 	}
 }

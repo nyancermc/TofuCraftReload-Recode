@@ -1,0 +1,26 @@
+package baguchan.tofucraft.client.render;
+
+import baguchan.tofucraft.entity.TofuCowEntity;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.client.renderer.entity.model.CowModel;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
+
+@OnlyIn(Dist.CLIENT)
+public class TofuCowRender extends MobRenderer<TofuCowEntity, CowModel<TofuCowEntity>> {
+	private static final ResourceLocation TEXTURE = new ResourceLocation("tofucraft:textures/entity/tofucow/tofucow.png");
+
+
+	public TofuCowRender(EntityRendererManager renderManagerIn) {
+		super(renderManagerIn, new CowModel<>(), 0.7F);
+	}
+
+	/**
+	 * Returns the location of an entity's texture.
+	 */
+	public ResourceLocation getEntityTexture(TofuCowEntity entity) {
+		return TEXTURE;
+	}
+}

@@ -104,7 +104,10 @@ public class TofuBlocks {
 
 	//terrain
 	public static final Block TOFU_TERRAIN = new Block(AbstractBlock.Properties.create(TofuMaterial.TOFU).harvestTool(ToolType.SHOVEL).hardnessAndResistance(0.5F, 1.0F).sound(SoundType.SNOW));
+	public static final Block TOFU_FLOWER = new Block(AbstractBlock.Properties.create(Material.PLANTS).zeroHardnessAndResistance().doesNotBlockMovement().sound(SoundType.PLANT));
+
 	//misc
+	public static final Block POTTED_TOFU_FLOWER = new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, () -> TOFU_FLOWER, AbstractBlock.Properties.create(Material.MISCELLANEOUS).zeroHardnessAndResistance().doesNotBlockMovement().sound(SoundType.STONE));
 	public static final Block TOFU_FARMLAND = new TofuFarmlandBlock(AbstractBlock.Properties.create(TofuMaterial.TOFU).harvestTool(ToolType.SHOVEL).hardnessAndResistance(0.5F, 1.0F).sound(SoundType.SNOW));
 	public static final Block SALTPAN = new SaltPanBlock(AbstractBlock.Properties.create(Material.WOOD).harvestTool(ToolType.AXE).hardnessAndResistance(2.0F, 3.0F).notSolid().sound(SoundType.WOOD));
 	public static final TofuPortalBlock TOFU_PORTAL = new TofuPortalBlock(Block.Properties.create(Material.PORTAL).doesNotBlockMovement().tickRandomly().hardnessAndResistance(-1.0F).sound(SoundType.GLASS).setLightLevel((state) -> {
@@ -183,10 +186,14 @@ public class TofuBlocks {
 		registry.getRegistry().register(TOFUFENCE_METAL.setRegistryName("tofufence_metal"));
 
 		registry.getRegistry().register(TOFU_TERRAIN.setRegistryName("tofu_terrain"));
-		registry.getRegistry().register(TOFU_FARMLAND.setRegistryName("tofu_farmland"));
+		registry.getRegistry().register(TOFU_FLOWER.setRegistryName("tofuflower"));
 
+		registry.getRegistry().register(POTTED_TOFU_FLOWER.setRegistryName("potted_tofuflower"));
+		registry.getRegistry().register(TOFU_FARMLAND.setRegistryName("tofu_farmland"));
 		registry.getRegistry().register(SALTPAN.setRegistryName("blocksaltpan"));
 		registry.getRegistry().register(TOFU_PORTAL.setRegistryName("tofuportal"));
+
+		((FlowerPotBlock) Blocks.FLOWER_POT).addPlant(TOFU_FLOWER.getRegistryName(), () -> POTTED_TOFU_FLOWER);
 	}
 
 	@SubscribeEvent
@@ -253,6 +260,8 @@ public class TofuBlocks {
 
 
 		TofuItems.register(registry, new BlockItem(TOFU_TERRAIN, new Item.Properties().group(TofuItemGroup.TOFUCRAFT)));
+		TofuItems.register(registry, new BlockItem(TOFU_FLOWER, new Item.Properties().group(TofuItemGroup.TOFUCRAFT)));
+
 		TofuItems.register(registry, new BlockItem(TOFU_FARMLAND, new Item.Properties().group(TofuItemGroup.TOFUCRAFT)));
 
 		TofuItems.register(registry, new BlockItem(SALTPAN, new Item.Properties().group(TofuItemGroup.TOFUCRAFT)));

@@ -1,6 +1,8 @@
 package baguchan.tofucraft.registry;
 
 import baguchan.tofucraft.TofuCraftReload;
+import baguchan.tofucraft.entity.TofuCowEntity;
+import baguchan.tofucraft.entity.TofuFishEntity;
 import baguchan.tofucraft.entity.TofunianEntity;
 import baguchan.tofucraft.entity.TravelerTofunianEntity;
 import baguchan.tofucraft.entity.projectile.FukumameEntity;
@@ -11,6 +13,7 @@ import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
+import net.minecraft.entity.passive.fish.AbstractFishEntity;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -22,6 +25,10 @@ public class TofuEntityTypes {
 			.size(0.6F, 1.2F).build(TofuCraftReload.MODID + ":tofunian");
 	public static final EntityType<TravelerTofunianEntity> TRAVELER_TOFUNIAN = EntityType.Builder.create(TravelerTofunianEntity::new, EntityClassification.CREATURE)
 			.size(0.6F, 1.2F).build(TofuCraftReload.MODID + ":traveler_tofunian");
+	public static final EntityType<TofuCowEntity> TOFUCOW = EntityType.Builder.create(TofuCowEntity::new, EntityClassification.CREATURE)
+			.size(0.9F, 1.4F).build(TofuCraftReload.MODID + ":tofucow");
+	public static final EntityType<TofuFishEntity> TOFUFISH = EntityType.Builder.create(TofuFishEntity::new, EntityClassification.WATER_AMBIENT)
+			.size(0.5F, 0.3F).trackingRange(4).build(TofuCraftReload.MODID + ":tofufish");
 
 	public static final EntityType<FukumameEntity> FUKUMAME = EntityType.Builder.<FukumameEntity>create(FukumameEntity::new, EntityClassification.MISC)
 			.size(0.25F, 0.25F).build(TofuCraftReload.MODID + ":fukumame");
@@ -35,12 +42,18 @@ public class TofuEntityTypes {
 
 		registry.getRegistry().register(TOFUNIAN.setRegistryName("tofunian"));
 		registry.getRegistry().register(TRAVELER_TOFUNIAN.setRegistryName("traveler_tofunian"));
+		registry.getRegistry().register(TOFUCOW.setRegistryName("tofucow"));
+		registry.getRegistry().register(TOFUFISH.setRegistryName("tofufish"));
 
 		GlobalEntityTypeAttributes.put(TOFUNIAN, TofunianEntity.registerAttributes().create());
 		GlobalEntityTypeAttributes.put(TRAVELER_TOFUNIAN, TravelerTofunianEntity.registerAttributes().create());
+		GlobalEntityTypeAttributes.put(TOFUCOW, TofuCowEntity.registerAttributes().create());
+		GlobalEntityTypeAttributes.put(TOFUFISH, AbstractFishEntity.func_234176_m_().create());
 
 		EntitySpawnPlacementRegistry.register(TOFUNIAN, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MobEntity::canSpawnOn);
 		EntitySpawnPlacementRegistry.register(TRAVELER_TOFUNIAN, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MobEntity::canSpawnOn);
+		EntitySpawnPlacementRegistry.register(TOFUCOW, EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, TofuCowEntity::canTofuCowSpawn);
+		EntitySpawnPlacementRegistry.register(TOFUFISH, EntitySpawnPlacementRegistry.PlacementType.IN_WATER, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, TofuFishEntity::canTofuFishSpawnOn);
 
 		registry.getRegistry().register(FUKUMAME.setRegistryName("fukumame"));
 		registry.getRegistry().register(NETHER_FUKUMAME.setRegistryName("nether_fukumame"));

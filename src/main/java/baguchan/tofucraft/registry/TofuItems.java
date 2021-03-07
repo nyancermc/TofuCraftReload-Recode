@@ -2,6 +2,7 @@ package baguchan.tofucraft.registry;
 
 import baguchan.tofucraft.TofuCraftReload;
 import baguchan.tofucraft.item.*;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.*;
 import net.minecraft.util.ResourceLocation;
@@ -37,12 +38,21 @@ public class TofuItems {
 	public static final Item EDAMAME = new Item(new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
 	public static final Item BOILED_EDAMAME = new Item(new Item.Properties().food(TofuFoods.BOILED_EDAMAME).group(TofuItemGroup.TOFUCRAFT));
 	public static final Item ZUNDA = new Item(new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
+	public static final Item ZUNDARUBY = new Item(new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
+	public static final Item TOFU_HAMBURG_RAW = new Item(new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
+	public static final Item TOFU_HAMBURG = new Item(new Item.Properties().food(TofuFoods.TOFU_HAMBURG).group(TofuItemGroup.TOFUCRAFT));
+	public static final Item RAW_TOFU_FISH = new Item(new Item.Properties().food(TofuFoods.RAW_TOFUFISH).group(TofuItemGroup.TOFUCRAFT));
+	public static final Item COOKED_TOFU_FISH = new Item(new Item.Properties().food(TofuFoods.COOKED_TOFUFISH).group(TofuItemGroup.TOFUCRAFT));
+
+
 	public static final Item KINAKO_MANJU = new Item(new Item.Properties().food(TofuFoods.KINAKO_MANJU).group(TofuItemGroup.TOFUCRAFT));
 	public static final Item ZUNDA_MANJU = new Item(new Item.Properties().food(TofuFoods.ZUNDA_MANJU).group(TofuItemGroup.TOFUCRAFT));
 
 	public static final Item BUCKET_SOYMILK = new BucketItem(() -> TofuFluids.SOYMILK, (new Item.Properties()).containerItem(Items.BUCKET).maxStackSize(1).group(TofuItemGroup.TOFUCRAFT));
 	public static final Item BUCKET_SOYMILK_NETHER = new BucketItem(() -> TofuFluids.SOYMILK_HELL, (new Item.Properties()).containerItem(Items.BUCKET).maxStackSize(1).group(TofuItemGroup.TOFUCRAFT));
 	public static final Item BUCKET_SOYMILK_SOUL = new BucketItem(() -> TofuFluids.SOYMILK_SOUL, (new Item.Properties()).containerItem(Items.BUCKET).maxStackSize(1).group(TofuItemGroup.TOFUCRAFT));
+	public static final Item TOFUFISH_BUCKET = new FishBucketItem(() -> TofuEntityTypes.TOFUFISH, () -> Fluids.WATER, (new Item.Properties()).containerItem(Items.BUCKET).maxStackSize(1).group(TofuItemGroup.TOFUCRAFT));
+	public static final Item TOFUFISH_SOYMILK_BUCKET = new FishBucketItem(() -> TofuEntityTypes.TOFUFISH, () -> TofuFluids.SOYMILK, (new Item.Properties()).containerItem(Items.BUCKET).maxStackSize(1).group(TofuItemGroup.TOFUCRAFT));
 
 	public static final Item KINUSWORD = new SwordItem(TofuItemTier.KINU, 0, -2.2F, new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
 	public static final Item KINUAXE = new AxeItem(TofuItemTier.KINU, 0.0F, -2.25F, new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
@@ -96,6 +106,9 @@ public class TofuItems {
 
 	public static final Item TOFUNIAN_SPAWNEGG = new SpawnEggItem(TofuEntityTypes.TOFUNIAN, 15460584, 13291425, new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
 	public static final Item TRAVELER_TOFUNIAN_SPAWNEGG = new SpawnEggItem(TofuEntityTypes.TRAVELER_TOFUNIAN, 15460584, 0x85BA52, new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
+	public static final Item TOFUCOW_SPAWNEGG = new SpawnEggItem(TofuEntityTypes.TOFUCOW, 15460584, 10724259, new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
+	public static final Item TOFUFISH_SPAWNEGG = new SpawnEggItem(TofuEntityTypes.TOFUFISH, 15460584, 3817023, new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
+
 
 	public static void register(RegistryEvent.Register<Item> registry, Item item, String id) {
 		if (item instanceof BlockItem) {
@@ -147,12 +160,20 @@ public class TofuItems {
 		register(registry, EDAMAME, "edamame");
 		register(registry, BOILED_EDAMAME, "edamame_boild");
 		register(registry, ZUNDA, "zunda");
+		register(registry, ZUNDARUBY, "zundaruby");
+		register(registry, TOFU_HAMBURG_RAW, "tofuhamburg_raw");
+		register(registry, TOFU_HAMBURG, "tofuhamburg");
+		register(registry, RAW_TOFU_FISH, "raw_tofufish");
+		register(registry, COOKED_TOFU_FISH, "cooked_tofufish");
+
 		register(registry, KINAKO_MANJU, "kinakomanju");
 		register(registry, ZUNDA_MANJU, "zundamanju");
 
 		register(registry, BUCKET_SOYMILK, "bucket_soymilk");
 		register(registry, BUCKET_SOYMILK_NETHER, "bucket_soymilk_nether");
 		register(registry, BUCKET_SOYMILK_SOUL, "bucket_soymilk_soul");
+		register(registry, TOFUFISH_BUCKET, "tofufish_bucket");
+		register(registry, TOFUFISH_SOYMILK_BUCKET, "tofufish_soymilk_bucket");
 
 		register(registry, KINUSWORD, "swordkinu");
 		register(registry, KINUAXE, "toolkinuaxe");
@@ -206,5 +227,7 @@ public class TofuItems {
 
 		register(registry, TOFUNIAN_SPAWNEGG, "tofunian_spawnegg");
 		register(registry, TRAVELER_TOFUNIAN_SPAWNEGG, "traveler_tofunian_spawnegg");
+		register(registry, TOFUCOW_SPAWNEGG, "tofucow_spawnegg");
+		register(registry, TOFUFISH_SPAWNEGG, "tofufish_spawnegg");
 	}
 }

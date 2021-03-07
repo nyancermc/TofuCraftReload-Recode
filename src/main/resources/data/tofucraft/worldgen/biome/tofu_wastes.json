@@ -47,6 +47,12 @@
     "monster": [
     ],
     "creature": [
+      {
+        "type": "tofucraft:tofucow",
+        "weight": 10,
+        "minCount": 3,
+        "maxCount": 4
+      }
     ],
     "ambient": [
     ],
