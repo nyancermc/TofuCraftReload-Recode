@@ -107,10 +107,17 @@ public class TofuBlocks {
 	//terrain
 	public static final Block TOFU_TERRAIN = new TofuTerrainBlock(AbstractBlock.Properties.create(TofuMaterial.TOFU).harvestTool(ToolType.SHOVEL).hardnessAndResistance(0.5F, 1.0F).sound(SoundType.SNOW));
 	public static final Block ZUNDATOFU_TERRAIN = new TofuTerrainBlock(AbstractBlock.Properties.create(TofuMaterial.TOFU).harvestTool(ToolType.SHOVEL).hardnessAndResistance(0.5F, 1.0F).sound(SoundType.SNOW));
+	public static final Block ORE_TOFU_DIAMOND = new Block(AbstractBlock.Properties.create(TofuMaterial.TOFU).harvestTool(ToolType.SHOVEL).hardnessAndResistance(0.5F, 1.5F).sound(SoundType.SNOW));
 	public static final Block TOFU_FLOWER = new TofuFlowerBlock(Effects.SATURATION, 2, AbstractBlock.Properties.create(Material.PLANTS).zeroHardnessAndResistance().doesNotBlockMovement().sound(SoundType.PLANT));
 	public static final Block LEEK = new TofuBushBlock(AbstractBlock.Properties.create(Material.PLANTS).zeroHardnessAndResistance().doesNotBlockMovement().sound(SoundType.PLANT));
 	public static final Block LEEK_GREEN_STEM = new RotatedPillarBlock(AbstractBlock.Properties.create(Material.WOOD).hardnessAndResistance(2.0F, 3.0F).sound(SoundType.STEM));
 	public static final Block LEEK_STEM = new RotatedPillarBlock(AbstractBlock.Properties.create(Material.WOOD).hardnessAndResistance(2.0F, 3.0F).sound(SoundType.STEM));
+	public static final Block ZUNDATOFU_MUSHROOM = new TofuMushroomBlock(AbstractBlock.Properties.create(Material.PLANTS).zeroHardnessAndResistance().doesNotBlockMovement().sound(SoundType.FUNGUS));
+	public static final Block TOFU_STEM = new RotatedPillarBlock(AbstractBlock.Properties.create(Material.WOOD).hardnessAndResistance(2.0F, 3.0F).sound(SoundType.STEM));
+	public static final Block TOFU_STEM_MOSS = new RotatedPillarBlock(AbstractBlock.Properties.create(Material.WOOD).hardnessAndResistance(2.0F, 3.0F).sound(SoundType.STEM));
+	public static final Block TOFU_STEM_CACHE = new TofuStemCacheBlock(AbstractBlock.Properties.create(Material.WOOD).hardnessAndResistance(2.0F, 3.0F).sound(SoundType.WOOD));
+	public static final Block TOFU_STEM_PLANKS = new Block(AbstractBlock.Properties.create(Material.WOOD).hardnessAndResistance(2.0F, 3.0F).sound(SoundType.WOOD));
+
 	//misc
 	public static final Block POTTED_TOFU_FLOWER = new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, () -> TOFU_FLOWER, AbstractBlock.Properties.create(Material.MISCELLANEOUS).zeroHardnessAndResistance().doesNotBlockMovement().sound(SoundType.STONE));
 	public static final Block TOFU_FARMLAND = new TofuFarmlandBlock(AbstractBlock.Properties.create(TofuMaterial.TOFU).harvestTool(ToolType.SHOVEL).hardnessAndResistance(0.5F, 1.0F).sound(SoundType.SNOW));
@@ -193,10 +200,16 @@ public class TofuBlocks {
 
 		registry.getRegistry().register(TOFU_TERRAIN.setRegistryName("tofu_terrain"));
 		registry.getRegistry().register(ZUNDATOFU_TERRAIN.setRegistryName("zundatofu_terrain"));
+		registry.getRegistry().register(ORE_TOFU_DIAMOND.setRegistryName("ore_tofudiamond"));
 		registry.getRegistry().register(TOFU_FLOWER.setRegistryName("tofuflower"));
 		registry.getRegistry().register(LEEK.setRegistryName("leek"));
 		registry.getRegistry().register(LEEK_GREEN_STEM.setRegistryName("leek_green_stem"));
 		registry.getRegistry().register(LEEK_STEM.setRegistryName("leek_green_stem"));
+		registry.getRegistry().register(ZUNDATOFU_MUSHROOM.setRegistryName("zundatofu_mushroom"));
+		registry.getRegistry().register(TOFU_STEM.setRegistryName("tofustem"));
+		registry.getRegistry().register(TOFU_STEM_MOSS.setRegistryName("tofustem_moss"));
+		registry.getRegistry().register(TOFU_STEM_CACHE.setRegistryName("tofustem_cache"));
+		registry.getRegistry().register(TOFU_STEM_PLANKS.setRegistryName("tofustem_planks"));
 
 		registry.getRegistry().register(POTTED_TOFU_FLOWER.setRegistryName("potted_tofuflower"));
 		registry.getRegistry().register(TOFU_FARMLAND.setRegistryName("tofu_farmland"));
@@ -270,9 +283,16 @@ public class TofuBlocks {
 
 		TofuItems.register(registry, new BlockItem(TOFU_TERRAIN, new Item.Properties().group(TofuItemGroup.TOFUCRAFT)));
 		TofuItems.register(registry, new BlockItem(ZUNDATOFU_TERRAIN, new Item.Properties().group(TofuItemGroup.TOFUCRAFT)));
+		TofuItems.register(registry, new BlockItem(ORE_TOFU_DIAMOND, new Item.Properties().group(TofuItemGroup.TOFUCRAFT)));
 		TofuItems.register(registry, new BlockItem(TOFU_FLOWER, new Item.Properties().group(TofuItemGroup.TOFUCRAFT)));
 		TofuItems.register(registry, new BlockItem(LEEK_GREEN_STEM, new Item.Properties().group(TofuItemGroup.TOFUCRAFT)));
 		TofuItems.register(registry, new BlockItem(LEEK_STEM, new Item.Properties().group(TofuItemGroup.TOFUCRAFT)));
+		TofuItems.register(registry, new BlockItem(ZUNDATOFU_MUSHROOM, new Item.Properties().group(TofuItemGroup.TOFUCRAFT)));
+		TofuItems.register(registry, new BlockItem(TOFU_STEM, new Item.Properties().group(TofuItemGroup.TOFUCRAFT)));
+		TofuItems.register(registry, new BlockItem(TOFU_STEM_MOSS, new Item.Properties().group(TofuItemGroup.TOFUCRAFT)));
+		TofuItems.register(registry, new BlockItem(TOFU_STEM_CACHE, new Item.Properties().group(TofuItemGroup.TOFUCRAFT)));
+		TofuItems.register(registry, new BlockItem(TOFU_STEM_PLANKS, new Item.Properties().group(TofuItemGroup.TOFUCRAFT)));
+
 
 		TofuItems.register(registry, new BlockItem(TOFU_FARMLAND, new Item.Properties().group(TofuItemGroup.TOFUCRAFT)));
 

@@ -1,6 +1,6 @@
 package baguchan.tofucraft.block;
 
-import baguchan.tofucraft.registry.TofuBlocks;
+import baguchan.tofucraft.registry.TofuTags;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.FlowerBlock;
 import net.minecraft.potion.Effect;
@@ -13,6 +13,6 @@ public class TofuFlowerBlock extends FlowerBlock {
 	}
 
 	protected boolean isValidGround(BlockState state, IBlockReader worldIn, BlockPos pos) {
-		return state.isIn(TofuBlocks.TOFU_TERRAIN);
+		return state.isIn(TofuTags.Blocks.TOFU_TERRAIN);
 	}
 }

@@ -17,6 +17,7 @@ public class TofuItems {
 	public static final Item TOFUISHI = new Item((new Item.Properties()).food(TofuFoods.ISHITOFU).group(TofuItemGroup.TOFUCRAFT));
 	public static final Item TOFUMETAL = new Item((new Item.Properties()).group(TofuItemGroup.TOFUCRAFT));
 	public static final Item TOFUDIAMOND = new Item((new Item.Properties()).group(TofuItemGroup.TOFUCRAFT));
+	public static final Item TOFUDIAMOND_NUGGET = new Item((new Item.Properties()).group(TofuItemGroup.TOFUCRAFT));
 	public static final Item TOFUHELL = new Item((new Item.Properties()).food(TofuFoods.TOFUHELL).group(TofuItemGroup.TOFUCRAFT));
 	public static final Item TOFUSOUL = new Item((new Item.Properties()).group(TofuItemGroup.TOFUCRAFT));
 	public static final Item TOFUGRILLED = new Item((new Item.Properties()).food(TofuFoods.TOFUGRILLED).group(TofuItemGroup.TOFUCRAFT));
@@ -40,11 +41,13 @@ public class TofuItems {
 	public static final Item BOILED_EDAMAME = new Item(new Item.Properties().food(TofuFoods.BOILED_EDAMAME).group(TofuItemGroup.TOFUCRAFT));
 	public static final Item LEEK = new Item(new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
 	public static final Item ZUNDA = new Item(new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
+	public static final Item ZUNDAMA = new Item(new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
 	public static final Item ZUNDARUBY = new Item(new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
 	public static final Item TOFU_HAMBURG_RAW = new Item(new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
 	public static final Item TOFU_HAMBURG = new Item(new Item.Properties().food(TofuFoods.TOFU_HAMBURG).group(TofuItemGroup.TOFUCRAFT));
 	public static final Item RAW_TOFU_FISH = new Item(new Item.Properties().food(TofuFoods.RAW_TOFUFISH).group(TofuItemGroup.TOFUCRAFT));
 	public static final Item COOKED_TOFU_FISH = new Item(new Item.Properties().food(TofuFoods.COOKED_TOFUFISH).group(TofuItemGroup.TOFUCRAFT));
+	public static final Item TOFUCOOKIE = new Item(new Item.Properties().food(TofuFoods.TOFUCOOKIE).group(TofuItemGroup.TOFUCRAFT));
 
 
 	public static final Item KINAKO_MANJU = new Item(new Item.Properties().food(TofuFoods.KINAKO_MANJU).group(TofuItemGroup.TOFUCRAFT));
@@ -141,6 +144,7 @@ public class TofuItems {
 		register(registry, TOFUISHI, "tofuishi");
 		register(registry, TOFUMETAL, "tofumetal");
 		register(registry, TOFUDIAMOND, "tofudiamond");
+		register(registry, TOFUDIAMOND_NUGGET, "tofudiamondnugget");
 		register(registry, TOFUHELL, "tofuhell");
 		register(registry, TOFUSOUL, "tofusoul");
 		register(registry, TOFUGRILLED, "tofugrilled");
@@ -164,11 +168,13 @@ public class TofuItems {
 		register(registry, BOILED_EDAMAME, "edamame_boild");
 		register(registry, LEEK, "leek");
 		register(registry, ZUNDA, "zunda");
+		register(registry, ZUNDAMA, "zundama");
 		register(registry, ZUNDARUBY, "zundaruby");
 		register(registry, TOFU_HAMBURG_RAW, "tofuhamburg_raw");
 		register(registry, TOFU_HAMBURG, "tofuhamburg");
 		register(registry, RAW_TOFU_FISH, "raw_tofufish");
 		register(registry, COOKED_TOFU_FISH, "cooked_tofufish");
+		register(registry, TOFUCOOKIE, "tofucookie");
 
 		register(registry, KINAKO_MANJU, "kinakomanju");
 		register(registry, ZUNDA_MANJU, "zundamanju");

@@ -10,6 +10,7 @@ import net.minecraft.tags.ITag;
 public class TofuTags {
 	public static class Blocks {
 		public static final ITag.INamedTag<Block> SOFT_TOFU = tag("soft_tofu");
+		public static final ITag.INamedTag<Block> TOFU_TERRAIN = tag("tofu_terrain");
 
 		private static ITag.INamedTag<Block> tag(String name) {
 			return BlockTags.makeWrapperTag(TofuCraftReload.MODID + ":" + name);
