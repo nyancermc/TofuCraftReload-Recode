@@ -20,6 +20,7 @@ public class TofuItems {
 	public static final Item TOFUHELL = new Item((new Item.Properties()).food(TofuFoods.TOFUHELL).group(TofuItemGroup.TOFUCRAFT));
 	public static final Item TOFUSOUL = new Item((new Item.Properties()).group(TofuItemGroup.TOFUCRAFT));
 	public static final Item TOFUGRILLED = new Item((new Item.Properties()).food(TofuFoods.TOFUGRILLED).group(TofuItemGroup.TOFUCRAFT));
+	public static final Item TOFUZUNDA = new Item((new Item.Properties()).food(TofuFoods.TOFUZUNDA).group(TofuItemGroup.TOFUCRAFT));
 
 	public static final Item BITTERN = new BitternItem((new Item.Properties()).group(TofuItemGroup.TOFUCRAFT));
 	public static final Item SALT = new BitternItem((new Item.Properties()).group(TofuItemGroup.TOFUCRAFT));
@@ -37,6 +38,7 @@ public class TofuItems {
 	public static final Item KINAKO = new Item(new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
 	public static final Item EDAMAME = new Item(new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
 	public static final Item BOILED_EDAMAME = new Item(new Item.Properties().food(TofuFoods.BOILED_EDAMAME).group(TofuItemGroup.TOFUCRAFT));
+	public static final Item LEEK = new Item(new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
 	public static final Item ZUNDA = new Item(new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
 	public static final Item ZUNDARUBY = new Item(new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
 	public static final Item TOFU_HAMBURG_RAW = new Item(new Item.Properties().group(TofuItemGroup.TOFUCRAFT));
@@ -142,6 +144,7 @@ public class TofuItems {
 		register(registry, TOFUHELL, "tofuhell");
 		register(registry, TOFUSOUL, "tofusoul");
 		register(registry, TOFUGRILLED, "tofugrilled");
+		register(registry, TOFUZUNDA, "tofuzunda");
 
 		register(registry, BITTERN, "bittern_bottle");
 		register(registry, SALT, "salt");
@@ -159,6 +162,7 @@ public class TofuItems {
 		register(registry, KINAKO, "kinako");
 		register(registry, EDAMAME, "edamame");
 		register(registry, BOILED_EDAMAME, "edamame_boild");
+		register(registry, LEEK, "leek");
 		register(registry, ZUNDA, "zunda");
 		register(registry, ZUNDARUBY, "zundaruby");
 		register(registry, TOFU_HAMBURG_RAW, "tofuhamburg_raw");

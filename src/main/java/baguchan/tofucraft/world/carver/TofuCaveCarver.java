@@ -22,7 +22,7 @@ import java.util.function.Function;
 public class TofuCaveCarver extends CaveWorldCarver {
 	public TofuCaveCarver(Codec<ProbabilityConfig> p_i231917_1_, int p_i231917_2_) {
 		super(p_i231917_1_, p_i231917_2_);
-		this.carvableBlocks = ImmutableSet.of(Blocks.STONE, Blocks.GRANITE, Blocks.DIORITE, Blocks.ANDESITE, Blocks.DIRT, Blocks.COARSE_DIRT, Blocks.PODZOL, Blocks.GRASS_BLOCK, TofuBlocks.TOFU_TERRAIN);
+		this.carvableBlocks = ImmutableSet.of(Blocks.STONE, Blocks.GRANITE, Blocks.DIORITE, Blocks.ANDESITE, Blocks.DIRT, Blocks.COARSE_DIRT, Blocks.PODZOL, Blocks.GRASS_BLOCK, TofuBlocks.TOFU_TERRAIN, TofuBlocks.ZUNDATOFU_TERRAIN);
 		this.carvableFluids = ImmutableSet.of(Fluids.LAVA, Fluids.WATER, TofuFluids.SOYMILK);
 	}
 

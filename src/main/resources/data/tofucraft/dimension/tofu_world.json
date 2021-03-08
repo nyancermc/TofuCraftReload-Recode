@@ -33,7 +33,7 @@
             "temperature": 0.0,
             "humidity": 0.0
           },
-          "biome": "tofucraft:tofu_wastes"
+          "biome": "tofucraft:tofu_plain"
         }
       ],
       "temperature_noise": {
