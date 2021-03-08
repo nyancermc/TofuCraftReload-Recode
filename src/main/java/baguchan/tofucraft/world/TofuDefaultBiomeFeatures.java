@@ -23,7 +23,7 @@ public class TofuDefaultBiomeFeatures {
 	public static final ConfiguredFeature<?, ?> NETHER_SOYBEAN_PATCH = register("tofucraft:nether_soybean_patch", Feature.RANDOM_PATCH.withConfiguration(NETHER_SOYBEAN_CLUSTER).withPlacement(Features.Placements.VEGETATION_PLACEMENT).range(86).chance(3));
 	public static final ConfiguredFeature<?, ?> SOUL_SOYBEAN = register("tofucraft:soul_soybean", Feature.RANDOM_PATCH.withConfiguration(SOUL_SOYBEAN_CLUSTER).withPlacement(Features.Placements.VEGETATION_PLACEMENT).range(128).chance(2));
 
-	public static final ConfiguredFeature<?, ?> TOFU_FLOWER = register("tofucraft:tofu_flower", Feature.FLOWER.withConfiguration(TOFU_FLOWER_CLUSTER).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT));
+	public static final ConfiguredFeature<?, ?> TOFU_FLOWER = register("tofucraft:tofu_flower", Feature.FLOWER.withConfiguration(TOFU_FLOWER_CLUSTER).withPlacement(Features.Placements.VEGETATION_PLACEMENT).withPlacement(Features.Placements.HEIGHTMAP_PLACEMENT).func_242731_b(2));
 
 	public static final ConfiguredFeature<?, ?> SOYMILK_LAKE = register("tofucraft:soymilk_lake", Feature.LAKE.withConfiguration(new BlockStateFeatureConfig(TofuBlocks.SOYMILK.getDefaultState())).withPlacement(Placement.WATER_LAKE.configure(new ChanceConfig(4))));
 	public static final ConfiguredFeature<?, ?> SPRING_SOYMILK = register("tofucraft:spring_soymilk", Feature.SPRING_FEATURE.withConfiguration(new LiquidsConfig(TofuFluids.SOYMILK.getDefaultState(), true, 4, 1, ImmutableSet.of(TofuBlocks.TOFU_TERRAIN))).withPlacement(Placement.RANGE_BIASED.configure(new TopSolidRangeConfig(8, 8, 256))).square().func_242731_b(50));

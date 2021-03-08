@@ -16,19 +16,13 @@
       "min_delay": 12000,
       "max_delay": 24000,
       "replace_current_music": false
-    },
-    "particle": {
-      "options": {
-        "type": "tofucraft:zunda_spore"
-      },
-      "probability": 0.00625
     }
   },
   "surface_builder": "tofucraft:zunda_tofu",
   "carvers": {
     "air": [
-      "tofucraft:tofu_cave_carver",
-      "tofucraft:tofu_canyon_carver"
+      "tofucraft:tofu_cave",
+      "tofucraft:tofu_canyon"
     ],
     "liquid": []
   },
@@ -44,8 +38,8 @@
     ],
     [],
     [
-      "tofucraft:zundamushroom_big",
-      "tofucraft:zundamushroom_small",
+      "tofucraft:zunda_mushroom_big",
+      "tofucraft:zunda_mushroom_small",
       "tofucraft:spring_soymilk",
       "tofucraft:patch_zunda_mushroom",
       "tofucraft:tofu_flower"

@@ -16,7 +16,7 @@ import net.minecraft.world.server.ServerWorld;
 import java.util.Random;
 
 public class TofuMushroomBlock extends TofuBushBlock implements IGrowable {
-	protected static final VoxelShape SHAPE = Block.makeCuboidShape(5.0D, 0.0D, 5.0D, 11.0D, 6.0D, 11.0D);
+	protected static final VoxelShape SHAPE = Block.makeCuboidShape(5.0D, 0.0D, 5.0D, 11.0D, 11.0D, 11.0D);
 
 	public TofuMushroomBlock(Properties properties) {
 		super(properties);

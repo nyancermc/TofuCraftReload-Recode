@@ -29,7 +29,7 @@ public class TofuTerrainBlock extends Block implements IGrowable {
 
 	public void grow(ServerWorld worldIn, Random rand, BlockPos pos, BlockState state) {
 		BlockPos blockpos = pos.up();
-		BlockState blockstate = TofuBlocks.LEEK.getDefaultState();
+		BlockState blockstate = TofuBlocks.BLOCKLEEK.getDefaultState();
 
 		label48:
 		for (int i = 0; i < 128; ++i) {
