@@ -1,5 +1,6 @@
 package baguchan.tofucraft.entity;
 
+import baguchan.tofucraft.registry.TofuItems;
 import baguchan.tofucraft.registry.TofuTrades;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntityType;
@@ -11,10 +12,13 @@ import net.minecraft.entity.item.ExperienceOrbEntity;
 import net.minecraft.entity.merchant.villager.VillagerTrades;
 import net.minecraft.entity.monster.*;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.item.MerchantOffer;
 import net.minecraft.item.MerchantOffers;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.NBTUtil;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
@@ -101,6 +105,28 @@ public class TravelerTofunianEntity extends AbstractTofunianEntity {
 	@Override
 	public AgeableEntity func_241840_a(ServerWorld p_241840_1_, AgeableEntity p_241840_2_) {
 		return null;
+	}
+
+	public ActionResultType func_230254_b_(PlayerEntity p_230254_1_, Hand p_230254_2_) {
+		ItemStack itemstack = p_230254_1_.getHeldItem(p_230254_2_);
+		if (itemstack.getItem() != TofuItems.TRAVELER_TOFUNIAN_SPAWNEGG && this.isAlive() && !this.hasCustomer() && !this.isChild()) {
+
+			if (this.getOffers().isEmpty()) {
+				this.shakeHead();
+			} else {
+				if (!this.world.isRemote) {
+					this.setCustomer(p_230254_1_);
+					this.openMerchantContainer(p_230254_1_, this.getDisplayName(), 1);
+				}
+			}
+
+
+			return ActionResultType.func_233537_a_(this.world.isRemote);
+		} else {
+
+
+			return ActionResultType.func_233537_a_(this.world.isRemote);
+		}
 	}
 
 	public void setDespawnDelay(int delay) {

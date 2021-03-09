@@ -1,26 +1,25 @@
 package baguchan.tofucraft.entity.ai;
 
+import baguchan.tofucraft.api.TofunianJobBlocks;
 import baguchan.tofucraft.entity.TofunianEntity;
-import net.minecraft.block.BedBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.ai.goal.MoveToBlockGoal;
-import net.minecraft.state.properties.BedPart;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorldReader;
 
-public class SleepOnBedGoal extends MoveToBlockGoal {
+public class FindJobBlockGoal extends MoveToBlockGoal {
 	private final TofunianEntity creature;
 
-	public SleepOnBedGoal(TofunianEntity creature, double speedIn, int length) {
+	public FindJobBlockGoal(TofunianEntity creature, double speedIn, int length) {
 		super(creature, speedIn, length);
 		this.creature = creature;
 	}
 
 	@Override
 	public boolean shouldExecute() {
-		return super.shouldExecute() && !this.creature.world.isDaytime() && !this.creature.isSleeping();
+		return this.creature.world.isDaytime() && this.creature.getRole() == TofunianEntity.Roles.TOFUNIAN && super.shouldExecute();
 	}
 
 	@Override
@@ -28,9 +27,18 @@ public class SleepOnBedGoal extends MoveToBlockGoal {
 		super.tick();
 
 		if (this.getIsAboveDestination()) {
-			this.creature.startSleeping(this.destinationBlock);
-			this.creature.setTofunainHome(this.destinationBlock);
+			this.creature.setTofunainJobBlock(this.destinationBlock);
+
+			BlockState blockstate = this.creature.world.getBlockState(this.destinationBlock);
+			Block block = blockstate.getBlock();
+			if (!TofunianJobBlocks.getJobBlockList().isEmpty() && TofunianJobBlocks.getJobBlockList().containsKey(block)) {
+				this.creature.setRole(TofunianJobBlocks.getJobBlockList().get(block));
+			}
 		}
+	}
+
+	public double getTargetDistanceSq() {
+		return 2.0D;
 	}
 
 	@Override
@@ -38,7 +46,7 @@ public class SleepOnBedGoal extends MoveToBlockGoal {
 		BlockState blockstate = worldIn.getBlockState(pos);
 		Block block = blockstate.getBlock();
 
-		return blockstate.isIn(BlockTags.BEDS) && blockstate.get(BedBlock.PART) == BedPart.HEAD && !blockstate.get(BedBlock.OCCUPIED);
+		return blockstate.isIn(Blocks.CRAFTING_TABLE) || blockstate.isIn(Blocks.FURNACE) || blockstate.isIn(Blocks.CAULDRON);
 	}
 
 	protected boolean searchForDestination() {

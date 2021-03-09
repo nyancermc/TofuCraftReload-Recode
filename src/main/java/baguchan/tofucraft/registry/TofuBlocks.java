@@ -114,7 +114,9 @@ public class TofuBlocks {
 	public static final Block ZUNDATOFU_MUSHROOM = new TofuMushroomBlock(AbstractBlock.Properties.create(Material.PLANTS).zeroHardnessAndResistance().doesNotBlockMovement().sound(SoundType.FUNGUS));
 	public static final Block TOFU_STEM = new RotatedPillarBlock(AbstractBlock.Properties.create(Material.WOOD).hardnessAndResistance(2.0F, 3.0F).sound(SoundType.HYPHAE));
 	public static final Block TOFU_STEM_MOSS = new RotatedPillarBlock(AbstractBlock.Properties.create(Material.WOOD).hardnessAndResistance(2.0F, 3.0F).sound(SoundType.HYPHAE));
-	public static final Block TOFU_STEM_CACHE = new TofuStemCacheBlock(AbstractBlock.Properties.create(Material.WOOD).hardnessAndResistance(2.0F, 3.0F).sound(SoundType.HYPHAE));
+	public static final Block TOFU_STEM_CACHE = new TofuStemCacheBlock(AbstractBlock.Properties.create(Material.WOOD).hardnessAndResistance(2.0F, 3.0F).setLightLevel((state) -> {
+		return state.get(TofuStemCacheBlock.ZUNDAMA) ? 13 : 0;
+	}).sound(SoundType.HYPHAE));
 	public static final Block TOFU_STEM_PLANKS = new Block(AbstractBlock.Properties.create(Material.WOOD).hardnessAndResistance(2.0F, 3.0F).sound(SoundType.WOOD));
 
 	//misc
