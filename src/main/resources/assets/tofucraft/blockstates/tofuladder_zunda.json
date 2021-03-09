@@ -2,18 +2,18 @@
   "variants": {
     "facing=north": [
       {
-        "model": "tofucraft:block/tofuladder_ishi"
+        "model": "tofucraft:block/tofuladder_zunda"
       }
     ],
     "facing=east": [
       {
-        "model": "tofucraft:block/tofuladder_ishi",
+        "model": "tofucraft:block/tofuladder_zunda",
         "y": 90
       }
     ],
     "facing=west": [
       {
-        "model": "tofucraft:block/tofuladder_ishi",
+        "model": "tofucraft:block/tofuladder_zunda",
         "y": 270
       }
     ],

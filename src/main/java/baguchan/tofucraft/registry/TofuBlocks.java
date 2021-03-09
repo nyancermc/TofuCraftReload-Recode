@@ -91,17 +91,17 @@ public class TofuBlocks {
 	}).doesNotBlockMovement().notSolid().sound(SoundType.METAL).lootFrom(TOFUTORCH_METAL), ParticleTypes.FLAME);
 
 	//Ladder
-	public static final Block TOFULADDER_KINU = new LadderBlock(Block.Properties.from(KINUTOFU));
-	public static final Block TOFULADDER_MOMEN = new LadderBlock(Block.Properties.from(MOMENTOFU));
-	public static final Block TOFULADDER_ISHI = new LadderBlock(Block.Properties.from(ISHITOFU));
-	public static final Block TOFULADDER_METAL = new LadderBlock(Block.Properties.from(METALTOFU));
-	//public static final Block TOFULADDER_ZUNDABRICK = new TofuLadderBlock(Block.Properties.from(ZUNDATOFU_BRICK));
-	public static final Block TOFULADDER_ISHIBRICK = new LadderBlock(Block.Properties.from(ISHITOFU_BRICK));
+	public static final Block TOFULADDER_KINU = new LadderBlock(Block.Properties.from(KINUTOFU).notSolid());
+	public static final Block TOFULADDER_MOMEN = new LadderBlock(Block.Properties.from(MOMENTOFU).notSolid());
+	public static final Block TOFULADDER_ISHI = new LadderBlock(Block.Properties.from(ISHITOFU).notSolid());
+	public static final Block TOFULADDER_METAL = new LadderBlock(Block.Properties.from(METALTOFU).notSolid());
+	//public static final Block TOFULADDER_ZUNDABRICK = new TofuLadderBlock(Block.Properties.from(ZUNDATOFU_BRICK).notSolid());
+	public static final Block TOFULADDER_ISHIBRICK = new LadderBlock(Block.Properties.from(ISHITOFU_BRICK).notSolid());
 	//FENCE
-	public static final Block TOFUFENCE_KINU = new WallBlock(Block.Properties.create(TofuMaterial.TOFU).harvestTool(ToolType.SHOVEL).hardnessAndResistance(0.1F, 0.2F).sound(SoundType.SNOW));
-	public static final Block TOFUFENCE_MOMEN = new WallBlock(Block.Properties.create(TofuMaterial.TOFU).harvestTool(ToolType.SHOVEL).hardnessAndResistance(0.35F, 0.5F).sound(SoundType.SNOW));
-	public static final Block TOFUFENCE_ISHI = new WallBlock(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).hardnessAndResistance(1.5F, 6.0F).sound(SoundType.STONE));
-	public static final Block TOFUFENCE_METAL = new WallBlock(Block.Properties.from(METALTOFU));
+	public static final Block TOFUFENCE_KINU = new WallBlock(Block.Properties.create(TofuMaterial.TOFU).harvestTool(ToolType.SHOVEL).hardnessAndResistance(0.1F, 0.2F).sound(SoundType.SNOW).notSolid());
+	public static final Block TOFUFENCE_MOMEN = new WallBlock(Block.Properties.create(TofuMaterial.TOFU).harvestTool(ToolType.SHOVEL).hardnessAndResistance(0.35F, 0.5F).sound(SoundType.SNOW).notSolid());
+	public static final Block TOFUFENCE_ISHI = new WallBlock(Block.Properties.create(Material.ROCK).harvestTool(ToolType.PICKAXE).hardnessAndResistance(1.5F, 6.0F).sound(SoundType.STONE).notSolid());
+	public static final Block TOFUFENCE_METAL = new WallBlock(Block.Properties.from(METALTOFU).notSolid());
 
 	//terrain
 	public static final Block TOFU_TERRAIN = new TofuTerrainBlock(AbstractBlock.Properties.create(TofuMaterial.TOFU).harvestTool(ToolType.SHOVEL).hardnessAndResistance(0.5F, 1.0F).sound(SoundType.SNOW));
