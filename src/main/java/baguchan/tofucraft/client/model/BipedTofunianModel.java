@@ -16,105 +16,105 @@ public class BipedTofunianModel<T extends AbstractTofunianEntity> extends BipedM
 
 	public BipedTofunianModel(float modelSize, boolean par2) {
 		super(modelSize, 0.0F, 64, par2 ? 32 : 64);
-		this.textureWidth = 64;
-		this.textureHeight = 64;
-		this.bipedHeadwear = new ModelRenderer(this, 32, 0);
-		this.bipedHeadwear.setRotationPoint(0.0F, 13.0F, -0.0F);
-		this.bipedHeadwear.addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, modelSize + 0.5F);
-		this.bipedHead = new ModelRenderer(this, 0, 0);
-		this.bipedHead.setRotationPoint(0.0F, 13.0F, -0.0F);
-		this.bipedHead.addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, modelSize);
-		this.bipedHead.addBox(-1.5F, -11.0F, -0.0F, 3.0F, 3.0F, 0.0F, modelSize);
-		this.bipedRightArm = new ModelRenderer(this, 28, 16);
-		this.bipedRightArm.setRotationPoint(-4.0F, 15.0F, 0.0F);
-		this.bipedRightArm.addBox(-1.0F, -1.0F, -1.0F, 2.0F, 5.0F, 2.0F, modelSize);
-		this.setRotateAngle(bipedRightArm, 0.0F, 0.0F, 0.10000736647217022F);
-		this.bipedBody = new ModelRenderer(this, 8, 16);
-		this.bipedBody.setRotationPoint(0.0F, 14.0F, 0.0F);
-		this.bipedBody.addBox(-3.0F, 0.0F, -2.0F, 6.0F, 6.0F, 4.0F, modelSize);
-		this.bipedLeftArm = new ModelRenderer(this, 28, 16);
-		this.bipedLeftArm.mirror = true;
-		this.bipedLeftArm.setRotationPoint(4.0F, 15.0F, 0.0F);
-		this.bipedLeftArm.addBox(-1.0F, -1.0F, -1.0F, 2.0F, 5.0F, 2.0F, modelSize);
-		this.setRotateAngle(bipedLeftArm, 0.0F, 0.0F, -0.10000736647217022F);
-		this.bipedRightLeg = new ModelRenderer(this, 0, 16);
-		this.bipedRightLeg.setRotationPoint(-1.4F, 18.0F, 0.0F);
-		this.bipedRightLeg.addBox(-1.0F, 0.0F, -1.0F, 2.0F, 6.0F, 2.0F, modelSize);
-		this.bipedLeftLeg = new ModelRenderer(this, 0, 16);
-		this.bipedLeftLeg.mirror = true;
-		this.bipedLeftLeg.setRotationPoint(1.4F, 18.0F, 0.0F);
-		this.bipedLeftLeg.addBox(-1.0F, 0.0F, -1.0F, 2.0F, 6.0F, 2.0F, modelSize);
+		this.texWidth = 64;
+		this.texHeight = 64;
+		this.hat = new ModelRenderer(this, 32, 0);
+		this.hat.setPos(0.0F, 13.0F, -0.0F);
+		this.hat.addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, modelSize + 0.5F);
+		this.head = new ModelRenderer(this, 0, 0);
+		this.head.setPos(0.0F, 13.0F, -0.0F);
+		this.head.addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, modelSize);
+		this.head.addBox(-1.5F, -11.0F, -0.0F, 3.0F, 3.0F, 0.0F, modelSize);
+		this.rightArm = new ModelRenderer(this, 28, 16);
+		this.rightArm.setPos(-4.0F, 15.0F, 0.0F);
+		this.rightArm.addBox(-1.0F, -1.0F, -1.0F, 2.0F, 5.0F, 2.0F, modelSize);
+		this.setRotateAngle(rightArm, 0.0F, 0.0F, 0.10000736647217022F);
+		this.body = new ModelRenderer(this, 8, 16);
+		this.body.setPos(0.0F, 14.0F, 0.0F);
+		this.body.addBox(-3.0F, 0.0F, -2.0F, 6.0F, 6.0F, 4.0F, modelSize);
+		this.leftArm = new ModelRenderer(this, 28, 16);
+		this.leftArm.mirror = true;
+		this.leftArm.setPos(4.0F, 15.0F, 0.0F);
+		this.leftArm.addBox(-1.0F, -1.0F, -1.0F, 2.0F, 5.0F, 2.0F, modelSize);
+		this.setRotateAngle(leftArm, 0.0F, 0.0F, -0.10000736647217022F);
+		this.rightLeg = new ModelRenderer(this, 0, 16);
+		this.rightLeg.setPos(-1.4F, 18.0F, 0.0F);
+		this.rightLeg.addBox(-1.0F, 0.0F, -1.0F, 2.0F, 6.0F, 2.0F, modelSize);
+		this.leftLeg = new ModelRenderer(this, 0, 16);
+		this.leftLeg.mirror = true;
+		this.leftLeg.setPos(1.4F, 18.0F, 0.0F);
+		this.leftLeg.addBox(-1.0F, 0.0F, -1.0F, 2.0F, 6.0F, 2.0F, modelSize);
 	}
 
 	@Override
-	public void setRotationAngles(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-		super.setRotationAngles(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
+	public void setupAnim(T entityIn, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
+		super.setupAnim(entityIn, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch);
 
 		float f6 = 12.0f;
 
-		this.bipedRightArm.rotationPointX = -4.0F;
-		this.bipedLeftArm.rotationPointX = 4.0F;
-		this.bipedRightArm.rotationPointZ = 0.0F;
-		this.bipedLeftArm.rotationPointZ = 0.0F;
-		this.bipedRightLeg.rotationPointZ = 0.0F;
-		this.bipedLeftLeg.rotationPointZ = 0.0F;
-		this.bipedRightLeg.rotationPointY = 6.0F + f6;
-		this.bipedLeftLeg.rotationPointY = 6.0F + f6;
-		this.bipedHead.rotationPointZ = -0.0F;
-		this.bipedHead.rotationPointY = f6 + 2.0F;
-		if (this.isSneak) {
-			this.bipedBody.rotateAngleX = 0.5F;
-			this.bipedRightArm.rotateAngleX += 0.4F;
-			this.bipedLeftArm.rotateAngleX += 0.4F;
-			this.bipedRightLeg.rotationPointZ = 3.9F;
-			this.bipedLeftLeg.rotationPointZ = 3.9F;
-			this.bipedRightLeg.rotationPointY = 6.0F + f6 + 0.2F;
-			this.bipedLeftLeg.rotationPointY = 6.0F + f6 + 0.2F;
-			this.bipedHead.rotationPointY = f6 + 2.0F + 4.2F;
-			this.bipedBody.rotationPointY = 14.0F + 3.2F;
-			this.bipedLeftArm.rotationPointY = 3.2F + 15.0F;
-			this.bipedRightArm.rotationPointY = 3.2F + 15.0F;
+		this.rightArm.x = -4.0F;
+		this.leftArm.x = 4.0F;
+		this.rightArm.z = 0.0F;
+		this.leftArm.z = 0.0F;
+		this.rightLeg.z = 0.0F;
+		this.leftLeg.z = 0.0F;
+		this.rightLeg.y = 6.0F + f6;
+		this.leftLeg.y = 6.0F + f6;
+		this.head.z = -0.0F;
+		this.head.y = f6 + 2.0F;
+		if (this.riding) {
+			this.body.xRot = 0.5F;
+			this.rightArm.xRot += 0.4F;
+			this.leftArm.xRot += 0.4F;
+			this.rightLeg.z = 3.9F;
+			this.leftLeg.z = 3.9F;
+			this.rightLeg.y = 6.0F + f6 + 0.2F;
+			this.leftLeg.y = 6.0F + f6 + 0.2F;
+			this.head.y = f6 + 2.0F + 4.2F;
+			this.body.y = 14.0F + 3.2F;
+			this.leftArm.y = 3.2F + 15.0F;
+			this.rightArm.y = 3.2F + 15.0F;
 		} else {
-			this.bipedBody.rotateAngleX = 0.0F;
-			this.bipedRightLeg.rotationPointZ = 0.0F;
-			this.bipedLeftLeg.rotationPointZ = 0.0F;
-			this.bipedRightLeg.rotationPointY = 6.0F + f6;
-			this.bipedLeftLeg.rotationPointY = 6.0F + f6;
-			this.bipedHead.rotationPointY = f6 + 2.0F;
-			this.bipedBody.rotationPointY = 14.0F;
-			this.bipedLeftArm.rotationPointY = 15.0F;
-			this.bipedRightArm.rotationPointY = 15.0F;
+			this.body.xRot = 0.0F;
+			this.rightLeg.z = 0.0F;
+			this.leftLeg.z = 0.0F;
+			this.rightLeg.y = 6.0F + f6;
+			this.leftLeg.y = 6.0F + f6;
+			this.head.y = f6 + 2.0F;
+			this.body.y = 14.0F;
+			this.leftArm.y = 15.0F;
+			this.rightArm.y = 15.0F;
 		}
 
-		boolean flag = entityIn.getShakeHeadTicks() > 0;
+		boolean flag = entityIn.getUnhappyCounter() > 0;
 
 		if (flag) {
-			this.bipedHead.rotateAngleZ = 0.3F * MathHelper.sin(0.45F * ageInTicks);
-			this.bipedHead.rotateAngleX = 0.4F;
+			this.head.zRot = 0.3F * MathHelper.sin(0.45F * ageInTicks);
+			this.head.xRot = 0.4F;
 		} else {
-			this.bipedHead.rotateAngleZ = 0.0F;
+			this.head.zRot = 0.0F;
 		}
 
-		if (this.isChild) {
-			this.bipedHead.rotationPointY = f6 + 1.0F;
+		if (this.young) {
+			this.head.y = f6 + 1.0F;
 		} else {
-			this.bipedHead.rotationPointY = f6 + 2.0F;
+			this.head.y = f6 + 2.0F;
 		}
 
-		this.bipedHeadwear.rotationPointX = this.bipedHead.rotationPointX;
-		this.bipedHeadwear.rotationPointY = this.bipedHead.rotationPointY;
-		this.bipedHeadwear.rotationPointZ = this.bipedHead.rotationPointZ;
-		this.bipedHeadwear.rotateAngleX = this.bipedHead.rotateAngleX;
-		this.bipedHeadwear.rotateAngleY = this.bipedHead.rotateAngleY;
-		this.bipedHeadwear.rotateAngleZ = this.bipedHead.rotateAngleZ;
+		this.hat.x = this.head.x;
+		this.hat.y = this.head.y;
+		this.hat.z = this.head.z;
+		this.hat.xRot = this.head.xRot;
+		this.hat.yRot = this.head.yRot;
+		this.hat.zRot = this.head.zRot;
 	}
 
 	/**
 	 * This is a helper function from Tabula to set the rotation of model parts
 	 */
 	public void setRotateAngle(ModelRenderer modelRenderer, float x, float y, float z) {
-		modelRenderer.rotateAngleX = x;
-		modelRenderer.rotateAngleY = y;
-		modelRenderer.rotateAngleZ = z;
+		modelRenderer.xRot = x;
+		modelRenderer.yRot = y;
+		modelRenderer.zRot = z;
 	}
 }

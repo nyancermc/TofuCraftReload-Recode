@@ -22,34 +22,34 @@ import java.util.function.Function;
 public class TofuCanyonCarver extends CanyonWorldCarver {
 	public TofuCanyonCarver(Codec<ProbabilityConfig> codec) {
 		super(codec);
-		this.carvableBlocks = ImmutableSet.of(Blocks.STONE, Blocks.GRANITE, Blocks.DIORITE, Blocks.ANDESITE, Blocks.DIRT, Blocks.COARSE_DIRT, Blocks.PODZOL, Blocks.GRASS_BLOCK, TofuBlocks.TOFU_TERRAIN, TofuBlocks.ZUNDATOFU_TERRAIN);
-		this.carvableFluids = ImmutableSet.of(Fluids.LAVA, Fluids.WATER, TofuFluids.SOYMILK);
+		this.replaceableBlocks = ImmutableSet.of(Blocks.STONE, Blocks.GRANITE, Blocks.DIORITE, Blocks.ANDESITE, Blocks.DIRT, Blocks.COARSE_DIRT, Blocks.PODZOL, Blocks.GRASS_BLOCK, TofuBlocks.TOFU_TERRAIN, TofuBlocks.ZUNDATOFU_TERRAIN);
+		this.liquids = ImmutableSet.of(Fluids.LAVA, Fluids.WATER, TofuFluids.SOYMILK);
 	}
 
-	protected boolean carveBlock(IChunk chunk, Function<BlockPos, Biome> p_230358_2_, BitSet carvingMask, Random rand, BlockPos.Mutable p_230358_5_, BlockPos.Mutable p_230358_6_, BlockPos.Mutable p_230358_7_, int p_230358_8_, int p_230358_9_, int p_230358_10_, int posX, int posZ, int p_230358_13_, int posY, int p_230358_15_, MutableBoolean isSurface) {
-		int i = p_230358_13_ | p_230358_15_ << 4 | posY << 8;
-		if (carvingMask.get(i)) {
+	protected boolean carveBlock(IChunk p_230358_1_, Function<BlockPos, Biome> p_230358_2_, BitSet p_230358_3_, Random p_230358_4_, BlockPos.Mutable p_230358_5_, BlockPos.Mutable p_230358_6_, BlockPos.Mutable p_230358_7_, int p_230358_8_, int p_230358_9_, int p_230358_10_, int p_230358_11_, int p_230358_12_, int p_230358_13_, int p_230358_14_, int p_230358_15_, MutableBoolean p_230358_16_) {
+		int i = p_230358_13_ | p_230358_15_ << 4 | p_230358_14_ << 8;
+		if (p_230358_3_.get(i)) {
 			return false;
 		} else {
-			carvingMask.set(i);
-			p_230358_5_.setPos(posX, posY, posZ);
-			BlockState blockstate = chunk.getBlockState(p_230358_5_);
-			BlockState blockstate1 = chunk.getBlockState(p_230358_6_.setAndMove(p_230358_5_, Direction.UP));
-			if (blockstate.isIn(Blocks.GRASS_BLOCK) || blockstate.isIn(Blocks.MYCELIUM)) {
-				isSurface.setTrue();
+			p_230358_3_.set(i);
+			p_230358_5_.set(p_230358_11_, p_230358_14_, p_230358_12_);
+			BlockState blockstate = p_230358_1_.getBlockState(p_230358_5_);
+			BlockState blockstate1 = p_230358_1_.getBlockState(p_230358_6_.setWithOffset(p_230358_5_, Direction.UP));
+			if (blockstate.is(TofuBlocks.ZUNDATOFU_TERRAIN)) {
+				p_230358_16_.setTrue();
 			}
 
-			if (!this.canCarveBlock(blockstate, blockstate1)) {
+			if (!this.canReplaceBlock(blockstate, blockstate1)) {
 				return false;
 			} else {
-				if (posY < 11) {
-					chunk.setBlockState(p_230358_5_, TofuBlocks.SOYMILK.getDefaultState(), false);
+				if (p_230358_14_ < 11) {
+					p_230358_1_.setBlockState(p_230358_5_, TofuBlocks.SOYMILK.defaultBlockState(), false);
 				} else {
-					chunk.setBlockState(p_230358_5_, CAVE_AIR, false);
-					if (isSurface.isTrue()) {
-						p_230358_7_.setAndMove(p_230358_5_, Direction.DOWN);
-						if (chunk.getBlockState(p_230358_7_).isIn(TofuBlocks.TOFU_TERRAIN)) {
-							chunk.setBlockState(p_230358_7_, p_230358_2_.apply(p_230358_5_).getGenerationSettings().getSurfaceBuilderConfig().getTop(), false);
+					p_230358_1_.setBlockState(p_230358_5_, CAVE_AIR, false);
+					if (p_230358_16_.isTrue()) {
+						p_230358_7_.setWithOffset(p_230358_5_, Direction.DOWN);
+						if (p_230358_1_.getBlockState(p_230358_7_).is(TofuBlocks.TOFU_TERRAIN)) {
+							p_230358_1_.setBlockState(p_230358_7_, p_230358_2_.apply(p_230358_5_).getGenerationSettings().getSurfaceBuilderConfig().getTopMaterial(), false);
 						}
 					}
 				}

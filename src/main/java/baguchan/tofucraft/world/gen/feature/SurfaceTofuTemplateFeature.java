@@ -37,29 +37,29 @@ public class SurfaceTofuTemplateFeature extends Feature<NoFeatureConfig> {
 	}
 
 
-	public boolean generate(ISeedReader world, ChunkGenerator p_241855_2_, Random p_241855_3_, BlockPos pos, NoFeatureConfig p_241855_5_) {
-		BlockPos pos2 = world.getHeight(Heightmap.Type.MOTION_BLOCKING, pos);
+	public boolean place(ISeedReader world, ChunkGenerator p_241855_2_, Random p_241855_3_, BlockPos pos, NoFeatureConfig p_241855_5_) {
+		BlockPos pos2 = world.getHeightmapPos(Heightmap.Type.MOTION_BLOCKING, pos);
 
-		Rotation rotation = Rotation.randomRotation(p_241855_3_);
+		Rotation rotation = Rotation.getRandom(p_241855_3_);
 		int i = p_241855_3_.nextInt(this.TEMPLATE.length);
-		TemplateManager templatemanager = world.getWorld().getStructureTemplateManager();
-		Template template = templatemanager.getTemplate(this.TEMPLATE[i]);
-		PlacementSettings placementsettings = (new PlacementSettings()).setRotation(rotation).addProcessor(BlockIgnoreStructureProcessor.AIR_AND_STRUCTURE_BLOCK);
+		TemplateManager templatemanager = world.getLevel().getStructureManager();
+		Template template = templatemanager.get(this.TEMPLATE[i]);
+		PlacementSettings placementsettings = (new PlacementSettings()).setRotation(rotation).addProcessor(BlockIgnoreStructureProcessor.STRUCTURE_AND_AIR);
 
 		BlockPos blockpos2 = (new BlockPos(-this.offsetX / 2, 0, -this.offsetZ / 2)).rotate(rotation);
 		BlockPos blockpos3 = (new BlockPos(this.offsetX / 2, 0, this.offsetZ / 2)).rotate(rotation);
 
-		BlockPos blockpos4 = pos2.add(blockpos2);
-		BlockPos blockpos5 = pos2.add(blockpos3);
+		BlockPos blockpos4 = pos2.offset(blockpos2);
+		BlockPos blockpos5 = pos2.offset(blockpos3);
 
 
-		placementsettings.setBoundingBox(template.getMutableBoundingBox(placementsettings, blockpos4));
+		placementsettings.setBoundingBox(template.getBoundingBox(placementsettings, blockpos4));
 
-		if (!isSoil((IWorld) world, pos2.down()) || !world.isAirBlock(pos2)) {
+		if (!isSoil((IWorld) world, pos2.below()) || !world.isEmptyBlock(pos2)) {
 			return false;
 		}
 
-		template.func_237146_a_((IServerWorld) world, blockpos4, blockpos5, placementsettings, p_241855_3_, 3);
+		template.placeInWorld((IServerWorld) world, blockpos4, blockpos5, placementsettings, p_241855_3_, 3);
 		return true;
 	}
 }

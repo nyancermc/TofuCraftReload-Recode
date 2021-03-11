@@ -17,7 +17,7 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import java.util.Random;
 
 public class KinuTofuBlock extends Block {
-	public static final IntegerProperty AGE = BlockStateProperties.AGE_0_7;
+	public static final IntegerProperty AGE = BlockStateProperties.AGE_7;
 
 	public KinuTofuBlock(Properties properties) {
 		super(properties);
@@ -40,8 +40,8 @@ public class KinuTofuBlock extends Block {
 	}
 
 	@Override
-	public void onFallenUpon(World worldIn, BlockPos pos, Entity entityIn, float fallDistance) {
-		super.onFallenUpon(worldIn, pos, entityIn, fallDistance * 0.75F);
+	public void fallOn(World worldIn, BlockPos pos, Entity entityIn, float fallDistance) {
+		super.fallOn(worldIn, pos, entityIn, fallDistance * 0.75F);
 		worldIn.destroyBlock(pos, true);
 	}
 
@@ -54,20 +54,20 @@ public class KinuTofuBlock extends Block {
 	}
 
 	public boolean isUnderWeight(World world, BlockPos pos) {
-		BlockState weightBlock = world.getBlockState(pos.up());
+		BlockState weightBlock = world.getBlockState(pos.above());
 
-		BlockState baseBlock = world.getBlockState(pos.down());
+		BlockState baseBlock = world.getBlockState(pos.below());
 
-		boolean isWeightValid = weightBlock != null && (weightBlock.getMaterial() == Material.ROCK || weightBlock.getMaterial() == Material.IRON);
+		boolean isWeightValid = weightBlock != null && (weightBlock.getMaterial() == Material.STONE || weightBlock.getMaterial() == Material.METAL);
 
-		float baseHardness = baseBlock.getBlockHardness(world, pos.down());
+		float baseHardness = baseBlock.getDestroySpeed(world, pos.below());
 
-		boolean isBaseValid = baseBlock.isNormalCube(world, pos) && (baseBlock.getMaterial() == Material.ROCK || baseBlock.getMaterial() == Material.IRON || baseHardness >= 1.0F || baseHardness < 0.0F);
+		boolean isBaseValid = baseBlock.isSolidRender(world, pos) && (baseBlock.getMaterial() == Material.STONE || baseBlock.getMaterial() == Material.METAL || baseHardness >= 1.0F || baseHardness < 0.0F);
 
 		return isWeightValid && isBaseValid;
 	}
 
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
 		builder.add(AGE);
 	}
 }

@@ -17,30 +17,30 @@ public class TofuScoopItem extends Item {
 	}
 
 	@Override
-	public ActionResultType onItemUse(ItemUseContext context) {
-		World worldIn = context.getWorld();
-		BlockPos pos = context.getPos();
-		if (context.getWorld().getBlockState(context.getPos()).isIn(TofuTags.Blocks.SOFT_TOFU)) {
-			ItemStack stack = new ItemStack(Item.getItemFromBlock(context.getWorld().getBlockState(context.getPos()).getBlock()));
+	public ActionResultType useOn(ItemUseContext context) {
+		World worldIn = context.getLevel();
+		BlockPos pos = context.getClickedPos();
+		if (context.getLevel().getBlockState(context.getClickedPos()).is(TofuTags.Blocks.SOFT_TOFU)) {
+			ItemStack stack = new ItemStack(Item.BY_BLOCK.get(context.getLevel().getBlockState(context.getClickedPos()).getBlock()));
 
-			worldIn.removeBlock(context.getPos(), false);
-			if (!worldIn.isRemote()) {
+			worldIn.removeBlock(context.getClickedPos(), false);
+			if (!worldIn.isClientSide()) {
 				if (context.getPlayer() != null) {
-					stack.damageItem(1, context.getPlayer(), p_220036_0_ -> p_220036_0_.sendBreakAnimation(context.getHand()));
+					stack.hurtAndBreak(1, context.getPlayer(), p_220036_0_ -> p_220036_0_.broadcastBreakEvent(context.getHand()));
 				}
 
 
-				double d0 = (double) (worldIn.rand.nextFloat() * 0.5F) + 0.25D;
-				double d1 = (double) (worldIn.rand.nextFloat() * 0.5F) + 0.25D;
-				double d2 = (double) (worldIn.rand.nextFloat() * 0.5F) + 0.25D;
+				double d0 = (double) (worldIn.random.nextFloat() * 0.5F) + 0.25D;
+				double d1 = (double) (worldIn.random.nextFloat() * 0.5F) + 0.25D;
+				double d2 = (double) (worldIn.random.nextFloat() * 0.5F) + 0.25D;
 				ItemEntity itementity = new ItemEntity(worldIn, (double) pos.getX() + d0, (double) pos.getY() + d1, (double) pos.getZ() + d2, stack);
-				itementity.setDefaultPickupDelay();
-				worldIn.addEntity(itementity);
+				itementity.setDefaultPickUpDelay();
+				worldIn.addFreshEntity(itementity);
 			}
-			worldIn.playSound(null, pos, SoundEvents.BLOCK_SNOW_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
+			worldIn.playSound(null, pos, SoundEvents.SNOW_BREAK, SoundCategory.BLOCKS, 1.0F, 1.0F);
 
 			return ActionResultType.SUCCESS;
 		}
-		return super.onItemUse(context);
+		return super.useOn(context);
 	}
 }

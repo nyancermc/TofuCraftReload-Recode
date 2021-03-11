@@ -16,7 +16,7 @@ import net.minecraft.world.server.ServerWorld;
 import java.util.Random;
 
 public class TofuMushroomBlock extends TofuBushBlock implements IGrowable {
-	protected static final VoxelShape SHAPE = Block.makeCuboidShape(5.0D, 0.0D, 5.0D, 11.0D, 11.0D, 11.0D);
+	protected static final VoxelShape SHAPE = Block.box(5.0D, 0.0D, 5.0D, 11.0D, 11.0D, 11.0D);
 
 	public TofuMushroomBlock(Properties properties) {
 		super(properties);
@@ -31,32 +31,32 @@ public class TofuMushroomBlock extends TofuBushBlock implements IGrowable {
 		ConfiguredFeature<?, ?> configuredfeature;
 
 		if (rand.nextInt(3) == 0) {
-			configuredfeature = TofuFeatures.ZUNDA_MUSHROOM_BIG.withConfiguration(NoFeatureConfig.field_236559_b_);
+			configuredfeature = TofuFeatures.ZUNDA_MUSHROOM_BIG.configured(NoFeatureConfig.INSTANCE);
 		} else {
-			configuredfeature = TofuFeatures.ZUNDA_MUSHROOM_SMALL.withConfiguration(NoFeatureConfig.field_236559_b_);
+			configuredfeature = TofuFeatures.ZUNDA_MUSHROOM_SMALL.configured(NoFeatureConfig.INSTANCE);
 		}
 
 
-		if (configuredfeature.generate(world, world.getChunkProvider().getChunkGenerator(), rand, pos)) {
+		if (configuredfeature.place(world, world.getChunkSource().getGenerator(), rand, pos)) {
 			return true;
 		} else {
-			world.setBlockState(pos, state, 3);
+			world.setBlock(pos, state, 3);
 			return false;
 		}
 	}
 
 	/**
-	 * Whether this IGrowable can grow
+	 * Whether this IGrowable can performBonemeal
 	 */
-	public boolean canGrow(IBlockReader worldIn, BlockPos pos, BlockState state, boolean isClient) {
+	public boolean isValidBonemealTarget(IBlockReader worldIn, BlockPos pos, BlockState state, boolean isClient) {
 		return true;
 	}
 
-	public boolean canUseBonemeal(World worldIn, Random rand, BlockPos pos, BlockState state) {
-		return (double) worldIn.rand.nextFloat() < 0.45D;
+	public boolean isBonemealSuccess(World worldIn, Random rand, BlockPos pos, BlockState state) {
+		return (double) worldIn.random.nextFloat() < 0.45D;
 	}
 
-	public void grow(ServerWorld worldIn, Random rand, BlockPos pos, BlockState state) {
+	public void performBonemeal(ServerWorld worldIn, Random rand, BlockPos pos, BlockState state) {
 		this.placeMushroom(worldIn, pos, state, rand);
 	}
 }

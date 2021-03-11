@@ -28,7 +28,7 @@ public class TofunianRender<T extends TofunianEntity> extends MobRenderer<T, Tof
 	}
 
 	@Override
-	public ResourceLocation getEntityTexture(T entity) {
+	public ResourceLocation getTextureLocation(T entity) {
 		return TEXTURE;
 	}
 }

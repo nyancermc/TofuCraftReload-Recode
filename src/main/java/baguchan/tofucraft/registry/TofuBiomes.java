@@ -17,14 +17,14 @@ public class TofuBiomes {
 		BiomeGenerationSettingsBuilder generation = event.getGeneration();
 
 		if (event.getName().toString().contains("minecraft:crimson_forest")) {
-			generation.withFeature(GenerationStage.Decoration.UNDERGROUND_DECORATION, TofuDefaultBiomeFeatures.NETHER_SOYBEAN);
+			generation.addFeature(GenerationStage.Decoration.UNDERGROUND_DECORATION, TofuDefaultBiomeFeatures.NETHER_SOYBEAN);
 		}
 
 		if (event.getCategory() == Biome.Category.NETHER) {
-			generation.withFeature(GenerationStage.Decoration.UNDERGROUND_DECORATION, TofuDefaultBiomeFeatures.NETHER_SOYBEAN_PATCH);
+			generation.addFeature(GenerationStage.Decoration.UNDERGROUND_DECORATION, TofuDefaultBiomeFeatures.NETHER_SOYBEAN_PATCH);
 		}
 
 		if (event.getName().toString().contains("minecraft:warped_forest") || event.getName().toString().contains("minecraft:soul_sand_valley"))
-			generation.withFeature(GenerationStage.Decoration.UNDERGROUND_DECORATION, TofuDefaultBiomeFeatures.SOUL_SOYBEAN);
+			generation.addFeature(GenerationStage.Decoration.UNDERGROUND_DECORATION, TofuDefaultBiomeFeatures.SOUL_SOYBEAN);
 	}
 }

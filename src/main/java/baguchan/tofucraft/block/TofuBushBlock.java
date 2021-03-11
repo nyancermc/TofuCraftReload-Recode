@@ -11,7 +11,7 @@ public class TofuBushBlock extends BushBlock {
 		super(properties);
 	}
 
-	protected boolean isValidGround(BlockState state, IBlockReader worldIn, BlockPos pos) {
-		return state.isIn(TofuTags.Blocks.TOFU_TERRAIN);
+	protected boolean mayPlaceOn(BlockState state, IBlockReader worldIn, BlockPos pos) {
+		return state.is(TofuTags.Blocks.TOFU_TERRAIN);
 	}
 }

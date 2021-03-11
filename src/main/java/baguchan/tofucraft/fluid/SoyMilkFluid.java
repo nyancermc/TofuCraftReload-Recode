@@ -13,7 +13,6 @@ import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.WaterFluid;
 import net.minecraft.item.Item;
 import net.minecraft.state.StateContainer;
-import net.minecraft.tags.FluidTags;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
@@ -29,16 +28,16 @@ import java.util.Random;
 
 public abstract class SoyMilkFluid extends WaterFluid {
 	@Override
-	public net.minecraft.fluid.Fluid getFlowingFluid() {
+	public net.minecraft.fluid.Fluid getFlowing() {
 		return TofuFluids.SOYMILK_FLOW;
 	}
 
 	@Override
-	public net.minecraft.fluid.Fluid getStillFluid() {
+	public net.minecraft.fluid.Fluid getSource() {
 		return TofuFluids.SOYMILK;
 	}
 
-	public Item getFilledBucket() {
+	public Item getBucket() {
 		return TofuItems.BUCKET_SOYMILK;
 	}
 
@@ -54,44 +53,41 @@ public abstract class SoyMilkFluid extends WaterFluid {
 
 	}
 
-/*    @Nullable
-    @OnlyIn(Dist.CLIENT)
-    public IParticleData getDripParticleData() {
-        return ParticleTypes.DRIPPING_WATER;
-    }*/
-
-	protected void beforeReplacingBlock(IWorld worldIn, BlockPos pos, BlockState state) {
-		TileEntity tileentity = state.getBlock().hasTileEntity(state) ? worldIn.getTileEntity(pos) : null;
-		Block.spawnDrops(state, worldIn, pos, tileentity);
+	protected boolean canConvertToSource() {
+		return true;
 	}
 
-	public int getSlopeFindDistance(IWorldReader worldIn) {
-		return 7;
+	protected void beforeDestroyingBlock(IWorld p_205580_1_, BlockPos p_205580_2_, BlockState p_205580_3_) {
+		TileEntity tileentity = p_205580_3_.hasTileEntity() ? p_205580_1_.getBlockEntity(p_205580_2_) : null;
+		Block.dropResources(p_205580_3_, p_205580_1_, p_205580_2_, tileentity);
 	}
 
-	public BlockState getBlockState(FluidState state) {
-		return TofuBlocks.SOYMILK.getDefaultState().with(FlowingFluidBlock.LEVEL, Integer.valueOf(getLevelFromState(state)));
+	public int getSlopeFindDistance(IWorldReader p_185698_1_) {
+		return 4;
 	}
 
-	public boolean isEquivalentTo(Fluid fluidIn) {
-		return fluidIn == TofuFluids.SOYMILK || fluidIn == TofuFluids.SOYMILK_FLOW;
+	public BlockState createLegacyBlock(FluidState p_204527_1_) {
+		return TofuBlocks.SOYMILK.defaultBlockState().setValue(FlowingFluidBlock.LEVEL, Integer.valueOf(getLegacyLevel(p_204527_1_)));
 	}
 
-	public int getLevelDecreasePerBlock(IWorldReader worldIn) {
+	public boolean isSame(Fluid p_207187_1_) {
+		return p_207187_1_ == TofuFluids.SOYMILK || p_207187_1_ == TofuFluids.SOYMILK_FLOW;
+	}
+
+	public int getDropOff(IWorldReader p_204528_1_) {
 		return 1;
 	}
 
-	public boolean canDisplace(FluidState p_215665_1_, IBlockReader p_215665_2_, BlockPos p_215665_3_, Fluid p_215665_4_, Direction p_215665_5_) {
-		return p_215665_5_ == Direction.DOWN && !p_215665_4_.isIn(FluidTags.WATER) && !p_215665_4_.isIn(TofuTags.Fluids.SOYMILK);
+	public int getTickDelay(IWorldReader p_205569_1_) {
+		return 5;
+	}
+
+	public boolean canBeReplacedWith(FluidState p_215665_1_, IBlockReader p_215665_2_, BlockPos p_215665_3_, Fluid p_215665_4_, Direction p_215665_5_) {
+		return p_215665_5_ == Direction.DOWN && !p_215665_4_.is(TofuTags.Fluids.SOYMILK);
 	}
 
 	protected float getExplosionResistance() {
 		return 100.0F;
-	}
-
-
-	protected boolean canSourcesMultiply() {
-		return false;
 	}
 
 	@Override
@@ -103,26 +99,26 @@ public abstract class SoyMilkFluid extends WaterFluid {
 	}
 
 	public static class Flowing extends SoyMilkFluid {
-		protected void fillStateContainer(StateContainer.Builder<Fluid, FluidState> builder) {
-			super.fillStateContainer(builder);
-			builder.add(LEVEL_1_8);
+		protected void createFluidStateDefinition(StateContainer.Builder<Fluid, FluidState> p_207184_1_) {
+			super.createFluidStateDefinition(p_207184_1_);
+			p_207184_1_.add(LEVEL);
 		}
 
-		public int getLevel(FluidState p_207192_1_) {
-			return p_207192_1_.get(LEVEL_1_8);
+		public int getAmount(FluidState p_207192_1_) {
+			return p_207192_1_.getValue(LEVEL);
 		}
 
-		public boolean isSource(FluidState state) {
+		public boolean isSource(FluidState p_207193_1_) {
 			return false;
 		}
 	}
 
 	public static class Source extends SoyMilkFluid {
-		public int getLevel(FluidState p_207192_1_) {
+		public int getAmount(FluidState p_207192_1_) {
 			return 8;
 		}
 
-		public boolean isSource(FluidState state) {
+		public boolean isSource(FluidState p_207193_1_) {
 			return true;
 		}
 	}

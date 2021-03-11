@@ -20,28 +20,25 @@ public class NetherFukumameItem extends Item {
 	}
 
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
-		ItemStack itemstack = playerIn.getHeldItem(handIn);
-		worldIn.playSound((PlayerEntity) null, playerIn.getPosX(), playerIn.getPosY(), playerIn.getPosZ(), SoundEvents.ENTITY_EGG_THROW, SoundCategory.PLAYERS, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
-		if (!worldIn.isRemote) {
+	public ActionResult<ItemStack> use(World worldIn, PlayerEntity playerIn, Hand handIn) {
+		ItemStack itemstack = playerIn.getItemInHand(handIn);
+		worldIn.playSound((PlayerEntity) null, playerIn.getX(), playerIn.getY(), playerIn.getZ(), SoundEvents.EGG_THROW, SoundCategory.PLAYERS, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
+		if (!worldIn.isClientSide) {
 			for (int i = 0; i < 5; i++) {
 				NetherFukumameEntity fukumamentity = new NetherFukumameEntity(worldIn, playerIn);
-				float d0 = (worldIn.rand.nextFloat() * 20.0F) - 10.0F;
-				if (burning) {
-					fukumamentity.setFire(60);
-				}
+				float d0 = (worldIn.random.nextFloat() * 20.0F) - 10.0F;
 
-				fukumamentity.func_234612_a_(playerIn, playerIn.rotationPitch + d0 * 0.25F, playerIn.rotationYaw + d0, 0.0F, 1.5F, 0.8F);
-				worldIn.addEntity(fukumamentity);
+				fukumamentity.shootFromRotation(playerIn, playerIn.xRot + d0 * 0.25F, playerIn.yRot + d0, 0.0F, 1.5F, 0.8F);
+				worldIn.addFreshEntity(fukumamentity);
 			}
 		}
 
-		playerIn.addStat(Stats.ITEM_USED.get(this));
-		playerIn.getCooldownTracker().setCooldown(itemstack.getItem(), 10);
-		if (!playerIn.abilities.isCreativeMode) {
-			itemstack.damageItem(1, playerIn, playerEntity -> playerEntity.sendBreakAnimation(handIn));
+		playerIn.awardStat(Stats.ITEM_USED.get(this));
+		playerIn.getCooldowns().addCooldown(itemstack.getItem(), 10);
+		if (!playerIn.abilities.instabuild) {
+			itemstack.hurtAndBreak(1, playerIn, playerEntity -> playerEntity.broadcastBreakEvent(handIn));
 		}
 
-		return ActionResult.func_233538_a_(itemstack, worldIn.isRemote());
+		return ActionResult.sidedSuccess(itemstack, worldIn.isClientSide());
 	}
 }

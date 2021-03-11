@@ -25,7 +25,7 @@ public class TileScanner {
 				for (int z = -size; z <= size; z++) {
 					if (x == 0 && y == 0 && z == 0) continue;
 
-					BlockPos absTargPos = this.centrePos.add(x, y, z);
+					BlockPos absTargPos = this.centrePos.offset(x, y, z);
 
 					method.impl.apply(world, new BlockPos(x, y, z), absTargPos, size, impl);
 				}

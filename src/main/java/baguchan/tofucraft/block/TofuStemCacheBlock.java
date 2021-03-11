@@ -20,12 +20,12 @@ public class TofuStemCacheBlock extends HorizontalBlock {
 
 	public TofuStemCacheBlock(Properties builder) {
 		super(builder);
-		this.setDefaultState(this.stateContainer.getBaseState().with(ZUNDAMA, true));
+		this.registerDefaultState(this.stateDefinition.any().setValue(ZUNDAMA, true));
 	}
 
 
-	public ActionResultType onBlockActivated(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
-		boolean hasZunda = state.get(ZUNDAMA);
+	public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+		boolean hasZunda = state.getValue(ZUNDAMA);
 		if (hasZunda) {
 			ItemStack salt = new ItemStack(TofuItems.ZUNDAMA, 1);
 
@@ -35,18 +35,18 @@ public class TofuStemCacheBlock extends HorizontalBlock {
 				double d1 = (double) (worldIn.getRandom().nextFloat() * f) + (double) (1.0F - f) * 0.2D + 0.6D;
 				double d2 = (double) (worldIn.getRandom().nextFloat() * f) + (double) (1.0F - f) * 0.5D;
 				ItemEntity itemEntity = new ItemEntity((World) worldIn, (double) pos.getX() + d0, (double) pos.getY() + d1, (double) pos.getZ() + d2, salt);
-				itemEntity.setPickupDelay(10);
-				worldIn.addEntity(itemEntity);
+				itemEntity.setPickUpDelay(10);
+				worldIn.addFreshEntity(itemEntity);
 			}
 
 
-			worldIn.setBlockState(pos, state.with(ZUNDAMA, false), 3);
+			worldIn.setBlock(pos, state.setValue(ZUNDAMA, false), 3);
 			return ActionResultType.SUCCESS;
 		}
 		return ActionResultType.PASS;
 	}
 
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
-		builder.add(HORIZONTAL_FACING, ZUNDAMA);
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+		builder.add(HorizontalBlock.FACING, ZUNDAMA);
 	}
 }

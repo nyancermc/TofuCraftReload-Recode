@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.Random;
 
 public class TofuBlock extends Block {
-	public static final IntegerProperty AGE = BlockStateProperties.AGE_0_7;
+	public static final IntegerProperty AGE = BlockStateProperties.AGE_7;
 
 	public TofuBlock(Properties properties) {
 		super(properties);
@@ -45,15 +45,15 @@ public class TofuBlock extends Block {
 	public void tick(BlockState state, ServerWorld worldIn, BlockPos pos, Random random) {
 		super.tick(state, worldIn, pos, random);
 		if (isUnderWeight(worldIn, pos)) {
-			int i = state.get(AGE);
+			int i = state.getValue(AGE);
 			if (random.nextInt(5) == 0) {
 				if (i < 7) {
-					worldIn.setBlockState(pos, state.with(AGE, Integer.valueOf(i + 1)), 2);
+					worldIn.setBlock(pos, state.setValue(AGE, Integer.valueOf(i + 1)), 2);
 				} else {
 					Map.Entry<Block, Block> result = HardenRecipes.getResult(state.getBlock());
 
 					if (result != null) {
-						worldIn.setBlockState(pos, result.getValue().getDefaultState(), 2);
+						worldIn.setBlock(pos, result.getValue().defaultBlockState(), 2);
 					}
 				}
 			}
@@ -61,20 +61,20 @@ public class TofuBlock extends Block {
 	}
 
 	public boolean isUnderWeight(World world, BlockPos pos) {
-		BlockState weightBlock = world.getBlockState(pos.up());
+		BlockState weightBlock = world.getBlockState(pos.above());
 
-		BlockState baseBlock = world.getBlockState(pos.down());
+		BlockState baseBlock = world.getBlockState(pos.below());
 
-		boolean isWeightValid = weightBlock != null && (weightBlock.getMaterial() == Material.ROCK || weightBlock.getMaterial() == Material.IRON);
+		boolean isWeightValid = weightBlock != null && (weightBlock.getMaterial() == Material.STONE || weightBlock.getMaterial() == Material.METAL);
 
-		float baseHardness = baseBlock.getBlockHardness(world, pos.down());
+		float baseHardness = baseBlock.getDestroySpeed(world, pos.below());
 
-		boolean isBaseValid = baseBlock.isNormalCube(world, pos) && (baseBlock.getMaterial() == Material.ROCK || baseBlock.getMaterial() == Material.IRON || baseHardness >= 1.0F || baseHardness < 0.0F);
+		boolean isBaseValid = baseBlock.isSolidRender(world, pos) && (baseBlock.getMaterial() == Material.STONE || baseBlock.getMaterial() == Material.METAL || baseHardness >= 1.0F || baseHardness < 0.0F);
 
 		return isWeightValid && isBaseValid;
 	}
 
-	protected void fillStateContainer(StateContainer.Builder<Block, BlockState> builder) {
+	protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
 		builder.add(AGE);
 	}
 }

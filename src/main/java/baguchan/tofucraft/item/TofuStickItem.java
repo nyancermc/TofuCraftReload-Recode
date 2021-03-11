@@ -15,14 +15,14 @@ public class TofuStickItem extends Item {
 
 
 	@Override
-	public ActionResultType onItemUse(ItemUseContext context) {
-		if (context.getWorld().getBlockState(context.getPos()).getBlock() == TofuBlocks.GRILLEDTOFU)
-			if (TofuBlocks.TOFU_PORTAL.trySpawnPortal(context.getWorld(), context.getPos().up())) {
+	public ActionResultType useOn(ItemUseContext context) {
+		if (context.getLevel().getBlockState(context.getClickedPos()).getBlock() == TofuBlocks.GRILLEDTOFU)
+			if (TofuBlocks.TOFU_PORTAL.trySpawnPortal(context.getLevel(), context.getClickedPos().above())) {
 				if (!context.getPlayer().isCreative())
-					context.getItem().damageItem(1, (LivingEntity) context.getPlayer(), p_213625_1_ -> p_213625_1_.sendBreakAnimation(context.getHand()));
+					context.getItemInHand().hurtAndBreak(1, (LivingEntity) context.getPlayer(), p_213625_1_ -> p_213625_1_.broadcastBreakEvent(context.getHand()));
 				return ActionResultType.SUCCESS;
 			}
-		return super.onItemUse(context);
+		return super.useOn(context);
 	}
 
 	@Override
@@ -30,7 +30,7 @@ public class TofuStickItem extends Item {
 		return Rarity.RARE;
 	}
 
-	public boolean hasEffect(ItemStack stack) {
+	public boolean isFoil(ItemStack stack) {
 		return true;
 	}
 }

@@ -6,17 +6,22 @@ import baguchan.tofucraft.registry.TofuItems;
 import baguchan.tofucraft.registry.TofuTrades;
 import com.mojang.serialization.Dynamic;
 import it.unimi.dsi.fastutil.ints.Int2ObjectMap;
-import net.minecraft.entity.*;
+import net.minecraft.entity.AgeableEntity;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.MobEntity;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
 import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.brain.memory.MemoryModuleType;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.item.ExperienceOrbEntity;
 import net.minecraft.entity.merchant.IReputationTracking;
 import net.minecraft.entity.merchant.IReputationType;
 import net.minecraft.entity.merchant.villager.VillagerData;
 import net.minecraft.entity.merchant.villager.VillagerTrades;
-import net.minecraft.entity.monster.*;
+import net.minecraft.entity.monster.AbstractIllagerEntity;
+import net.minecraft.entity.monster.RavagerEntity;
+import net.minecraft.entity.monster.ZoglinEntity;
+import net.minecraft.entity.monster.ZombieEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.MerchantOffer;
@@ -43,13 +48,11 @@ import net.minecraftforge.common.util.ITeleporter;
 
 import javax.annotation.Nullable;
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class TofunianEntity extends AbstractTofunianEntity implements IReputationTracking {
-	private static final DataParameter<String> ROLE = EntityDataManager.createKey(TofunianEntity.class, DataSerializers.STRING);
+	private static final DataParameter<String> ROLE = EntityDataManager.defineId(TofunianEntity.class, DataSerializers.STRING);
 	@Nullable
 	private BlockPos tofunainHome;
 	@Nullable
@@ -68,11 +71,11 @@ public class TofunianEntity extends AbstractTofunianEntity implements IReputatio
 	private PlayerEntity previousCustomer;
 
 	private int xp;
-	private int level;
+	private int tofunianLevel;
 
 	public TofunianEntity(EntityType<? extends TofunianEntity> type, World worldIn) {
 		super(type, worldIn);
-		((GroundPathNavigator) this.getNavigator()).setBreakDoors(true);
+		((GroundPathNavigator) this.getNavigation()).setCanOpenDoors(true);
 		this.setCanPickUpLoot(true);
 	}
 
@@ -96,21 +99,21 @@ public class TofunianEntity extends AbstractTofunianEntity implements IReputatio
 	}
 
 	public static AttributeModifierMap.MutableAttribute registerAttributes() {
-		return MonsterEntity.func_234295_eP_().createMutableAttribute(Attributes.MOVEMENT_SPEED, (double) 0.24F).createMutableAttribute(Attributes.FOLLOW_RANGE, 20.0D);
+		return MobEntity.createMobAttributes().add(Attributes.MOVEMENT_SPEED, (double) 0.24F).add(Attributes.FOLLOW_RANGE, 20.0D);
 	}
 
 	@Override
-	protected void registerData() {
-		super.registerData();
-		this.dataManager.register(ROLE, Roles.TOFUNIAN.name());
+	protected void defineSynchedData() {
+		super.defineSynchedData();
+		this.entityData.define(ROLE, Roles.TOFUNIAN.name());
 	}
 
 	public void setRole(Roles role) {
-		this.getDataManager().set(ROLE, role.name());
+		this.entityData.set(ROLE, role.name());
 	}
 
 	public Roles getRole() {
-		return Roles.get(this.getDataManager().get(ROLE));
+		return Roles.get(this.entityData.get(ROLE));
 	}
 
 	public void setTofunainHome(@Nullable BlockPos pos) {
@@ -139,122 +142,121 @@ public class TofunianEntity extends AbstractTofunianEntity implements IReputatio
 	}
 
 	@Override
-	protected void updateAITasks() {
-		if (!this.hasCustomer() && this.timeUntilReset > 0) {
+	protected void customServerAiStep() {
+		if (!this.isTrading() && this.timeUntilReset > 0) {
 			--this.timeUntilReset;
 			if (this.timeUntilReset <= 0) {
 				if (this.leveledUp) {
-					this.levelUp();
+					this.increaseMerchantCareer();
 					this.leveledUp = false;
 				}
 
-				this.addPotionEffect(new EffectInstance(Effects.REGENERATION, 200, 0));
+				this.addEffect(new EffectInstance(Effects.REGENERATION, 200, 0));
 			}
 		}
 
-		if (this.previousCustomer != null && this.world instanceof ServerWorld) {
-			((ServerWorld) this.world).updateReputation(IReputationType.TRADE, this.previousCustomer, this);
-			this.world.setEntityState(this, (byte) 14);
+		if (this.previousCustomer != null && this.getCommandSenderWorld() instanceof ServerWorld) {
+			((ServerWorld) this.getCommandSenderWorld()).onReputationEvent(IReputationType.TRADE, this.previousCustomer, this);
+			this.getCommandSenderWorld().broadcastEntityEvent(this, (byte) 14);
 			this.previousCustomer = null;
 		}
 
-		if (this.getRole() == Roles.TOFUNIAN && this.hasCustomer()) {
-			this.resetCustomer();
+		if (this.getRole() == Roles.TOFUNIAN && this.isTrading()) {
+			this.stopTrading();
 		}
 
-		super.updateAITasks();
+		super.customServerAiStep();
 	}
 
-	public void updateReputation(IReputationType type, Entity target) {
+	public void onReputationEvent(IReputationType type, Entity target) {
 		if (type == IReputationType.ZOMBIE_VILLAGER_CURED) {
-			this.gossip.add(target.getUniqueID(), GossipType.MAJOR_POSITIVE, 20);
-			this.gossip.add(target.getUniqueID(), GossipType.MINOR_POSITIVE, 25);
+			this.gossip.add(target.getUUID(), GossipType.MAJOR_POSITIVE, 20);
+			this.gossip.add(target.getUUID(), GossipType.MINOR_POSITIVE, 25);
 		} else if (type == IReputationType.TRADE) {
-			this.gossip.add(target.getUniqueID(), GossipType.TRADING, 2);
+			this.gossip.add(target.getUUID(), GossipType.TRADING, 2);
 		} else if (type == IReputationType.VILLAGER_HURT) {
-			this.gossip.add(target.getUniqueID(), GossipType.MINOR_NEGATIVE, 25);
+			this.gossip.add(target.getUUID(), GossipType.MINOR_NEGATIVE, 25);
 		} else if (type == IReputationType.VILLAGER_KILLED) {
-			this.gossip.add(target.getUniqueID(), GossipType.MAJOR_NEGATIVE, 25);
+			this.gossip.add(target.getUUID(), GossipType.MAJOR_NEGATIVE, 25);
 		}
 
 	}
 
 	@Override
-	protected void onVillagerTrade(MerchantOffer offer) {
-		int i = 3 + this.rand.nextInt(4);
-		this.xp += offer.getGivenExp();
-		this.previousCustomer = this.getCustomer();
+	protected void rewardTradeXp(MerchantOffer offer) {
+		int i = 3 + this.random.nextInt(4);
+		this.xp += offer.getXp();
+		this.previousCustomer = this.getTradingPlayer();
 		if (this.canLevelUp()) {
 			this.timeUntilReset = 40;
 			this.leveledUp = true;
 			i += 5;
 		}
 
-		if (offer.getDoesRewardExp()) {
-			this.world.addEntity(new ExperienceOrbEntity(this.world, this.getPosX(), this.getPosY() + 0.5D, this.getPosZ(), i));
+		if (offer.shouldRewardExp()) {
+			this.getCommandSenderWorld().addFreshEntity(new ExperienceOrbEntity(this.getCommandSenderWorld(), this.getX(), this.getY() + 0.5D, this.getZ(), i));
 		}
 	}
 
-	public ActionResultType func_230254_b_(PlayerEntity p_230254_1_, Hand p_230254_2_) {
-		ItemStack itemstack = p_230254_1_.getHeldItem(p_230254_2_);
-		if (itemstack.getItem() != TofuItems.TOFUNIAN_SPAWNEGG && this.isAlive() && !this.hasCustomer() && !this.isChild()) {
+	public ActionResultType mobInteract(PlayerEntity p_230254_1_, Hand p_230254_2_) {
+		ItemStack itemstack = p_230254_1_.getItemInHand(p_230254_2_);
+		if (itemstack.getItem() != TofuItems.TOFUNIAN_SPAWNEGG && this.isAlive() && !this.isTrading() && !this.isBaby()) {
 
-			if (this.isChild()) {
+			if (this.isBaby()) {
 				this.shakeHead();
-				return ActionResultType.func_233537_a_(this.world.isRemote);
+				return ActionResultType.sidedSuccess(this.getCommandSenderWorld().isClientSide());
 			} else {
 				boolean flag = this.getOffers().isEmpty();
 				if (p_230254_2_ == Hand.MAIN_HAND) {
-					if (flag && !this.world.isRemote) {
+					if (flag && !this.getCommandSenderWorld().isClientSide()) {
 						this.shakeHead();
 					}
 
-					p_230254_1_.addStat(Stats.TALKED_TO_VILLAGER);
+					p_230254_1_.awardStat(Stats.TALKED_TO_VILLAGER);
 				}
 
 				if (flag) {
-					return ActionResultType.func_233537_a_(this.world.isRemote);
+					return ActionResultType.sidedSuccess(this.getCommandSenderWorld().isClientSide());
 				} else {
-					if (!this.world.isRemote && !this.offers.isEmpty()) {
+					if (!this.getCommandSenderWorld().isClientSide() && !this.offers.isEmpty()) {
 						this.displayMerchantGui(p_230254_1_);
 					}
 
-					return ActionResultType.func_233537_a_(this.world.isRemote);
+					return ActionResultType.sidedSuccess(this.getCommandSenderWorld().isClientSide());
 				}
 			}
 		} else {
-			return ActionResultType.func_233537_a_(this.world.isRemote);
+			return ActionResultType.sidedSuccess(this.getCommandSenderWorld().isClientSide());
 		}
 	}
 
 	private void displayMerchantGui(PlayerEntity player) {
 		this.recalculateSpecialPricesFor(player);
-		this.setCustomer(player);
-		this.openMerchantContainer(player, this.getDisplayName(), level);
+		this.setTradingPlayer(player);
+		this.openTradingScreen(player, this.getDisplayName(), tofunianLevel);
 	}
 
-	public void setCustomer(@Nullable PlayerEntity player) {
-		boolean flag = this.getCustomer() != null && player == null;
-		super.setCustomer(player);
+	public void setTradingPlayer(@Nullable PlayerEntity player) {
+		boolean flag = this.getTradingPlayer() != null && player == null;
+		super.setTradingPlayer(player);
 		if (flag) {
-			this.resetCustomer();
+			this.stopTrading();
 		}
 
 	}
 
-	protected void resetCustomer() {
-		super.resetCustomer();
-		this.resetAllSpecialPrices();
+	protected void stopTrading() {
+		super.stopTrading();
+		this.resetSpecialPrices();
 	}
 
-	private void resetAllSpecialPrices() {
+	private void resetSpecialPrices() {
 		for (MerchantOffer merchantoffer : this.getOffers()) {
-			merchantoffer.resetSpecialPrice();
+			merchantoffer.resetSpecialPriceDiff();
 		}
-
 	}
 
-	public boolean canRestockTrades() {
+	public boolean canRestock() {
 		return true;
 	}
 
@@ -264,19 +266,19 @@ public class TofunianEntity extends AbstractTofunianEntity implements IReputatio
 		for (MerchantOffer merchantoffer : this.getOffers()) {
 			merchantoffer.resetUses();
 		}
-		this.lastRestock = this.world.getGameTime();
+		this.lastRestock = this.getCommandSenderWorld().getGameTime();
 		++this.restocksToday;
 	}
 
-	private boolean canRestock() {
-		return this.restocksToday == 0 || this.restocksToday < 2 && this.world.getGameTime() > this.lastRestock + 2400L;
+	private boolean allowedToRestock() {
+		return this.restocksToday == 0 || this.restocksToday < 2 && this.getCommandSenderWorld().getGameTime() > this.lastRestock + 2400L;
 	}
 
 	public boolean canResetStock() {
 		long i = this.lastRestock + 12000L;
-		long j = this.world.getGameTime();
+		long j = this.getCommandSenderWorld().getGameTime();
 		boolean flag = j > i;
-		long k = this.world.getDayTime();
+		long k = this.getCommandSenderWorld().getDayTime();
 		if (this.lastRestockDayTime > 0L) {
 			long l = this.lastRestockDayTime / 24000L;
 			long i1 = k / 24000L;
@@ -289,7 +291,7 @@ public class TofunianEntity extends AbstractTofunianEntity implements IReputatio
 			this.func_223718_eH();
 		}
 
-		return this.canRestock() && this.hasUsedOffer();
+		return this.allowedToRestock() && this.hasUsedOffer();
 	}
 
 	private void func_223718_eH() {
@@ -313,7 +315,7 @@ public class TofunianEntity extends AbstractTofunianEntity implements IReputatio
 
 	private boolean hasUsedOffer() {
 		for (MerchantOffer merchantoffer : this.getOffers()) {
-			if (merchantoffer.hasBeenUsed()) {
+			if (merchantoffer.needsRestock()) {
 				return true;
 			}
 		}
@@ -323,7 +325,7 @@ public class TofunianEntity extends AbstractTofunianEntity implements IReputatio
 
 	private void calculateDemandOfOffers() {
 		for (MerchantOffer merchantoffer : this.getOffers()) {
-			merchantoffer.calculateDemand();
+			merchantoffer.updateDemand();
 		}
 
 	}
@@ -332,18 +334,7 @@ public class TofunianEntity extends AbstractTofunianEntity implements IReputatio
 		int i = this.getPlayerReputation(playerIn);
 		if (i != 0) {
 			for (MerchantOffer merchantoffer : this.getOffers()) {
-				merchantoffer.increaseSpecialPrice(-MathHelper.floor((float) i * merchantoffer.getPriceMultiplier()));
-			}
-		}
-
-		if (playerIn.isPotionActive(Effects.HERO_OF_THE_VILLAGE)) {
-			EffectInstance effectinstance = playerIn.getActivePotionEffect(Effects.HERO_OF_THE_VILLAGE);
-			int k = effectinstance.getAmplifier();
-
-			for (MerchantOffer merchantoffer1 : this.getOffers()) {
-				double d0 = 0.3D + 0.0625D * (double) k;
-				int j = (int) Math.floor(d0 * (double) merchantoffer1.getBuyingStackFirst().getCount());
-				merchantoffer1.increaseSpecialPrice(-Math.max(j, 1));
+				merchantoffer.addToSpecialPriceDiff(-MathHelper.floor((float) i * merchantoffer.getPriceMultiplier()));
 			}
 		}
 	}
@@ -353,35 +344,35 @@ public class TofunianEntity extends AbstractTofunianEntity implements IReputatio
 	}
 
 	private boolean canLevelUp() {
-		int i = this.level;
-		return VillagerData.canLevelUp(i) && this.xp >= VillagerData.getExperienceNext(i);
+		int i = this.tofunianLevel;
+		return VillagerData.canLevelUp(i) && this.xp >= VillagerData.getMaxXpPerLevel(i);
 	}
 
-	private void levelUp() {
-		this.setLevel(this.level + 1);
-		this.populateTradeData();
+	private void increaseMerchantCareer() {
+		this.setTofunainLevel(this.tofunianLevel + 1);
+		this.updateTrades();
 	}
 
-	public void setLevel(int level) {
-		this.level = level;
+	public void setTofunainLevel(int level) {
+		this.tofunianLevel = level;
 	}
 
-	public int getLevel() {
-		return level;
+	public int getTofunainLevel() {
+		return tofunianLevel;
 	}
 
 	public int getPlayerReputation(PlayerEntity player) {
-		return this.gossip.getReputation(player.getUniqueID(), (gossipType) -> {
+		return this.gossip.getReputation(player.getUUID(), (gossipType) -> {
 			return true;
 		});
 	}
 
-	public void writeAdditional(CompoundNBT compound) {
-		super.writeAdditional(compound);
+	public void addAdditionalSaveData(CompoundNBT compound) {
+		super.addAdditionalSaveData(compound);
 		//compound.putByte("FoodLevel", this.foodLevel);
-		compound.put("Gossips", this.gossip.write(NBTDynamicOps.INSTANCE).getValue());
+		compound.put("Gossips", this.gossip.store(NBTDynamicOps.INSTANCE).getValue());
 		compound.putInt("Xp", this.xp);
-		compound.putInt("Level", this.level);
+		compound.putInt("Level", this.tofunianLevel);
 		compound.putLong("LastRestock", this.lastRestock);
 		compound.putLong("LastGossipDecay", this.lastGossipDecay);
 		compound.putInt("RestocksToday", this.restocksToday);
@@ -400,8 +391,8 @@ public class TofunianEntity extends AbstractTofunianEntity implements IReputatio
 	/**
 	 * (abstract) Protected helper method to read subclass entity data from NBT.
 	 */
-	public void readAdditional(CompoundNBT compound) {
-		super.readAdditional(compound);
+	public void readAdditionalSaveData(CompoundNBT compound) {
+		super.readAdditionalSaveData(compound);
 
 		if (compound.contains("Offers", 10)) {
 			this.offers = new MerchantOffers(compound.getCompound("Offers"));
@@ -412,13 +403,13 @@ public class TofunianEntity extends AbstractTofunianEntity implements IReputatio
 		}*/
 
 		ListNBT listnbt = compound.getList("Gossips", 10);
-		this.gossip.read(new Dynamic<>(NBTDynamicOps.INSTANCE, listnbt));
+		this.gossip.update(new Dynamic<>(NBTDynamicOps.INSTANCE, listnbt));
 		if (compound.contains("Xp", 3)) {
 			this.xp = compound.getInt("Xp");
 		}
 
 		if (compound.contains("Level", 3)) {
-			this.level = compound.getInt("Level");
+			this.tofunianLevel = compound.getInt("Level");
 		}
 
 		this.lastGossipDecay = compound.getLong("LastGossipDecay");
@@ -441,13 +432,13 @@ public class TofunianEntity extends AbstractTofunianEntity implements IReputatio
 	}
 
 	@Override
-	protected void populateTradeData() {
+	protected void updateTrades() {
 		Int2ObjectMap<VillagerTrades.ITrade[]> int2objectmap = TofuTrades.TOFUNIAN_TRADE.get(getRole());
 		if (int2objectmap != null && !int2objectmap.isEmpty()) {
-			VillagerTrades.ITrade[] avillagertrades$itrade = int2objectmap.get(level);
+			VillagerTrades.ITrade[] avillagertrades$itrade = int2objectmap.get(tofunianLevel);
 			if (avillagertrades$itrade != null) {
 				MerchantOffers merchantoffers = this.getOffers();
-				this.addTrades(merchantoffers, avillagertrades$itrade, 3);
+				this.addOffersFromItemListings(merchantoffers, avillagertrades$itrade, 3);
 			}
 		}
 	}
@@ -459,11 +450,11 @@ public class TofunianEntity extends AbstractTofunianEntity implements IReputatio
 	}
 
 	private void tickGossip() {
-		long i = this.world.getGameTime();
+		long i = this.getCommandSenderWorld().getGameTime();
 		if (this.lastGossipDecay == 0L) {
 			this.lastGossipDecay = i;
 		} else if (i >= this.lastGossipDecay + 24000L) {
-			this.gossip.tick();
+			this.gossip.decay();
 			this.lastGossipDecay = i;
 		}
 	}
@@ -473,38 +464,32 @@ public class TofunianEntity extends AbstractTofunianEntity implements IReputatio
 	}
 
 	public void setGossips(INBT gossip) {
-		this.gossip.read(new Dynamic<>(NBTDynamicOps.INSTANCE, gossip));
+		this.gossip.update(new Dynamic<>(NBTDynamicOps.INSTANCE, gossip));
 	}
 
-	public void onDeath(DamageSource cause) {
-		LOGGER.info("Villager {} died, message: '{}'", this, cause.getDeathMessage(this).getString());
-		Entity entity = cause.getTrueSource();
-		if (entity != null) {
-			this.sawMurder(entity);
-		}
-
-		super.onDeath(cause);
-	}
-
-
-	private void sawMurder(Entity murderer) {
-		if (this.world instanceof ServerWorld) {
-			Optional<List<LivingEntity>> optional = this.brain.getMemory(MemoryModuleType.VISIBLE_MOBS);
-			if (optional.isPresent()) {
-				ServerWorld serverworld = (ServerWorld) this.world;
-				optional.get().stream().filter((gossipTarget) -> {
-					return gossipTarget instanceof IReputationTracking;
-				}).forEach((gossipTarget) -> {
-					serverworld.updateReputation(IReputationType.VILLAGER_KILLED, murderer, (IReputationTracking) gossipTarget);
-				});
-			}
-		}
+	public void die(DamageSource cause) {
+		super.die(cause);
 	}
 
 	@Nullable
 	@Override
-	public AgeableEntity func_241840_a(ServerWorld p_241840_1_, AgeableEntity p_241840_2_) {
+	public AgeableEntity getBreedOffspring(ServerWorld p_241840_1_, AgeableEntity p_241840_2_) {
 		return TofuEntityTypes.TOFUNIAN.create(p_241840_1_);
+	}
+
+	@Override
+	public void onReputationEventFrom(IReputationType p_213739_1_, Entity p_213739_2_) {
+		if (p_213739_1_ == IReputationType.ZOMBIE_VILLAGER_CURED) {
+			this.gossip.add(p_213739_2_.getUUID(), GossipType.MAJOR_POSITIVE, 20);
+			this.gossip.add(p_213739_2_.getUUID(), GossipType.MINOR_POSITIVE, 25);
+		} else if (p_213739_1_ == IReputationType.TRADE) {
+			this.gossip.add(p_213739_2_.getUUID(), GossipType.TRADING, 2);
+		} else if (p_213739_1_ == IReputationType.VILLAGER_HURT) {
+			this.gossip.add(p_213739_2_.getUUID(), GossipType.MINOR_NEGATIVE, 25);
+		} else if (p_213739_1_ == IReputationType.VILLAGER_KILLED) {
+			this.gossip.add(p_213739_2_.getUUID(), GossipType.MAJOR_NEGATIVE, 25);
+		}
+
 	}
 
 	public enum Roles implements IExtensibleEnum {

@@ -23,13 +23,13 @@ public class TravelerTofunianWorldData extends WorldSavedData {
 
 	public static TravelerTofunianWorldData get(World world) {
 		if (world instanceof ServerWorld) {
-			ServerWorld overworld = world.getServer().getWorld(world.getDimensionKey());
+			ServerWorld overworld = world.getServer().getLevel(world.dimension());
 
-			DimensionSavedDataManager storage = overworld.getSavedData();
-			TravelerTofunianWorldData data = storage.getOrCreate(TravelerTofunianWorldData::new, IDENTIFIER);
+			DimensionSavedDataManager storage = overworld.getDataStorage();
+			TravelerTofunianWorldData data = storage.get(TravelerTofunianWorldData::new, IDENTIFIER);
 			if (data != null) {
 				data.world = world;
-				data.markDirty();
+				data.setDirty();
 			}
 			return data;
 		}
@@ -56,16 +56,13 @@ public class TravelerTofunianWorldData extends WorldSavedData {
 		this.tofunianID = id;
 	}
 
-	public void debug() {
-	}
-
 
 	public void tick() {
 		++this.tickCounter;
 	}
 
 	@Override
-	public void read(CompoundNBT nbt) {
+	public void load(CompoundNBT nbt) {
 		if (nbt.contains("TravelerTofunianSpawnDelay", 99)) {
 			this.tofunianSpawnDelay = nbt.getInt("TravelerTofunianSpawnDelay");
 		}
@@ -81,7 +78,7 @@ public class TravelerTofunianWorldData extends WorldSavedData {
 	}
 
 	@Override
-	public CompoundNBT write(CompoundNBT compound) {
+	public CompoundNBT save(CompoundNBT compound) {
 		compound.putInt("TravelerTofunianSpawnDelay", this.tofunianSpawnDelay);
 		compound.putInt("TravelerTofunianSpawnChance", this.tofunianSpawnChance);
 		if (this.tofunianID != null) {

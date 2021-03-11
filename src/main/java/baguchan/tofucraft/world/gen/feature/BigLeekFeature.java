@@ -16,23 +16,23 @@ import java.util.Random;
 
 public class BigLeekFeature extends Feature<NoFeatureConfig> {
 	private static final Direction[] directionArray = Direction.values();
-	private static final BlockState GREEN_LEEK = TofuBlocks.LEEK_GREEN_STEM.getDefaultState();
-	private static final BlockState LEEK = TofuBlocks.LEEK_STEM.getDefaultState();
+	private static final BlockState GREEN_LEEK = TofuBlocks.LEEK_GREEN_STEM.defaultBlockState();
+	private static final BlockState LEEK = TofuBlocks.LEEK_STEM.defaultBlockState();
 
 	public BigLeekFeature(Codec<NoFeatureConfig> p_i49919_1_) {
 		super(p_i49919_1_);
 	}
 
 
-	public boolean generate(ISeedReader seedReader, ChunkGenerator chunkGenerator, Random rand, BlockPos pos, NoFeatureConfig config) {
-		BlockPos pos2 = seedReader.getHeight(Heightmap.Type.MOTION_BLOCKING, pos);
+	public boolean place(ISeedReader seedReader, ChunkGenerator chunkGenerator, Random rand, BlockPos pos, NoFeatureConfig config) {
+		BlockPos pos2 = seedReader.getHeightmapPos(Heightmap.Type.MOTION_BLOCKING, pos);
 
 
-		if (!seedReader.isAirBlock(pos2)) {
+		if (!seedReader.isEmptyBlock(pos2)) {
 			return false;
 		}
-		BlockState blockstate = seedReader.getBlockState(pos2.down());
-		if (!blockstate.isIn(TofuBlocks.TOFU_TERRAIN)) {
+		BlockState blockstate = seedReader.getBlockState(pos2.below());
+		if (!blockstate.is(TofuBlocks.TOFU_TERRAIN)) {
 			return false;
 		}
 		setLeekBlock((IWorld) seedReader, rand, pos2);
@@ -45,9 +45,9 @@ public class BigLeekFeature extends Feature<NoFeatureConfig> {
 
 		for (int i = 0; i < height; i++) {
 			if ((height - i) < height / 2.5D) {
-				world.setBlockState(pos.up(i), GREEN_LEEK, 2);
+				world.setBlock(pos.above(i), GREEN_LEEK, 2);
 			} else {
-				world.setBlockState(pos.up(i), LEEK, 2);
+				world.setBlock(pos.above(i), LEEK, 2);
 			}
 		}
 	}

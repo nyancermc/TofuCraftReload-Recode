@@ -19,35 +19,35 @@ public class SleepOnBedGoal extends MoveToBlockGoal {
 	}
 
 	@Override
-	public boolean shouldExecute() {
-		return super.shouldExecute() && !this.creature.world.isDaytime() && !this.creature.isSleeping();
+	public boolean canUse() {
+		return super.canUse() && !this.creature.level.isDay() && !this.creature.isSleeping();
 	}
 
 	@Override
 	public void tick() {
 		super.tick();
 
-		if (this.getIsAboveDestination()) {
-			this.creature.startSleeping(this.destinationBlock);
-			this.creature.setTofunainHome(this.destinationBlock);
+		if (this.isReachedTarget()) {
+			this.creature.startSleeping(this.blockPos);
+			this.creature.setTofunainHome(this.blockPos);
 		}
 	}
 
 	@Override
-	protected boolean shouldMoveTo(IWorldReader worldIn, BlockPos pos) {
+	protected boolean isValidTarget(IWorldReader worldIn, BlockPos pos) {
 		BlockState blockstate = worldIn.getBlockState(pos);
 		Block block = blockstate.getBlock();
 
-		return blockstate.isIn(BlockTags.BEDS) && blockstate.get(BedBlock.PART) == BedPart.HEAD && !blockstate.get(BedBlock.OCCUPIED);
+		return blockstate.is(BlockTags.BEDS) && blockstate.getValue(BedBlock.PART) == BedPart.HEAD && !blockstate.getValue(BedBlock.OCCUPIED);
 	}
 
-	protected boolean searchForDestination() {
+	protected boolean findNearestBlock() {
 		if (this.creature.getTofunainHome() != null) {
-			if (this.shouldMoveTo(this.creature.world, this.creature.getTofunainHome())) {
-				this.destinationBlock = this.creature.getTofunainHome();
+			if (this.isValidTarget(this.creature.level, this.creature.getTofunainHome())) {
+				this.blockPos = this.creature.getTofunainHome();
 				return true;
 			}
 		}
-		return super.searchForDestination();
+		return super.findNearestBlock();
 	}
 }

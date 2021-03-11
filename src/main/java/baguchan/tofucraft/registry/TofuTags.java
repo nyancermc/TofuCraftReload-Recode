@@ -13,7 +13,7 @@ public class TofuTags {
 		public static final ITag.INamedTag<Block> TOFU_TERRAIN = tag("tofu_terrain");
 
 		private static ITag.INamedTag<Block> tag(String name) {
-			return BlockTags.makeWrapperTag(TofuCraftReload.MODID + ":" + name);
+			return BlockTags.bind(TofuCraftReload.MODID + ":" + name);
 		}
 	}
 
@@ -21,7 +21,7 @@ public class TofuTags {
 		public static final ITag.INamedTag<Fluid> SOYMILK = tag("soymilk");
 
 		private static ITag.INamedTag<Fluid> tag(String name) {
-			return FluidTags.makeWrapperTag(TofuCraftReload.MODID + ":" + name);
+			return FluidTags.bind(TofuCraftReload.MODID + ":" + name);
 		}
 	}
 }

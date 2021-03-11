@@ -20,7 +20,7 @@ public class TofuCowRender extends MobRenderer<TofuCowEntity, CowModel<TofuCowEn
 	/**
 	 * Returns the location of an entity's texture.
 	 */
-	public ResourceLocation getEntityTexture(TofuCowEntity entity) {
+	public ResourceLocation getTextureLocation(TofuCowEntity entity) {
 		return TEXTURE;
 	}
 }

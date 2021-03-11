@@ -1,6 +1,5 @@
 package baguchan.tofucraft.entity;
 
-import baguchan.tofucraft.registry.TofuItems;
 import baguchan.tofucraft.registry.TofuTrades;
 import net.minecraft.entity.AgeableEntity;
 import net.minecraft.entity.EntityType;
@@ -10,15 +9,16 @@ import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.item.ExperienceOrbEntity;
 import net.minecraft.entity.merchant.villager.VillagerTrades;
-import net.minecraft.entity.monster.*;
+import net.minecraft.entity.monster.AbstractIllagerEntity;
+import net.minecraft.entity.monster.RavagerEntity;
+import net.minecraft.entity.monster.ZoglinEntity;
+import net.minecraft.entity.monster.ZombieEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.MerchantOffer;
-import net.minecraft.item.MerchantOffers;
+import net.minecraft.item.*;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.NBTUtil;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
+import net.minecraft.stats.Stats;
+import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
@@ -35,7 +35,7 @@ public class TravelerTofunianEntity extends AbstractTofunianEntity {
 	public TravelerTofunianEntity(EntityType<? extends TravelerTofunianEntity> type, World worldIn) {
 		super(type, worldIn);
 		this.setCanPickUpLoot(false);
-		this.forceSpawn = true;
+		this.forcedLoading = true;
 	}
 
 	@Override
@@ -54,11 +54,12 @@ public class TravelerTofunianEntity extends AbstractTofunianEntity {
 	}
 
 	public static AttributeModifierMap.MutableAttribute registerAttributes() {
-		return MonsterEntity.func_234295_eP_().createMutableAttribute(Attributes.MOVEMENT_SPEED, (double) 0.24F).createMutableAttribute(Attributes.FOLLOW_RANGE, 20.0D);
+		return MobEntity.createMobAttributes().add(Attributes.MOVEMENT_SPEED, (double) 0.24F).add(Attributes.FOLLOW_RANGE, 20.0D);
 	}
 
-	public void writeAdditional(CompoundNBT compound) {
-		super.writeAdditional(compound);
+
+	public void addAdditionalSaveData(CompoundNBT compound) {
+		super.addAdditionalSaveData(compound);
 		compound.putInt("DespawnDelay", this.despawnDelay);
 		if (this.wanderTarget != null) {
 			compound.put("WanderTarget", NBTUtil.writeBlockPos(this.wanderTarget));
@@ -69,8 +70,8 @@ public class TravelerTofunianEntity extends AbstractTofunianEntity {
 	/**
 	 * (abstract) Protected helper method to read subclass entity data from NBT.
 	 */
-	public void readAdditional(CompoundNBT compound) {
-		super.readAdditional(compound);
+	public void readAdditionalSaveData(CompoundNBT compound) {
+		super.readAdditionalSaveData(compound);
 		if (compound.contains("DespawnDelay", 99)) {
 			this.despawnDelay = compound.getInt("DespawnDelay");
 		}
@@ -79,89 +80,113 @@ public class TravelerTofunianEntity extends AbstractTofunianEntity {
 			this.wanderTarget = NBTUtil.readBlockPos(compound.getCompound("WanderTarget"));
 		}
 
-		this.setGrowingAge(Math.max(0, this.getGrowingAge()));
+		this.setAge(Math.max(0, this.getAge()));
 	}
 
-	@Override
-	protected void onVillagerTrade(MerchantOffer offer) {
-		if (offer.getDoesRewardExp()) {
-			int i = 3 + this.rand.nextInt(4);
-			this.world.addEntity(new ExperienceOrbEntity(this.world, this.getPosX(), this.getPosY() + 0.5D, this.getPosZ(), i));
+	@Nullable
+	public AgeableEntity getBreedOffspring(ServerWorld p_241840_1_, AgeableEntity p_241840_2_) {
+		return null;
+	}
+
+	public boolean showProgressBar() {
+		return false;
+	}
+
+	public ActionResultType mobInteract(PlayerEntity p_230254_1_, Hand p_230254_2_) {
+		ItemStack itemstack = p_230254_1_.getItemInHand(p_230254_2_);
+		if (itemstack.getItem() != Items.VILLAGER_SPAWN_EGG && this.isAlive() && !this.isTrading() && !this.isBaby()) {
+			if (p_230254_2_ == Hand.MAIN_HAND) {
+				p_230254_1_.awardStat(Stats.TALKED_TO_VILLAGER);
+			}
+
+			if (this.getOffers().isEmpty()) {
+				return ActionResultType.sidedSuccess(this.level.isClientSide);
+			} else {
+				if (!this.level.isClientSide) {
+					this.setTradingPlayer(p_230254_1_);
+					this.openTradingScreen(p_230254_1_, this.getDisplayName(), 1);
+				}
+
+				return ActionResultType.sidedSuccess(this.level.isClientSide);
+			}
+		} else {
+			return super.mobInteract(p_230254_1_, p_230254_2_);
 		}
 	}
 
-	@Override
-	protected void populateTradeData() {
+	protected void updateTrades() {
 		VillagerTrades.ITrade[] avillagertrades$itrade = TofuTrades.TRAVELER_TOFUNIAN_TRADE.get(1);
 		VillagerTrades.ITrade[] avillagertrades$itrade1 = TofuTrades.TRAVELER_TOFUNIAN_TRADE.get(2);
 		if (avillagertrades$itrade != null && avillagertrades$itrade1 != null) {
 			MerchantOffers merchantoffers = this.getOffers();
-			this.addTrades(merchantoffers, avillagertrades$itrade, 2);
-			this.addTrades(merchantoffers, avillagertrades$itrade1, 2);
+			this.addOffersFromItemListings(merchantoffers, avillagertrades$itrade, 3);
+			this.addOffersFromItemListings(merchantoffers, avillagertrades$itrade1, 3);
+
 		}
 	}
 
-	@Nullable
-	@Override
-	public AgeableEntity func_241840_a(ServerWorld p_241840_1_, AgeableEntity p_241840_2_) {
-		return null;
+	public boolean removeWhenFarAway(double p_213397_1_) {
+		return false;
 	}
 
-	public ActionResultType func_230254_b_(PlayerEntity p_230254_1_, Hand p_230254_2_) {
-		ItemStack itemstack = p_230254_1_.getHeldItem(p_230254_2_);
-		if (itemstack.getItem() != TofuItems.TRAVELER_TOFUNIAN_SPAWNEGG && this.isAlive() && !this.hasCustomer() && !this.isChild()) {
-
-			if (this.getOffers().isEmpty()) {
-				this.shakeHead();
-			} else {
-				if (!this.world.isRemote) {
-					this.setCustomer(p_230254_1_);
-					this.openMerchantContainer(p_230254_1_, this.getDisplayName(), 1);
-				}
-			}
-
-
-			return ActionResultType.func_233537_a_(this.world.isRemote);
-		} else {
-
-
-			return ActionResultType.func_233537_a_(this.world.isRemote);
+	protected void rewardTradeXp(MerchantOffer p_213713_1_) {
+		if (p_213713_1_.shouldRewardExp()) {
+			int i = 3 + this.random.nextInt(4);
+			this.level.addFreshEntity(new ExperienceOrbEntity(this.level, this.getX(), this.getY() + 0.5D, this.getZ(), i));
 		}
+
 	}
 
-	public void setDespawnDelay(int delay) {
-		this.despawnDelay = delay;
+	protected SoundEvent getAmbientSound() {
+		return this.isTrading() ? SoundEvents.WANDERING_TRADER_TRADE : SoundEvents.WANDERING_TRADER_AMBIENT;
+	}
+
+	protected SoundEvent getHurtSound(DamageSource p_184601_1_) {
+		return SoundEvents.WANDERING_TRADER_HURT;
+	}
+
+	protected SoundEvent getDeathSound() {
+		return SoundEvents.WANDERING_TRADER_DEATH;
+	}
+
+	protected SoundEvent getDrinkingSound(ItemStack p_213351_1_) {
+		Item item = p_213351_1_.getItem();
+		return item == Items.MILK_BUCKET ? SoundEvents.WANDERING_TRADER_DRINK_MILK : SoundEvents.WANDERING_TRADER_DRINK_POTION;
+	}
+
+	protected SoundEvent getTradeUpdatedSound(boolean p_213721_1_) {
+		return p_213721_1_ ? SoundEvents.WANDERING_TRADER_YES : SoundEvents.WANDERING_TRADER_NO;
+	}
+
+	public SoundEvent getNotifyTradeSound() {
+		return SoundEvents.WANDERING_TRADER_YES;
+	}
+
+	public void setDespawnDelay(int p_213728_1_) {
+		this.despawnDelay = p_213728_1_;
 	}
 
 	public int getDespawnDelay() {
 		return this.despawnDelay;
 	}
 
-	public boolean hasXPBar() {
-		return false;
-	}
-
-	/**
-	 * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
-	 * use this to react to sunlight and start to burn.
-	 */
-	public void livingTick() {
-		super.livingTick();
-		if (!this.world.isRemote) {
-			this.handleDespawn();
+	public void aiStep() {
+		super.aiStep();
+		if (!this.level.isClientSide) {
+			this.maybeDespawn();
 		}
 
 	}
 
-	private void handleDespawn() {
-		if (this.despawnDelay > 0 && !this.hasCustomer() && --this.despawnDelay == 0) {
+	private void maybeDespawn() {
+		if (this.despawnDelay > 0 && !this.isTrading() && --this.despawnDelay == 0) {
 			this.remove();
 		}
 
 	}
 
-	public void setWanderTarget(@Nullable BlockPos pos) {
-		this.wanderTarget = pos;
+	public void setWanderTarget(@Nullable BlockPos p_213726_1_) {
+		this.wanderTarget = p_213726_1_;
 	}
 
 	@Nullable
@@ -170,53 +195,43 @@ public class TravelerTofunianEntity extends AbstractTofunianEntity {
 	}
 
 	class MoveToGoal extends Goal {
-		final TravelerTofunianEntity traderEntity;
-		final double maxDistance;
-		final double speed;
+		final TravelerTofunianEntity trader;
+		final double stopDistance;
+		final double speedModifier;
 
-		MoveToGoal(TravelerTofunianEntity traderEntityIn, double distanceIn, double speedIn) {
-			this.traderEntity = traderEntityIn;
-			this.maxDistance = distanceIn;
-			this.speed = speedIn;
-			this.setMutexFlags(EnumSet.of(Goal.Flag.MOVE));
+		MoveToGoal(TravelerTofunianEntity p_i50459_2_, double p_i50459_3_, double p_i50459_5_) {
+			this.trader = p_i50459_2_;
+			this.stopDistance = p_i50459_3_;
+			this.speedModifier = p_i50459_5_;
+			this.setFlags(EnumSet.of(Goal.Flag.MOVE));
 		}
 
-		/**
-		 * Reset the task's internal state. Called when this task is interrupted by another one
-		 */
-		public void resetTask() {
-			this.traderEntity.setWanderTarget((BlockPos) null);
-			TravelerTofunianEntity.this.navigator.clearPath();
+		public void stop() {
+			this.trader.setWanderTarget((BlockPos) null);
+			TravelerTofunianEntity.this.navigation.stop();
 		}
 
-		/**
-		 * Returns whether execution should begin. You can also read and cache any state necessary for execution in this
-		 * method as well.
-		 */
-		public boolean shouldExecute() {
-			BlockPos blockpos = this.traderEntity.getWanderTarget();
-			return blockpos != null && this.isWithinDistance(blockpos, this.maxDistance);
+		public boolean canUse() {
+			BlockPos blockpos = this.trader.getWanderTarget();
+			return blockpos != null && this.isTooFarAway(blockpos, this.stopDistance);
 		}
 
-		/**
-		 * Keep ticking a continuous task that has already been started
-		 */
 		public void tick() {
-			BlockPos blockpos = this.traderEntity.getWanderTarget();
-			if (blockpos != null && TravelerTofunianEntity.this.navigator.noPath()) {
-				if (this.isWithinDistance(blockpos, 10.0D)) {
-					Vector3d vector3d = (new Vector3d((double) blockpos.getX() - this.traderEntity.getPosX(), (double) blockpos.getY() - this.traderEntity.getPosY(), (double) blockpos.getZ() - this.traderEntity.getPosZ())).normalize();
-					Vector3d vector3d1 = vector3d.scale(10.0D).add(this.traderEntity.getPosX(), this.traderEntity.getPosY(), this.traderEntity.getPosZ());
-					TravelerTofunianEntity.this.navigator.tryMoveToXYZ(vector3d1.x, vector3d1.y, vector3d1.z, this.speed);
+			BlockPos blockpos = this.trader.getWanderTarget();
+			if (blockpos != null && TravelerTofunianEntity.this.navigation.isDone()) {
+				if (this.isTooFarAway(blockpos, 10.0D)) {
+					Vector3d vector3d = (new Vector3d((double) blockpos.getX() - this.trader.getX(), (double) blockpos.getY() - this.trader.getY(), (double) blockpos.getZ() - this.trader.getZ())).normalize();
+					Vector3d vector3d1 = vector3d.scale(10.0D).add(this.trader.getX(), this.trader.getY(), this.trader.getZ());
+					TravelerTofunianEntity.this.navigation.moveTo(vector3d1.x, vector3d1.y, vector3d1.z, this.speedModifier);
 				} else {
-					TravelerTofunianEntity.this.navigator.tryMoveToXYZ((double) blockpos.getX(), (double) blockpos.getY(), (double) blockpos.getZ(), this.speed);
+					TravelerTofunianEntity.this.navigation.moveTo((double) blockpos.getX(), (double) blockpos.getY(), (double) blockpos.getZ(), this.speedModifier);
 				}
 			}
 
 		}
 
-		private boolean isWithinDistance(BlockPos pos, double distance) {
-			return !pos.withinDistance(this.traderEntity.getPositionVec(), distance);
+		private boolean isTooFarAway(BlockPos p_220846_1_, double p_220846_2_) {
+			return !p_220846_1_.closerThan(this.trader.position(), p_220846_2_);
 		}
 	}
 }

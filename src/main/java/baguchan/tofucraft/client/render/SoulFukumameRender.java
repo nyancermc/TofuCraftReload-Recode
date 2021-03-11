@@ -13,7 +13,7 @@ public class SoulFukumameRender<T extends SoulFukumameEntity> extends FukumameRe
 	}
 
 	@Override
-	public ResourceLocation getEntityTexture(T entity) {
+	public ResourceLocation getTextureLocation(T entity) {
 		return FUKUMAME_TEXTURE;
 	}
 }

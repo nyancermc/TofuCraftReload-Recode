@@ -17,27 +17,27 @@ public class RestockGoal extends MoveToBlockGoal {
 	}
 
 	@Override
-	public boolean shouldExecute() {
-		return this.creature.getRole() != TofunianEntity.Roles.TOFUNIAN && this.creature.canResetStock() && this.creature.world.isDaytime() && super.shouldExecute();
+	public boolean canUse() {
+		return this.creature.getRole() != TofunianEntity.Roles.TOFUNIAN && this.creature.canResetStock() && this.creature.getCommandSenderWorld().isDay() && super.canUse();
 	}
 
 	@Override
-	public boolean shouldContinueExecuting() {
-		return this.shouldExecute() && this.destinationBlock != null;
+	public boolean canContinueToUse() {
+		return this.canUse() && this.blockPos != null;
 	}
 
 	@Override
 	public void tick() {
 		super.tick();
 
-		if (this.getIsAboveDestination()) {
-			this.creature.setTofunainJobBlock(this.destinationBlock);
+		if (this.isReachedTarget()) {
+			this.creature.setTofunainJobBlock(this.blockPos);
 			this.creature.restock();
 		}
 	}
 
 	@Override
-	protected boolean shouldMoveTo(IWorldReader worldIn, BlockPos pos) {
+	protected boolean isValidTarget(IWorldReader worldIn, BlockPos pos) {
 		BlockState blockstate = worldIn.getBlockState(pos);
 		Block block = blockstate.getBlock();
 
@@ -46,13 +46,13 @@ public class RestockGoal extends MoveToBlockGoal {
 		}).isPresent();
 	}
 
-	protected boolean searchForDestination() {
+	protected boolean findNearestBlock() {
 		if (this.creature.getTofunainJobBlock() != null) {
-			if (this.shouldMoveTo(this.creature.world, this.creature.getTofunainJobBlock())) {
-				this.destinationBlock = this.creature.getTofunainJobBlock();
+			if (this.isValidTarget(this.creature.getCommandSenderWorld(), this.creature.getTofunainJobBlock())) {
+				this.blockPos = this.creature.getTofunainJobBlock();
 				return true;
 			}
 		}
-		return super.searchForDestination();
+		return super.findNearestBlock();
 	}
 }

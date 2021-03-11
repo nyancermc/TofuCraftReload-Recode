@@ -18,14 +18,14 @@ import net.minecraftforge.common.PlantType;
 import java.util.Random;
 
 public class SoybeanSoulCropsBlock extends CropsBlock {
-	private static final VoxelShape[] SHAPES = new VoxelShape[]{Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D), Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 3.0D, 16.0D), Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 4.0D, 16.0D), Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 5.0D, 16.0D), Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 6.0D, 16.0D), Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 7.0D, 16.0D), Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D), Block.makeCuboidShape(0.0D, 0.0D, 0.0D, 16.0D, 9.0D, 16.0D)};
+	private static final VoxelShape[] SHAPES = new VoxelShape[]{Block.box(0.0D, 0.0D, 0.0D, 16.0D, 2.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 3.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 4.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 5.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 6.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 7.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 8.0D, 16.0D), Block.box(0.0D, 0.0D, 0.0D, 16.0D, 9.0D, 16.0D)};
 
 	public SoybeanSoulCropsBlock(Block.Properties builder) {
 		super(builder);
 	}
 
-	protected boolean isValidGround(BlockState state, IBlockReader worldIn, BlockPos pos) {
-		return state.isIn(Blocks.SOUL_SAND) || state.isIn(Blocks.SOUL_SOIL);
+	protected boolean mayPlaceOn(BlockState state, IBlockReader worldIn, BlockPos pos) {
+		return state.is(Blocks.SOUL_SAND) || state.is(Blocks.SOUL_SOIL);
 	}
 
 	public void randomTick(BlockState state, ServerWorld worldIn, BlockPos pos, Random random) {
@@ -35,7 +35,7 @@ public class SoybeanSoulCropsBlock extends CropsBlock {
 		if (i < this.getMaxAge()) {
 			float f = getGrowthChance(this, worldIn, pos);
 			if (net.minecraftforge.common.ForgeHooks.onCropsGrowPre(worldIn, pos, state, random.nextInt((int) (25.0F / f) + 1) == 0)) {
-				worldIn.setBlockState(pos, this.withAge(i + 1), 2);
+				worldIn.setBlock(pos, this.getStateForAge(i + 1), 2);
 				net.minecraftforge.common.ForgeHooks.onCropsGrowPost(worldIn, pos, state);
 			}
 		}
@@ -43,13 +43,13 @@ public class SoybeanSoulCropsBlock extends CropsBlock {
 
 	protected static float getGrowthChance(Block blockIn, IBlockReader worldIn, BlockPos pos) {
 		float f = 1.0F;
-		BlockPos blockpos = pos.down();
+		BlockPos blockpos = pos.below();
 
 		for (int i = -1; i <= 1; ++i) {
 			for (int j = -1; j <= 1; ++j) {
 				float f1 = 0.0F;
-				BlockState blockstate = worldIn.getBlockState(blockpos.add(i, 0, j));
-				if (blockstate.canSustainPlant(worldIn, blockpos.add(i, 0, j), net.minecraft.util.Direction.UP, (net.minecraftforge.common.IPlantable) blockIn)) {
+				BlockState blockstate = worldIn.getBlockState(blockpos.offset(i, 0, j));
+				if (blockstate.canSustainPlant(worldIn, blockpos.offset(i, 0, j), net.minecraft.util.Direction.UP, (net.minecraftforge.common.IPlantable) blockIn)) {
 					f1 = 4.0F;
 				}
 
@@ -79,11 +79,11 @@ public class SoybeanSoulCropsBlock extends CropsBlock {
 		return f;
 	}
 
-	public boolean isValidPosition(BlockState state, IWorldReader worldIn, BlockPos pos) {
-		BlockPos blockpos = pos.down();
+	public boolean canSurvive(BlockState state, IWorldReader worldIn, BlockPos pos) {
+		BlockPos blockpos = pos.below();
 		if (state.getBlock() == this) //Forge: This function is called during world gen and placement, before this block is set, so if we are not 'here' then assume it's the pre-check.
 			return worldIn.getBlockState(blockpos).canSustainPlant(worldIn, blockpos, Direction.UP, this);
-		return this.isValidGround(worldIn.getBlockState(blockpos), worldIn, blockpos);
+		return this.mayPlaceOn(worldIn.getBlockState(blockpos), worldIn, blockpos);
 	}
 
 	@Override
@@ -96,6 +96,6 @@ public class SoybeanSoulCropsBlock extends CropsBlock {
 	}
 
 	public VoxelShape getShape(BlockState state, IBlockReader worldIn, BlockPos pos, ISelectionContext context) {
-		return SHAPES[state.get(this.getAgeProperty())];
+		return SHAPES[state.getValue(this.getAgeProperty())];
 	}
 }

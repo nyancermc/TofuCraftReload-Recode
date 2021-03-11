@@ -19,32 +19,32 @@ public class TofuTerrainBlock extends Block implements IGrowable {
 		super(properties);
 	}
 
-	public boolean canGrow(IBlockReader worldIn, BlockPos pos, BlockState state, boolean isClient) {
-		return worldIn.getBlockState(pos.up()).isAir();
+	public boolean isValidBonemealTarget(IBlockReader worldIn, BlockPos pos, BlockState state, boolean isClient) {
+		return worldIn.getBlockState(pos.above()).isAir();
 	}
 
-	public boolean canUseBonemeal(World worldIn, Random rand, BlockPos pos, BlockState state) {
+	public boolean isBonemealSuccess(World worldIn, Random rand, BlockPos pos, BlockState state) {
 		return true;
 	}
 
-	public void grow(ServerWorld worldIn, Random rand, BlockPos pos, BlockState state) {
-		BlockPos blockpos = pos.up();
-		BlockState blockstate = TofuBlocks.BLOCKLEEK.getDefaultState();
+	public void performBonemeal(ServerWorld worldIn, Random rand, BlockPos pos, BlockState state) {
+		BlockPos blockpos = pos.above();
+		BlockState blockstate = TofuBlocks.BLOCKLEEK.defaultBlockState();
 
 		label48:
 		for (int i = 0; i < 128; ++i) {
 			BlockPos blockpos1 = blockpos;
 
 			for (int j = 0; j < i / 16; ++j) {
-				blockpos1 = blockpos1.add(rand.nextInt(3) - 1, (rand.nextInt(3) - 1) * rand.nextInt(3) / 2, rand.nextInt(3) - 1);
-				if (!worldIn.getBlockState(blockpos1.down()).isIn(this) || worldIn.getBlockState(blockpos1).hasOpaqueCollisionShape(worldIn, blockpos1)) {
+				blockpos1 = blockpos1.offset(rand.nextInt(3) - 1, (rand.nextInt(3) - 1) * rand.nextInt(3) / 2, rand.nextInt(3) - 1);
+				if (!worldIn.getBlockState(blockpos1.below()).is(this) || worldIn.getBlockState(blockpos1).isCollisionShapeFullBlock(worldIn, blockpos1)) {
 					continue label48;
 				}
 			}
 
 			BlockState blockstate2 = worldIn.getBlockState(blockpos1);
-			if (blockstate2.isIn(blockstate.getBlock()) && rand.nextInt(10) == 0) {
-				((IGrowable) blockstate.getBlock()).grow(worldIn, rand, blockpos1, blockstate2);
+			if (blockstate2.is(blockstate.getBlock()) && rand.nextInt(10) == 0) {
+				((IGrowable) blockstate.getBlock()).performBonemeal(worldIn, rand, blockpos1, blockstate2);
 			}
 
 			if (blockstate2.isAir()) {
@@ -57,13 +57,13 @@ public class TofuTerrainBlock extends Block implements IGrowable {
 
 					ConfiguredFeature<?, ?> configuredfeature = list.get(0);
 					FlowersFeature flowersfeature = (FlowersFeature) configuredfeature.feature;
-					blockstate1 = flowersfeature.getFlowerToPlace(rand, blockpos1, configuredfeature.getConfig());
+					blockstate1 = flowersfeature.getRandomFlower(rand, blockpos1, configuredfeature.config());
 				} else {
 					blockstate1 = blockstate;
 				}
 
-				if (blockstate1.isValidPosition(worldIn, blockpos1)) {
-					worldIn.setBlockState(blockpos1, blockstate1, 3);
+				if (blockstate1.canSurvive(worldIn, blockpos1)) {
+					worldIn.setBlock(blockpos1, blockstate1, 3);
 				}
 			}
 		}

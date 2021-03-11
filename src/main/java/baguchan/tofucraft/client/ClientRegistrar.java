@@ -31,37 +31,37 @@ public class ClientRegistrar {
 
 	public static void renderBlockColor() {
 		Minecraft.getInstance().getBlockColors().register((state, reader, pos, color) -> {
-			return reader != null && pos != null ? BiomeColors.getWaterColor(reader, pos) : -1;
+			return reader != null && pos != null ? BiomeColors.getAverageWaterColor(reader, pos) : -1;
 		}, TofuBlocks.SALTPAN);
 	}
 
 	public static void renderBlockLayer() {
-		setRenderLayer(TofuBlocks.SOYBEAN, RenderType.getCutout());
-		setRenderLayer(TofuBlocks.SOYBEAN_NETHER, RenderType.getCutout());
-		setRenderLayer(TofuBlocks.SOYBEAN_SOUL, RenderType.getCutout());
+		setRenderLayer(TofuBlocks.SOYBEAN, RenderType.cutout());
+		setRenderLayer(TofuBlocks.SOYBEAN_NETHER, RenderType.cutout());
+		setRenderLayer(TofuBlocks.SOYBEAN_SOUL, RenderType.cutout());
 
-		setRenderLayer(TofuBlocks.TOFUTORCH_KINU, RenderType.getCutout());
-		setRenderLayer(TofuBlocks.TOFUTORCH_MOMEN, RenderType.getCutout());
-		setRenderLayer(TofuBlocks.TOFUTORCH_ISHI, RenderType.getCutout());
-		setRenderLayer(TofuBlocks.TOFUTORCH_METAL, RenderType.getCutout());
+		setRenderLayer(TofuBlocks.TOFUTORCH_KINU, RenderType.cutout());
+		setRenderLayer(TofuBlocks.TOFUTORCH_MOMEN, RenderType.cutout());
+		setRenderLayer(TofuBlocks.TOFUTORCH_ISHI, RenderType.cutout());
+		setRenderLayer(TofuBlocks.TOFUTORCH_METAL, RenderType.cutout());
 
-		setRenderLayer(TofuBlocks.WALLTOFUTORCH_KINU, RenderType.getCutout());
-		setRenderLayer(TofuBlocks.WALLTOFUTORCH_MOMEN, RenderType.getCutout());
-		setRenderLayer(TofuBlocks.WALLTOFUTORCH_ISHI, RenderType.getCutout());
-		setRenderLayer(TofuBlocks.WALLTOFUTORCH_METAL, RenderType.getCutout());
+		setRenderLayer(TofuBlocks.WALLTOFUTORCH_KINU, RenderType.cutout());
+		setRenderLayer(TofuBlocks.WALLTOFUTORCH_MOMEN, RenderType.cutout());
+		setRenderLayer(TofuBlocks.WALLTOFUTORCH_ISHI, RenderType.cutout());
+		setRenderLayer(TofuBlocks.WALLTOFUTORCH_METAL, RenderType.cutout());
 
-		setRenderLayer(TofuBlocks.TOFULADDER_KINU, RenderType.getCutout());
-		setRenderLayer(TofuBlocks.TOFULADDER_MOMEN, RenderType.getCutout());
-		setRenderLayer(TofuBlocks.TOFULADDER_ISHI, RenderType.getCutout());
-		setRenderLayer(TofuBlocks.TOFULADDER_ISHIBRICK, RenderType.getCutout());
-		setRenderLayer(TofuBlocks.TOFULADDER_METAL, RenderType.getCutout());
+		setRenderLayer(TofuBlocks.TOFULADDER_KINU, RenderType.cutout());
+		setRenderLayer(TofuBlocks.TOFULADDER_MOMEN, RenderType.cutout());
+		setRenderLayer(TofuBlocks.TOFULADDER_ISHI, RenderType.cutout());
+		setRenderLayer(TofuBlocks.TOFULADDER_ISHIBRICK, RenderType.cutout());
+		setRenderLayer(TofuBlocks.TOFULADDER_METAL, RenderType.cutout());
 
-		setRenderLayer(TofuBlocks.TOFU_FLOWER, RenderType.getCutout());
-		setRenderLayer(TofuBlocks.BLOCKLEEK, RenderType.getCutout());
-		setRenderLayer(TofuBlocks.ZUNDATOFU_MUSHROOM, RenderType.getCutout());
+		setRenderLayer(TofuBlocks.TOFU_FLOWER, RenderType.cutout());
+		setRenderLayer(TofuBlocks.BLOCKLEEK, RenderType.cutout());
+		setRenderLayer(TofuBlocks.ZUNDATOFU_MUSHROOM, RenderType.cutout());
 
-		setRenderLayer(TofuBlocks.TOFU_PORTAL, RenderType.getTranslucent());
-		setRenderLayer(TofuBlocks.SALTPAN, RenderType.getCutout());
+		setRenderLayer(TofuBlocks.TOFU_PORTAL, RenderType.translucent());
+		setRenderLayer(TofuBlocks.SALTPAN, RenderType.cutout());
 	}
 
 	private static void setRenderLayer(Block block, RenderType type) {

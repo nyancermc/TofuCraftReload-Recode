@@ -23,50 +23,51 @@ public class TofuFishEntity extends AbstractGroupFishEntity {
 	}
 
 	public static boolean canTofuFishSpawnOn(EntityType<? extends AbstractFishEntity> type, IWorld worldIn, SpawnReason reason, BlockPos p_223363_3_, Random randomIn) {
-		return worldIn.getBlockState(p_223363_3_).isIn(TofuBlocks.SOYMILK) && worldIn.getBlockState(p_223363_3_.up()).isIn(TofuBlocks.SOYMILK);
+		return worldIn.getBlockState(p_223363_3_).is(TofuBlocks.SOYMILK) && worldIn.getBlockState(p_223363_3_.above()).is(TofuBlocks.SOYMILK);
 	}
 
-	protected ActionResultType func_230254_b_(PlayerEntity p_230254_1_, Hand p_230254_2_) {
-		ItemStack itemstack = p_230254_1_.getHeldItem(p_230254_2_);
+	protected ActionResultType mobInteract(PlayerEntity p_230254_1_, Hand p_230254_2_) {
+		ItemStack itemstack = p_230254_1_.getItemInHand(p_230254_2_);
 		if (itemstack.getItem() == TofuItems.BUCKET_SOYMILK && this.isAlive()) {
-			this.playSound(SoundEvents.ITEM_BUCKET_FILL_FISH, 1.0F, 1.0F);
+			this.playSound(SoundEvents.BUCKET_FILL_FISH, 1.0F, 1.0F);
 			itemstack.shrink(1);
 			ItemStack itemstack1 = new ItemStack(TofuItems.TOFUFISH_SOYMILK_BUCKET);
-			this.setBucketData(itemstack1);
-			if (!this.world.isRemote) {
+			this.saveToBucketTag(itemstack1);
+			if (!this.level.isClientSide) {
 				CriteriaTriggers.FILLED_BUCKET.trigger((ServerPlayerEntity) p_230254_1_, itemstack1);
 			}
 
 			if (itemstack.isEmpty()) {
-				p_230254_1_.setHeldItem(p_230254_2_, itemstack1);
-			} else if (!p_230254_1_.inventory.addItemStackToInventory(itemstack1)) {
-				p_230254_1_.dropItem(itemstack1, false);
+				p_230254_1_.setItemInHand(p_230254_2_, itemstack1);
+			} else if (!p_230254_1_.inventory.add(itemstack1)) {
+				p_230254_1_.drop(itemstack1, false);
 			}
 
 			this.remove();
-			return ActionResultType.func_233537_a_(this.world.isRemote);
+			return ActionResultType.sidedSuccess(this.level.isClientSide);
 		} else {
-			return super.func_230254_b_(p_230254_1_, p_230254_2_);
+			return super.mobInteract(p_230254_1_, p_230254_2_);
 		}
 	}
 
-	protected ItemStack getFishBucket() {
+	@Override
+	protected ItemStack getBucketItemStack() {
 		return new ItemStack(TofuItems.TOFUFISH_BUCKET);
 	}
 
 	protected SoundEvent getAmbientSound() {
-		return SoundEvents.ENTITY_COD_AMBIENT;
+		return SoundEvents.COD_AMBIENT;
 	}
 
 	protected SoundEvent getDeathSound() {
-		return SoundEvents.ENTITY_COD_DEATH;
+		return SoundEvents.COD_DEATH;
 	}
 
 	protected SoundEvent getHurtSound(DamageSource damageSourceIn) {
-		return SoundEvents.ENTITY_COD_HURT;
+		return SoundEvents.COD_HURT;
 	}
 
 	protected SoundEvent getFlopSound() {
-		return SoundEvents.ENTITY_COD_FLOP;
+		return SoundEvents.COD_FLOP;
 	}
 }

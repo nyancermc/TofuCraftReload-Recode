@@ -36,19 +36,16 @@ public class FukumameEntity extends ThrowableEntity {
 	}
 
 	@Override
-	protected void registerData() {
+	protected void defineSynchedData() {
 
 	}
 
-	/**
-	 * Handler for {@link World#setEntityState}
-	 */
 	@OnlyIn(Dist.CLIENT)
-	public void handleStatusUpdate(byte id) {
+	public void handleEntityEvent(byte id) {
 		if (id == 3) {
 			double d0 = 0.08D;
 			for (int i = 0; i < 6; ++i) {
-				this.world.addParticle(new ItemParticleData(ParticleTypes.ITEM, new ItemStack(TofuItems.SEEDS_SOYBEANS)), this.getPosX(), this.getPosY(), this.getPosZ(), ((double) this.rand.nextFloat() - 0.5D) * 0.08D, ((double) this.rand.nextFloat() - 0.5D) * 0.08D, ((double) this.rand.nextFloat() - 0.5D) * 0.08D);
+				this.level.addParticle(new ItemParticleData(ParticleTypes.ITEM, new ItemStack(TofuItems.SEEDS_SOYBEANS)), this.getX(), this.getY(), this.getZ(), ((double) this.random.nextFloat() - 0.5D) * 0.08D, ((double) this.random.nextFloat() - 0.5D) * 0.08D, ((double) this.random.nextFloat() - 0.5D) * 0.08D);
 			}
 		}
 	}
@@ -56,27 +53,27 @@ public class FukumameEntity extends ThrowableEntity {
 	/**
 	 * Called when the arrow hits an entity
 	 */
-	protected void onEntityHit(EntityRayTraceResult p_213868_1_) {
-		super.onEntityHit(p_213868_1_);
-		p_213868_1_.getEntity().attackEntityFrom(DamageSource.causeThrownDamage(this, this.func_234616_v_()), 1.0F);
-		p_213868_1_.getEntity().hurtResistantTime = 5;
+	protected void onHitEntity(EntityRayTraceResult p_213868_1_) {
+		super.onHitEntity(p_213868_1_);
+		p_213868_1_.getEntity().hurt(DamageSource.thrown(this, this.getOwner()), 1.0F);
+		p_213868_1_.getEntity().invulnerableTime = 5;
 	}
 
 	/**
 	 * Called when this EntityFireball hits a block or entity.
 	 */
-	protected void onImpact(RayTraceResult result) {
-		super.onImpact(result);
-		this.playSound(TofuSounds.SOYBEAN_CRACK, 0.8F, 0.8F + this.world.rand.nextFloat() * 0.4F);
-		if (!this.world.isRemote) {
-			this.world.setEntityState(this, (byte) 3);
+	protected void onHit(RayTraceResult result) {
+		super.onHit(result);
+		this.playSound(TofuSounds.SOYBEAN_CRACK, 0.8F, 0.8F + this.level.random.nextFloat() * 0.4F);
+		if (!this.level.isClientSide) {
+			this.level.broadcastEntityEvent(this, (byte) 3);
 			this.remove();
 		}
 
 	}
 
 	@Override
-	public IPacket<?> createSpawnPacket() {
+	public IPacket<?> getAddEntityPacket() {
 		return NetworkHooks.getEntitySpawningPacket(this);
 	}
 }

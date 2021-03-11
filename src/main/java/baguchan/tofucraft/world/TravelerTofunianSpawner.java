@@ -46,14 +46,14 @@ public class TravelerTofunianSpawner {
 	}
 
 	public void tick() {
-		if (this.world.getGameRules().getBoolean(GameRules.DO_MOB_SPAWNING) && --this.field_221248_c <= 0) {
+		if (this.world.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING) && --this.field_221248_c <= 0) {
 			this.field_221248_c = 1200;
 			TravelerTofunianWorldData worldinfo = TravelerTofunianWorldData.get(world);
 			this.field_221249_d -= 1200;
 			worldinfo.setDoctorSpawnDelay(this.field_221249_d);
 			if (this.field_221249_d <= 0) {
 				this.field_221249_d = 24000;
-				if (this.world.getGameRules().getBoolean(GameRules.DO_MOB_SPAWNING)) {
+				if (this.world.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING)) {
 					int i = this.field_221250_e;
 					this.field_221250_e = MathHelper.clamp(this.field_221250_e + 25, 25, 75);
 					worldinfo.setDoctorSpawnChance(this.field_221250_e);
@@ -73,15 +73,15 @@ public class TravelerTofunianSpawner {
 		} else if (this.random.nextInt(10) != 0) {
 			return false;
 		} else {
-			BlockPos blockpos = new BlockPos(playerentity.getPositionVec());
-			PointOfInterestManager pointofinterestmanager = this.world.getPointOfInterestManager();
+			BlockPos blockpos = new BlockPos(playerentity.position());
+			PointOfInterestManager pointofinterestmanager = this.world.getPoiManager();
 			Optional<BlockPos> optional = pointofinterestmanager.find(PointOfInterestType.MEETING.getPredicate(), (p_221241_0_) -> {
 				return true;
 			}, blockpos, 48, PointOfInterestManager.Status.ANY);
 			BlockPos blockpos1 = (BlockPos) optional.orElse(blockpos);
 			BlockPos blockpos2 = this.func_221244_a(blockpos1, 48);
 			if (blockpos2 != null && this.func_226559_a_(blockpos2)) {
-				if (world.func_242406_i(blockpos2).equals(Optional.of(Biomes.THE_VOID))) {
+				if (world.getBiomeName(blockpos2).equals(Optional.of(Biomes.THE_VOID))) {
 					return false;
 				}
 
@@ -89,10 +89,10 @@ public class TravelerTofunianSpawner {
 				if (entityTravelerTofunian != null) {
 					TravelerTofunianWorldData worldinfo = TravelerTofunianWorldData.get(world);
 
-					worldinfo.setTravelerTofunianID(entityTravelerTofunian.getUniqueID());
+					worldinfo.setTravelerTofunianID(entityTravelerTofunian.getUUID());
 					entityTravelerTofunian.setDespawnDelay(48000);
 					entityTravelerTofunian.setWanderTarget(blockpos1);
-					entityTravelerTofunian.setHomePosAndDistance(blockpos1, 16);
+					entityTravelerTofunian.restrictTo(blockpos1, 16);
 					return true;
 				}
 			}
@@ -111,7 +111,7 @@ public class TravelerTofunianSpawner {
 			int k = p_221244_1_.getZ() + this.random.nextInt(p_221244_2_ * 2) - p_221244_2_;
 			int l = this.world.getHeight(Heightmap.Type.WORLD_SURFACE, j, k);
 			BlockPos blockpos1 = new BlockPos(j, l, k);
-			if (WorldEntitySpawner.canCreatureTypeSpawnAtLocation(EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, this.world, blockpos1, EntityType.WANDERING_TRADER)) {
+			if (WorldEntitySpawner.canSpawnAtBody(EntitySpawnPlacementRegistry.PlacementType.ON_GROUND, this.world, blockpos1, EntityType.WANDERING_TRADER)) {
 				blockpos = blockpos1;
 				break;
 			}
@@ -121,7 +121,7 @@ public class TravelerTofunianSpawner {
 	}
 
 	private boolean func_226559_a_(BlockPos p_226559_1_) {
-		Iterator var2 = BlockPos.getAllInBoxMutable(p_226559_1_, p_226559_1_.add(1, 2, 1)).iterator();
+		Iterator var2 = BlockPos.betweenClosed(p_226559_1_, p_226559_1_.offset(1, 2, 1)).iterator();
 
 		BlockPos blockpos;
 		do {

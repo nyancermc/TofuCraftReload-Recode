@@ -10,10 +10,10 @@ import net.minecraftforge.fml.common.Mod;
 
 @Mod.EventBusSubscriber(modid = TofuCraftReload.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class TofuStructures {
-	public static final Structure<VillageConfig> TOFUVILLAGE = new TofuVillageStructure(VillageConfig.field_236533_a_);
+	public static final Structure<VillageConfig> TOFUVILLAGE = new TofuVillageStructure(VillageConfig.CODEC);
 
 	public static <F extends Structure<?>> void putStructureOnAList(String name, F structure) {
-		Structure.NAME_STRUCTURE_BIMAP.put(name, structure);
+		Structure.STRUCTURES_REGISTRY.put(name, structure);
 	}
 
 	@SubscribeEvent

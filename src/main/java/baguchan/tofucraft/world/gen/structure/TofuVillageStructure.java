@@ -11,7 +11,7 @@ public class TofuVillageStructure extends JigsawStructure {
 	}
 
 	@Override
-	public GenerationStage.Decoration getDecorationStage() {
+	public GenerationStage.Decoration step() {
 		return GenerationStage.Decoration.SURFACE_STRUCTURES;
 	}
 }

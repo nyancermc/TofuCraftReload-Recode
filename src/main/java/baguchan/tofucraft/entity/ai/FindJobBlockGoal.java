@@ -18,18 +18,18 @@ public class FindJobBlockGoal extends MoveToBlockGoal {
 	}
 
 	@Override
-	public boolean shouldExecute() {
-		return this.creature.world.isDaytime() && this.creature.getRole() == TofunianEntity.Roles.TOFUNIAN && super.shouldExecute();
+	public boolean canUse() {
+		return this.creature.getCommandSenderWorld().isDay() && this.creature.getRole() == TofunianEntity.Roles.TOFUNIAN && super.canUse();
 	}
 
 	@Override
 	public void tick() {
 		super.tick();
 
-		if (this.getIsAboveDestination()) {
-			this.creature.setTofunainJobBlock(this.destinationBlock);
+		if (this.isReachedTarget()) {
+			this.creature.setTofunainJobBlock(this.blockPos);
 
-			BlockState blockstate = this.creature.world.getBlockState(this.destinationBlock);
+			BlockState blockstate = this.creature.getCommandSenderWorld().getBlockState(this.blockPos);
 			Block block = blockstate.getBlock();
 			if (!TofunianJobBlocks.getJobBlockList().isEmpty() && TofunianJobBlocks.getJobBlockList().containsKey(block)) {
 				this.creature.setRole(TofunianJobBlocks.getJobBlockList().get(block));
@@ -37,25 +37,25 @@ public class FindJobBlockGoal extends MoveToBlockGoal {
 		}
 	}
 
-	public double getTargetDistanceSq() {
+	public double getTargetdistSqr() {
 		return 2.0D;
 	}
 
 	@Override
-	protected boolean shouldMoveTo(IWorldReader worldIn, BlockPos pos) {
+	protected boolean isValidTarget(IWorldReader worldIn, BlockPos pos) {
 		BlockState blockstate = worldIn.getBlockState(pos);
 		Block block = blockstate.getBlock();
 
-		return blockstate.isIn(Blocks.CRAFTING_TABLE) || blockstate.isIn(Blocks.FURNACE) || blockstate.isIn(Blocks.CAULDRON);
+		return blockstate.is(Blocks.CRAFTING_TABLE) || blockstate.is(Blocks.FURNACE) || blockstate.is(Blocks.CAULDRON);
 	}
 
-	protected boolean searchForDestination() {
+	protected boolean findNearestBlock() {
 		if (this.creature.getTofunainHome() != null) {
-			if (this.shouldMoveTo(this.creature.world, this.creature.getTofunainHome())) {
-				this.destinationBlock = this.creature.getTofunainHome();
+			if (this.isValidTarget(this.creature.getCommandSenderWorld(), this.creature.getTofunainHome())) {
+				this.blockPos = this.creature.getTofunainHome();
 				return true;
 			}
 		}
-		return super.searchForDestination();
+		return super.findNearestBlock();
 	}
 }

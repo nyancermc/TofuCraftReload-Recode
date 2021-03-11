@@ -16,16 +16,16 @@ public abstract class AbstractTofunianEntity extends AbstractVillagerEntity {
 	}
 
 	protected void shakeHead() {
-		this.setShakeHeadTicks(40);
-		if (!this.world.isRemote()) {
-			this.playSound(TofuSounds.TOFUNIAN_NO, this.getSoundVolume(), this.getSoundPitch());
+		this.setUnhappyCounter(40);
+		if (!this.level.isClientSide()) {
+			this.playSound(TofuSounds.TOFUNIAN_NO, this.getSoundVolume(), this.getVoicePitch());
 		}
 	}
 
 	public void tick() {
 		super.tick();
-		if (this.getShakeHeadTicks() > 0) {
-			this.setShakeHeadTicks(this.getShakeHeadTicks() - 1);
+		if (this.getUnhappyCounter() > 0) {
+			this.setUnhappyCounter(this.getUnhappyCounter() - 1);
 		}
 	}
 
@@ -54,7 +54,7 @@ public abstract class AbstractTofunianEntity extends AbstractVillagerEntity {
 	}
 
 	@Override
-	public boolean canDespawn(double distanceToClosestPlayer) {
+	public boolean removeWhenFarAway(double distanceToClosestPlayer) {
 		return false;
 	}
 }

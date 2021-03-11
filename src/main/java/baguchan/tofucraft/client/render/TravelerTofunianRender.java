@@ -26,7 +26,7 @@ public class TravelerTofunianRender<T extends TravelerTofunianEntity> extends Mo
 	}
 
 	@Override
-	public ResourceLocation getEntityTexture(T entity) {
+	public ResourceLocation getTextureLocation(T entity) {
 		return TEXTURE;
 	}
 }

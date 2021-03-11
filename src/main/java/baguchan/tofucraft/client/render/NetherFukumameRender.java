@@ -13,7 +13,7 @@ public class NetherFukumameRender<T extends NetherFukumameEntity> extends Fukuma
 	}
 
 	@Override
-	public ResourceLocation getEntityTexture(T entity) {
+	public ResourceLocation getTextureLocation(T entity) {
 		return FUKUMAME_TEXTURE;
 	}
 }

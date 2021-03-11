@@ -23,29 +23,31 @@ public class BitternItem extends Item {
 		super(group);
 	}
 
+
 	@Override
-	public ActionResultType onItemUse(ItemUseContext context) {
+	public ActionResultType useOn(ItemUseContext p_195939_1_) {
 		return ActionResultType.PASS;
 	}
 
+
 	@Override
-	public ActionResult<ItemStack> onItemRightClick(World worldIn, PlayerEntity playerIn, Hand handIn) {
-		ItemStack itemstack = playerIn.getHeldItem(handIn);
-		BlockRayTraceResult blockraytraceresult = rayTrace(worldIn, playerIn, RayTraceContext.FluidMode.SOURCE_ONLY);
-		BlockRayTraceResult blockraytraceresult1 = blockraytraceresult.withPosition(blockraytraceresult.getPos());
+	public ActionResult<ItemStack> use(World worldIn, PlayerEntity playerIn, Hand handIn) {
+		ItemStack itemstack = playerIn.getItemInHand(handIn);
+		BlockRayTraceResult blockraytraceresult = getPlayerPOVHitResult(worldIn, playerIn, RayTraceContext.FluidMode.SOURCE_ONLY);
+		BlockRayTraceResult blockraytraceresult1 = blockraytraceresult.withPosition(blockraytraceresult.getBlockPos());
 		if (blockraytraceresult.getType() == RayTraceResult.Type.MISS) {
 			return new ActionResult<>(ActionResultType.PASS, itemstack);
 		}
 		if (blockraytraceresult.getType() == RayTraceResult.Type.BLOCK) {
 
-			FluidState fluidState = worldIn.getFluidState(blockraytraceresult1.getPos());
-			Map.Entry<Fluid, Block> result = BitternRecipes.getResult(fluidState.getFluid());
+			FluidState fluidState = worldIn.getFluidState(blockraytraceresult1.getBlockPos());
+			Map.Entry<Fluid, Block> result = BitternRecipes.getResult(fluidState.getType().getFluid());
 
 			if (result != null) {
-				worldIn.setBlockState(blockraytraceresult1.getPos(), result.getValue().getDefaultState(), 11);
-				worldIn.playEvent(2001, blockraytraceresult1.getPos(), Block.getStateId(worldIn.getBlockState(blockraytraceresult1.getPos())));
+				worldIn.setBlock(blockraytraceresult1.getBlockPos(), result.getValue().defaultBlockState(), 11);
+				worldIn.globalLevelEvent(2001, blockraytraceresult1.getBlockPos(), Block.getId(worldIn.getBlockState(blockraytraceresult1.getBlockPos())));
 
-				return new ActionResult<>(ActionResultType.SUCCESS, playerIn.getHeldItem(handIn));
+				return new ActionResult<>(ActionResultType.SUCCESS, playerIn.getItemInHand(handIn));
 			}
 		}
 		return new ActionResult<>(ActionResultType.FAIL, itemstack);

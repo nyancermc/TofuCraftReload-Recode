@@ -10,11 +10,11 @@ public class DoSleepingGoal extends Goal {
 
 	public DoSleepingGoal(CreatureEntity creature) {
 		this.creature = creature;
-		this.setMutexFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
+		this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
 	}
 
 	@Override
-	public boolean shouldExecute() {
+	public boolean canUse() {
 		/* 1209 */
 		return this.creature.isSleeping();
 		/*      */
