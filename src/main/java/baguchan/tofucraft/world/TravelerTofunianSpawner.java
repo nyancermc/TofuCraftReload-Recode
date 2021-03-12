@@ -34,13 +34,13 @@ public class TravelerTofunianSpawner {
 		this.world = p_i50177_1_;
 		this.field_221248_c = 1200;
 		TravelerTofunianWorldData worldinfo = TravelerTofunianWorldData.get(p_i50177_1_);
-		this.field_221249_d = worldinfo.getDoctorSpawnDelay();
-		this.field_221250_e = worldinfo.getDoctorSpawnChance();
+		this.field_221249_d = worldinfo.getTofunianSpawnDelay();
+		this.field_221250_e = worldinfo.getTofunianSpawnChance();
 		if (this.field_221249_d == 0 && this.field_221250_e == 0) {
 			this.field_221249_d = 24000;
-			worldinfo.setDoctorSpawnDelay(this.field_221249_d);
+			worldinfo.setTofunianSpawnDelay(this.field_221249_d);
 			this.field_221250_e = 25;
-			worldinfo.setDoctorSpawnChance(this.field_221250_e);
+			worldinfo.setTofunianSpawnChance(this.field_221250_e);
 		}
 
 	}
@@ -50,13 +50,13 @@ public class TravelerTofunianSpawner {
 			this.field_221248_c = 1200;
 			TravelerTofunianWorldData worldinfo = TravelerTofunianWorldData.get(world);
 			this.field_221249_d -= 1200;
-			worldinfo.setDoctorSpawnDelay(this.field_221249_d);
+			worldinfo.setTofunianSpawnDelay(this.field_221249_d);
 			if (this.field_221249_d <= 0) {
 				this.field_221249_d = 24000;
 				if (this.world.getGameRules().getBoolean(GameRules.RULE_DOMOBSPAWNING)) {
 					int i = this.field_221250_e;
 					this.field_221250_e = MathHelper.clamp(this.field_221250_e + 25, 25, 75);
-					worldinfo.setDoctorSpawnChance(this.field_221250_e);
+					worldinfo.setTofunianSpawnChance(this.field_221250_e);
 					if (this.random.nextInt(100) <= i && this.func_221245_b()) {
 						this.field_221250_e = 25;
 					}

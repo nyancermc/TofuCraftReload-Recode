@@ -30,25 +30,25 @@ public class TravelerTofunianWorldData extends WorldSavedData {
 			if (data != null) {
 				data.world = world;
 				data.setDirty();
+				return data;
 			}
-			return data;
 		}
-		return null;
+		return new TravelerTofunianWorldData();
 	}
 
-	public int getDoctorSpawnDelay() {
+	public int getTofunianSpawnDelay() {
 		return this.tofunianSpawnDelay;
 	}
 
-	public void setDoctorSpawnDelay(int delay) {
+	public void setTofunianSpawnDelay(int delay) {
 		this.tofunianSpawnDelay = delay;
 	}
 
-	public int getDoctorSpawnChance() {
+	public int getTofunianSpawnChance() {
 		return this.tofunianSpawnChance;
 	}
 
-	public void setDoctorSpawnChance(int chance) {
+	public void setTofunianSpawnChance(int chance) {
 		this.tofunianSpawnChance = chance;
 	}
 
