@@ -25,7 +25,7 @@ public class RestockGoal extends MoveToBlockGoal {
 
 	@Override
 	public boolean canContinueToUse() {
-		return this.canUse() && this.blockPos != null;
+		return super.canContinueToUse() && this.creature.getRole() != TofunianEntity.Roles.TOFUNIAN && this.creature.canResetStock() && this.creature.getCommandSenderWorld().isDay() && this.blockPos != null;
 	}
 
 	@Override

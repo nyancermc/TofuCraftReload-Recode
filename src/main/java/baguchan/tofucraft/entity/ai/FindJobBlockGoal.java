@@ -25,6 +25,12 @@ public class FindJobBlockGoal extends MoveToBlockGoal {
 	}
 
 	@Override
+	public boolean canContinueToUse() {
+		return super.canContinueToUse() && this.creature.getCommandSenderWorld().isDay() && this.creature.getRole() == TofunianEntity.Roles.TOFUNIAN && this.blockPos != null;
+	}
+
+
+	@Override
 	public void tick() {
 		super.tick();
 
@@ -41,8 +47,9 @@ public class FindJobBlockGoal extends MoveToBlockGoal {
 		}
 	}
 
-	public double getTargetdistSqr() {
-		return 2.0D;
+	@Override
+	public double acceptedDistance() {
+		return 2.0F;
 	}
 
 	@Override
