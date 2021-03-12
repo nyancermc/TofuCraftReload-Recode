@@ -49,6 +49,12 @@
   ],
   "spawners": {
     "monster": [
+      {
+        "type": "tofucraft:tofuslime",
+        "weight": 10,
+        "minCount": 2,
+        "maxCount": 4
+      }
     ],
     "creature": [
       {

@@ -106,7 +106,7 @@ public class TofuPortalBlock extends BreakableBlock {
 			return;
 		entity.level.getProfiler().push("tofu_portal");
 		// set a cooldown before this can run again
-		entity.isOnPortalCooldown();
+		entity.setPortalCooldown();
 		entity.changeDimension(serverWorld, new TofuWorldTeleporter());
 		entity.level.getProfiler().pop();
 	}
