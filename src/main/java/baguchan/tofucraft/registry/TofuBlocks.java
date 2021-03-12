@@ -2,9 +2,11 @@ package baguchan.tofucraft.registry;
 
 import baguchan.tofucraft.TofuCraftReload;
 import baguchan.tofucraft.block.*;
+import baguchan.tofucraft.client.render.item.TofuBedItemRender;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.material.MaterialColor;
+import net.minecraft.item.BedItem;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.WallOrFloorItem;
@@ -121,7 +123,8 @@ public class TofuBlocks {
 	//misc
 	public static final Block POTTED_TOFU_FLOWER = new FlowerPotBlock(() -> (FlowerPotBlock) Blocks.FLOWER_POT, () -> TOFU_FLOWER, AbstractBlock.Properties.of(Material.DECORATION).instabreak().noCollission().sound(SoundType.STONE));
 	public static final Block TOFU_FARMLAND = new TofuFarmlandBlock(AbstractBlock.Properties.of(TofuMaterial.TOFU).harvestTool(ToolType.SHOVEL).strength(0.5F, 1.0F).sound(SoundType.SNOW));
-	public static final Block SALTPAN = new SaltPanBlock(AbstractBlock.Properties.of(Material.WOOD).harvestTool(ToolType.AXE).strength(2.0F, 3.0F).noOcclusion().sound(SoundType.WOOD));
+	public static final Block SALTPAN = new SaltPanBlock(AbstractBlock.Properties.of(Material.WOOD).harvestTool(ToolType.AXE).strength(2.0F, 3.0F).randomTicks().noOcclusion().sound(SoundType.WOOD));
+	public static final Block TOFUBED = new TofuBedBlock(AbstractBlock.Properties.of(TofuMaterial.TOFU).harvestTool(ToolType.AXE).strength(0.2F).noOcclusion().sound(SoundType.SNOW));
 	public static final TofuPortalBlock TOFU_PORTAL = new TofuPortalBlock(Block.Properties.of(Material.PORTAL).noCollission().randomTicks().strength(-1.0F).sound(SoundType.GLASS).lightLevel((state) -> {
 		return 11;
 	}).noDrops());
@@ -216,6 +219,7 @@ public class TofuBlocks {
 		registry.getRegistry().register(POTTED_TOFU_FLOWER.setRegistryName("potted_tofuflower"));
 		registry.getRegistry().register(TOFU_FARMLAND.setRegistryName("tofu_farmland"));
 		registry.getRegistry().register(SALTPAN.setRegistryName("blocksaltpan"));
+		registry.getRegistry().register(TOFUBED.setRegistryName("tofubed"));
 		registry.getRegistry().register(TOFU_PORTAL.setRegistryName("tofuportal"));
 		registry.getRegistry().register(TOFUCAKE.setRegistryName("tofucake"));
 		registry.getRegistry().register(ZUNDATOFUCAKE.setRegistryName("zundatofucake"));
@@ -301,6 +305,7 @@ public class TofuBlocks {
 		TofuItems.register(registry, new BlockItem(TOFU_FARMLAND, new Item.Properties().tab(TofuItemGroup.TOFUCRAFT)));
 
 		TofuItems.register(registry, new BlockItem(SALTPAN, new Item.Properties().tab(TofuItemGroup.TOFUCRAFT)));
+		TofuItems.register(registry, new BedItem(TOFUBED, new Item.Properties().tab(TofuItemGroup.TOFUCRAFT).setISTER(() -> TofuBedItemRender::new)));
 
 		TofuItems.register(registry, new BlockItem(TOFUCAKE, new Item.Properties().tab(TofuItemGroup.TOFUCRAFT)));
 		TofuItems.register(registry, new BlockItem(ZUNDATOFUCAKE, new Item.Properties().tab(TofuItemGroup.TOFUCRAFT)));

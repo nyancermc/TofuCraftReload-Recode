@@ -1,19 +1,27 @@
 package baguchan.tofucraft.client;
 
 import baguchan.tofucraft.client.render.*;
+import baguchan.tofucraft.client.render.tileentity.TofuBedBlockRenderer;
 import baguchan.tofucraft.registry.TofuBlocks;
 import baguchan.tofucraft.registry.TofuEntityTypes;
+import baguchan.tofucraft.registry.TofuTileEntitys;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.Atlases;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.world.biome.BiomeColors;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.TextureStitchEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 
 @OnlyIn(Dist.CLIENT)
+@Mod.EventBusSubscriber(modid = "tofucraft", value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ClientRegistrar {
 	public static void renderEntity() {
 		RenderingRegistry.registerEntityRenderingHandler(TofuEntityTypes.TOFUNIAN, TofunianRender::new);
@@ -27,6 +35,7 @@ public class ClientRegistrar {
 	}
 
 	public static void renderTileEntity() {
+		ClientRegistry.bindTileEntityRenderer(TofuTileEntitys.TOFUBED, TofuBedBlockRenderer::new);
 	}
 
 	public static void renderBlockColor() {
@@ -73,5 +82,12 @@ public class ClientRegistrar {
 		ClientRegistrar.renderTileEntity();
 		ClientRegistrar.renderBlockColor();
 		ClientRegistrar.renderBlockLayer();
+	}
+
+	@SubscribeEvent
+	public static void onTextureStitch(TextureStitchEvent.Pre event) {
+		if (event.getMap().location().equals(Atlases.BED_SHEET)) {
+			event.addSprite(TofuBedBlockRenderer.TOFUBED_LOCATION);
+		}
 	}
 }
