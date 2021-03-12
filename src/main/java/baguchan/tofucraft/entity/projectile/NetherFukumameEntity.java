@@ -58,7 +58,6 @@ public class NetherFukumameEntity extends ThrowableEntity {
 		if (!this.level.isClientSide) {
 			this.level.broadcastEntityEvent(this, (byte) 4);
 		}
-		this.setRemainingFireTicks(120);
 	}
 
 	/**
@@ -69,8 +68,8 @@ public class NetherFukumameEntity extends ThrowableEntity {
 		p_213868_1_.getEntity().hurt(DamageSource.thrown(this, this.getOwner()), 1.0F);
 		p_213868_1_.getEntity().invulnerableTime = 5;
 
-		if (!p_213868_1_.getEntity().fireImmune()) {
-			p_213868_1_.getEntity().setRemainingFireTicks(8);
+		if (!p_213868_1_.getEntity().fireImmune() && this.isOnFire()) {
+			p_213868_1_.getEntity().setRemainingFireTicks(80);
 		}
 	}
 

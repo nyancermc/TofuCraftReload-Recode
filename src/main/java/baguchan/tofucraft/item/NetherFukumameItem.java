@@ -28,6 +28,10 @@ public class NetherFukumameItem extends Item {
 				NetherFukumameEntity fukumamentity = new NetherFukumameEntity(worldIn, playerIn);
 				float d0 = (worldIn.random.nextFloat() * 20.0F) - 10.0F;
 
+				if (burning) {
+					fukumamentity.setRemainingFireTicks(200);
+				}
+
 				fukumamentity.shootFromRotation(playerIn, playerIn.xRot + d0 * 0.25F, playerIn.yRot + d0, 0.0F, 1.5F, 0.8F);
 				worldIn.addFreshEntity(fukumamentity);
 			}
