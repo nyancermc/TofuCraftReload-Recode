@@ -14,9 +14,6 @@ import java.util.Set;
 
 @Mod.EventBusSubscriber(modid = TofuCraftReload.MODID)
 public class LootEvents {
-	private static final Set<ResourceLocation> GRASS_LOOT = Sets.newHashSet(new ResourceLocation("minecraft:grass"));
-	private static final Set<ResourceLocation> TALL_GRASS_LOOT = Sets.newHashSet(new ResourceLocation("minecraft:tall_grass"));
-
 	private static final Set<ResourceLocation> TEMPLE_LOOT = Sets.newHashSet(LootTables.JUNGLE_TEMPLE);
 	private static final Set<ResourceLocation> SHIP_LOOT = Sets.newHashSet(LootTables.SHIPWRECK_SUPPLY);
 	private static final Set<ResourceLocation> RUIN_LOOT = Sets.newHashSet(LootTables.UNDERWATER_RUIN_BIG);
@@ -24,15 +21,6 @@ public class LootEvents {
 
 	@SubscribeEvent
 	public static void onInjectLoot(LootTableLoadEvent event) {
-		if (GRASS_LOOT.contains(event.getName())) {
-			LootPool pool = LootPool.lootPool().add(TableLootEntry.lootTableReference(new ResourceLocation(TofuCraftReload.MODID, "injections/grass")).setWeight(1).setQuality(1)).name("tofustick_grass").build();
-			event.getTable().addPool(pool);
-		}
-
-		if (TALL_GRASS_LOOT.contains(event.getName())) {
-			LootPool pool = LootPool.lootPool().add(TableLootEntry.lootTableReference(new ResourceLocation(TofuCraftReload.MODID, "injections/tall_grass")).setWeight(1).setQuality(1)).name("tofustick_grass").build();
-			event.getTable().addPool(pool);
-		}
 
 		if (TEMPLE_LOOT.contains(event.getName())) {
 			LootPool pool = LootPool.lootPool().add(TableLootEntry.lootTableReference(new ResourceLocation(TofuCraftReload.MODID, "injections/tofustick_temple")).setWeight(1).setQuality(1)).name("tofustick_temple").build();

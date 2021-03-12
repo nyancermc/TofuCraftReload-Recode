@@ -1,8 +1,14 @@
 package baguchan.tofucraft;
 
+import baguchan.tofucraft.registry.TofuItems;
 import baguchan.tofucraft.world.TravelerTofunianSpawner;
+import net.minecraft.block.Blocks;
+import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.event.world.WorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -37,6 +43,17 @@ public class CommonEvents {
 				spawner.tick();
 			}
 		}
+	}
 
+	@SubscribeEvent
+	public static void onBlockDrop(BlockEvent.BreakEvent event) {
+		if (!event.getPlayer().isCreative()) {
+			if (event.getWorld().getBlockState(event.getPos()).is(Blocks.GRASS) || event.getWorld().getBlockState(event.getPos()).is(Blocks.TALL_GRASS)) {
+				if (event.getWorld() instanceof World && ((World) event.getWorld()).random.nextFloat() < 0.075F) {
+					ItemEntity entity = new ItemEntity((World) event.getWorld(), event.getPos().getX(), event.getPos().getY(), event.getPos().getZ(), new ItemStack(TofuItems.SEEDS_SOYBEANS));
+					event.getWorld().addFreshEntity(entity);
+				}
+			}
+		}
 	}
 }
