@@ -35,7 +35,7 @@ public class TofuItems {
 	public static final Item SEEDS_SOYBEANS = new BlockNamedItem(TofuBlocks.SOYBEAN, new Item.Properties().tab(TofuItemGroup.TOFUCRAFT));
 	public static final Item SEEDS_SOYBEANS_NETHER = new BlockNamedItem(TofuBlocks.SOYBEAN_NETHER, new Item.Properties().tab(TofuItemGroup.TOFUCRAFT));
 	public static final Item SEEDS_SOYBEANS_SOUL = new BlockNamedItem(TofuBlocks.SOYBEAN_SOUL, new Item.Properties().rarity(Rarity.UNCOMMON).tab(TofuItemGroup.TOFUCRAFT));
-	public static final Item SOYBEAN_PARCHED = new BlockNamedItem(TofuBlocks.SOYBEAN_SOUL, new Item.Properties().tab(TofuItemGroup.TOFUCRAFT));
+	public static final Item SOYBEAN_PARCHED = new Item(new Item.Properties().tab(TofuItemGroup.TOFUCRAFT));
 	public static final Item KINAKO = new Item(new Item.Properties().tab(TofuItemGroup.TOFUCRAFT));
 	public static final Item EDAMAME = new Item(new Item.Properties().tab(TofuItemGroup.TOFUCRAFT));
 	public static final Item BOILED_EDAMAME = new Item(new Item.Properties().food(TofuFoods.BOILED_EDAMAME).tab(TofuItemGroup.TOFUCRAFT));

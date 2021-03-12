@@ -58,6 +58,7 @@ public class NetherFukumameEntity extends ThrowableEntity {
 		if (!this.level.isClientSide) {
 			this.level.broadcastEntityEvent(this, (byte) 4);
 		}
+		this.setRemainingFireTicks(120);
 	}
 
 	/**
