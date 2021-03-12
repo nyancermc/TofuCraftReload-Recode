@@ -14,11 +14,15 @@ import net.minecraft.entity.monster.RavagerEntity;
 import net.minecraft.entity.monster.ZoglinEntity;
 import net.minecraft.entity.monster.ZombieEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.*;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
+import net.minecraft.item.MerchantOffer;
+import net.minecraft.item.MerchantOffers;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.NBTUtil;
 import net.minecraft.stats.Stats;
-import net.minecraft.util.*;
+import net.minecraft.util.ActionResultType;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
 import net.minecraft.world.World;
@@ -135,31 +139,6 @@ public class TravelerTofunianEntity extends AbstractTofunianEntity {
 			this.level.addFreshEntity(new ExperienceOrbEntity(this.level, this.getX(), this.getY() + 0.5D, this.getZ(), i));
 		}
 
-	}
-
-	protected SoundEvent getAmbientSound() {
-		return this.isTrading() ? SoundEvents.WANDERING_TRADER_TRADE : SoundEvents.WANDERING_TRADER_AMBIENT;
-	}
-
-	protected SoundEvent getHurtSound(DamageSource p_184601_1_) {
-		return SoundEvents.WANDERING_TRADER_HURT;
-	}
-
-	protected SoundEvent getDeathSound() {
-		return SoundEvents.WANDERING_TRADER_DEATH;
-	}
-
-	protected SoundEvent getDrinkingSound(ItemStack p_213351_1_) {
-		Item item = p_213351_1_.getItem();
-		return item == Items.MILK_BUCKET ? SoundEvents.WANDERING_TRADER_DRINK_MILK : SoundEvents.WANDERING_TRADER_DRINK_POTION;
-	}
-
-	protected SoundEvent getTradeUpdatedSound(boolean p_213721_1_) {
-		return p_213721_1_ ? SoundEvents.WANDERING_TRADER_YES : SoundEvents.WANDERING_TRADER_NO;
-	}
-
-	public SoundEvent getNotifyTradeSound() {
-		return SoundEvents.WANDERING_TRADER_YES;
 	}
 
 	public void setDespawnDelay(int p_213728_1_) {

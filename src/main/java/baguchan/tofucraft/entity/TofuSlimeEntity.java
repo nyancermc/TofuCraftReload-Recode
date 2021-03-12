@@ -1,9 +1,14 @@
 package baguchan.tofucraft.entity;
 
+import baguchan.tofucraft.registry.TofuItems;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.monster.SlimeEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.particles.IParticleData;
+import net.minecraft.particles.ItemParticleData;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.ISeedReader;
@@ -29,5 +34,10 @@ public class TofuSlimeEntity extends SlimeEntity {
 		}
 
 		return false;
+	}
+
+	@Override
+	protected IParticleData getParticleType() {
+		return new ItemParticleData(ParticleTypes.ITEM, new ItemStack(TofuItems.TOFUKINU));
 	}
 }

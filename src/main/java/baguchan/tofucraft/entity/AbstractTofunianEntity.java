@@ -34,11 +34,11 @@ public abstract class AbstractTofunianEntity extends AbstractVillagerEntity {
 		return TofuSounds.TOFUNIAN_AMBIENT;
 	}
 
-	public SoundEvent getYesSound() {
+	public SoundEvent getNotifyTradeSound() {
 		return TofuSounds.TOFUNIAN_YES;
 	}
 
-	protected SoundEvent getVillagerYesNoSound(boolean getYesSound) {
+	protected SoundEvent getTradeUpdatedSound(boolean getYesSound) {
 		return getYesSound ? TofuSounds.TOFUNIAN_YES : TofuSounds.TOFUNIAN_NO;
 	}
 

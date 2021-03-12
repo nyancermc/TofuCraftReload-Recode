@@ -71,7 +71,7 @@ public class TofunianEntity extends AbstractTofunianEntity implements IReputatio
 	private PlayerEntity previousCustomer;
 
 	private int xp;
-	private int tofunianLevel;
+	private int tofunianLevel = 1;
 
 	public TofunianEntity(EntityType<? extends TofunianEntity> type, World worldIn) {
 		super(type, worldIn);
@@ -438,7 +438,7 @@ public class TofunianEntity extends AbstractTofunianEntity implements IReputatio
 			VillagerTrades.ITrade[] avillagertrades$itrade = int2objectmap.get(tofunianLevel);
 			if (avillagertrades$itrade != null) {
 				MerchantOffers merchantoffers = this.getOffers();
-				this.addOffersFromItemListings(merchantoffers, avillagertrades$itrade, 3);
+				this.addOffersFromItemListings(merchantoffers, avillagertrades$itrade, 2);
 			}
 		}
 	}
