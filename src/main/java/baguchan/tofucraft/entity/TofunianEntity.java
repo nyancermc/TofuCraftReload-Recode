@@ -408,7 +408,7 @@ public class TofunianEntity extends AbstractTofunianEntity implements IReputatio
 			this.xp = compound.getInt("Xp");
 		}
 
-		if (compound.contains("Level", 3)) {
+		if (compound.contains("Level")) {
 			this.tofunianLevel = compound.getInt("Level");
 		}
 
@@ -429,6 +429,10 @@ public class TofunianEntity extends AbstractTofunianEntity implements IReputatio
 		}
 
 		this.setCanPickUpLoot(true);
+	}
+
+	public int getVillagerXp() {
+		return xp;
 	}
 
 	@Override

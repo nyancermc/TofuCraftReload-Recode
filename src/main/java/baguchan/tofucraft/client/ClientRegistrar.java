@@ -67,6 +67,7 @@ public class ClientRegistrar {
 		setRenderLayer(TofuBlocks.TOFULADDER_METAL, RenderType.cutout());
 
 		setRenderLayer(TofuBlocks.TOFU_FLOWER, RenderType.cutout());
+		setRenderLayer(TofuBlocks.POTTED_TOFU_FLOWER, RenderType.cutout());
 		setRenderLayer(TofuBlocks.BLOCKLEEK, RenderType.cutout());
 		setRenderLayer(TofuBlocks.ZUNDATOFU_MUSHROOM, RenderType.cutout());
 

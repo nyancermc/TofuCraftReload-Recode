@@ -5,6 +5,8 @@ import baguchan.tofucraft.entity.TofunianEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.ai.goal.MoveToBlockGoal;
+import net.minecraft.util.Hand;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorldReader;
 
@@ -33,6 +35,8 @@ public class RestockGoal extends MoveToBlockGoal {
 		if (this.isReachedTarget()) {
 			this.creature.setTofunainJobBlock(this.blockPos);
 			this.creature.restock();
+			this.creature.swing(Hand.MAIN_HAND);
+			this.creature.playSound(SoundEvents.ITEM_PICKUP, 1.0F, 0.7F);
 		}
 	}
 

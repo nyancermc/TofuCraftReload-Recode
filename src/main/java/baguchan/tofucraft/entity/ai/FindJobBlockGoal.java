@@ -6,6 +6,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.ai.goal.MoveToBlockGoal;
+import net.minecraft.util.Hand;
+import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IWorldReader;
 
@@ -33,6 +35,8 @@ public class FindJobBlockGoal extends MoveToBlockGoal {
 			Block block = blockstate.getBlock();
 			if (!TofunianJobBlocks.getJobBlockList().isEmpty() && TofunianJobBlocks.getJobBlockList().containsKey(block)) {
 				this.creature.setRole(TofunianJobBlocks.getJobBlockList().get(block));
+				this.creature.swing(Hand.MAIN_HAND);
+				this.creature.playSound(SoundEvents.ITEM_PICKUP, 1.0F, 0.7F);
 			}
 		}
 	}
